@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Guitarist Sorter — ローリングストーン誌 偉大なギタリスト100人</title>
+<style>
+  :root{
+    --bg:#0e0d0b;
+    --bg-2:#161412;
+    --paper:#f5efe2;
+    --ink:#1a1714;
+    --accent:#c8381c;
+    --accent-2:#d9a441;
+    --line:#2a2622;
+    --muted:#8a8277;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overscroll-behavior:none;}
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:"Helvetica Neue","Arial","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+    font-feature-settings:"palt";
+    overflow-x:hidden;
+    letter-spacing:.01em;
+  }
+  .display{
+    font-family:"Bodoni 72","Bodoni Moda","Didot","Noto Serif JP",serif;
+    font-weight:700;letter-spacing:-.01em;
+  }
+  .mono{font-family:"Courier New","Courier",monospace;}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
+
+  header{
+    position:sticky;top:0;z-index:20;
+    background:linear-gradient(180deg,rgba(14,13,11,.96),rgba(14,13,11,.85));
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .bar{
+    max-width:1400px;margin:0 auto;
+    padding:10px 14px;
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+  }
+  .logo{display:flex;align-items:baseline;gap:8px;min-width:0;}
+  .logo .mark{
+    width:22px;height:22px;border:1.5px solid var(--accent);border-radius:50%;
+    display:inline-grid;place-items:center;color:var(--accent);
+    font-family:"Bodoni 72","Didot",serif;font-weight:700;font-size:12px;
+    transform:translateY(2px);flex-shrink:0;
+  }
+  .logo h1{font-size:14px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .logo h1 small{font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:.08em;font-size:10px;}
+  @media(max-width:520px){ .logo h1 small{display:none;} }
+  .bar nav{display:flex;gap:4px;flex-shrink:0;}
+  .bar nav button{
+    font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--paper);
+    letter-spacing:.08em;
+  }
+  .bar nav button:hover{border-color:var(--accent-2);color:var(--accent-2);}
+
+  main{max-width:1400px;margin:0 auto;padding:16px 14px 40px;}
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  .hero{padding:30px 0 20px;border-bottom:1px solid var(--line);}
+  .hero .kicker{
+    font-size:10px;letter-spacing:.35em;color:var(--accent);margin-bottom:16px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .hero .kicker::before{content:"";flex:0 0 20px;height:1px;background:var(--accent);}
+  .hero .kicker::after{content:"";flex:1;height:1px;background:var(--accent);}
+  .hero h2{font-size:clamp(30px,6vw,64px);line-height:.95;letter-spacing:-.02em;margin-bottom:14px;}
+  .hero h2 em{color:var(--accent-2);font-style:italic;font-weight:500;}
+  .hero p{max-width:560px;color:#c9c3b5;line-height:1.7;font-size:14px;}
+  .hero .stats{
+    margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .hero .stats>div{background:var(--bg);padding:14px 12px;}
+  .hero .stats .num{font-size:24px;font-family:"Bodoni 72","Didot",serif;color:var(--accent-2);}
+  .hero .stats .lbl{font-size:9px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+
+  .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .btn{
+    padding:12px 22px;border-radius:0;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    border:1px solid var(--paper);color:var(--paper);background:transparent;transition:all .15s ease;
+  }
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .btn.primary:hover{background:#a62c14;border-color:#a62c14;}
+  .btn:hover{background:var(--paper);color:var(--ink);}
+  .btn.ghost{border-color:var(--line);color:var(--muted);}
+  .btn.ghost:hover{border-color:var(--paper);background:transparent;color:var(--paper);}
+
+  .settings{
+    margin-top:32px;padding-top:22px;border-top:1px solid var(--line);
+    display:grid;gap:16px;grid-template-columns:1fr 1fr;
+  }
+  @media(max-width:640px){.settings{grid-template-columns:1fr;}}
+  .settings h3{font-size:10px;letter-spacing:.28em;color:var(--muted);margin-bottom:10px;text-transform:uppercase;}
+  .pick-range{display:flex;flex-wrap:wrap;gap:5px;}
+  .pick-range button{
+    padding:7px 12px;border:1px solid var(--line);border-radius:2px;color:var(--paper);font-size:11px;letter-spacing:.05em;
+  }
+  .pick-range button.on{background:var(--accent-2);color:var(--ink);border-color:var(--accent-2);font-weight:600;}
+  .pick-range button:hover{border-color:var(--accent-2);}
+  .range-label{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.7;}
+
+  .vote-top{
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    padding:8px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px;
+  }
+  .vote-top .l{font-size:10px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;}
+  .vote-top .r{font-family:"Bodoni 72","Didot",serif;font-size:18px;color:var(--accent-2);}
+  .bar-track{height:2px;background:var(--line);position:relative;overflow:hidden;margin-bottom:12px;}
+  .bar-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .3s ease;}
+
+  /* BATTLE — always side-by-side, even on small screens */
+  .battle{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:8px;
+    align-items:stretch;
+  }
+  @media(min-width:640px){ .battle{gap:16px;} }
+
+  .card{
+    position:relative;
+    background:var(--paper);
+    color:var(--ink);
+    padding:10px 10px 12px;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+    display:flex;flex-direction:column;
+    min-width:0;
+  }
+  @media(min-width:640px){ .card{padding:22px 20px;} }
+  .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -18px rgba(200,56,28,.55);}
+  .card:active{transform:translateY(-1px);}
+  .rank-badge{
+    position:absolute;top:6px;right:8px;
+    font-family:"Bodoni 72","Didot",serif;font-size:22px;line-height:1;
+    color:var(--ink);opacity:.2;
+  }
+  @media(min-width:640px){ .rank-badge{font-size:40px;top:12px;right:14px;} }
+
+  .photo{
+    width:100%;aspect-ratio:1/1;
+    background:linear-gradient(135deg,#d4c9ad,#b5a685);
+    margin-bottom:10px;position:relative;overflow:hidden;
+  }
+  @media(min-width:640px){ .photo{margin-bottom:16px;} }
+  .photo img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    opacity:0;transition:opacity .3s ease;
+    position:absolute;inset:0;
+  }
+  .photo img.loaded{opacity:1;}
+  .photo .ph-fallback{
+    position:absolute;inset:0;display:grid;place-items:center;
+    font-family:"Bodoni 72","Didot",serif;font-size:clamp(40px,12vw,96px);color:#8a7e65;
+    letter-spacing:-.02em;
+  }
+
+  .card h3{
+    font-family:"Bodoni 72","Bodoni Moda","Didot",serif;
+    font-size:clamp(14px,3.8vw,28px);line-height:1.05;
+    margin-bottom:3px;letter-spacing:-.01em;
+    word-break:break-word;
+  }
+  .card .band{
+    font-size:clamp(10px,2.5vw,13px);color:#6a5f4a;letter-spacing:.02em;margin-bottom:6px;
+    line-height:1.3;
+  }
+  @media(min-width:640px){ .card .band{margin-bottom:14px;} }
+  .card .track{
+    margin-top:auto;padding-top:6px;border-top:1px solid rgba(26,23,20,.15);
+    font-size:clamp(9px,2.3vw,12px);color:#4a4238;letter-spacing:.03em;line-height:1.35;
+  }
+  @media(min-width:640px){ .card .track{padding-top:10px;} }
+  .card .track .lbl{
+    display:block;font-size:8px;letter-spacing:.28em;color:#9a8e75;
+    text-transform:uppercase;margin-bottom:2px;
+  }
+
+  /* YouTube thumbnail-to-embed slot */
+  .yt-embed{
+    margin-top:8px;
+    width:100%;aspect-ratio:16/9;
+    background:#000;
+    position:relative;overflow:hidden;
+    cursor:pointer;
+  }
+  @media(min-width:640px){ .yt-embed{margin-top:12px;} }
+  .yt-thumb{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    background:#111 center/cover no-repeat;
+    transition:filter .15s ease;
+  }
+  .yt-embed:hover .yt-thumb{filter:brightness(1.08);}
+  .yt-thumb::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.55) 100%);
+    pointer-events:none;
+  }
+  .yt-thumb .yt-play{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:42px;height:42px;border-radius:50%;
+    background:#ff0033;color:#fff;
+    display:grid;place-items:center;
+    font-size:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,.5);
+    z-index:2;
+  }
+  @media(min-width:640px){ .yt-thumb .yt-play{width:54px;height:54px;font-size:18px;} }
+  .yt-thumb .yt-play::before{
+    content:"";
+    display:block;
+    width:0;height:0;
+    margin-left:3px;
+    border-top:7px solid transparent;
+    border-bottom:7px solid transparent;
+    border-left:12px solid #fff;
+  }
+  @media(min-width:640px){ .yt-thumb .yt-play::before{border-top-width:9px;border-bottom-width:9px;border-left-width:15px;margin-left:4px;} }
+  .yt-thumb .yt-caption{
+    position:absolute;left:8px;right:8px;bottom:6px;
+    color:#f0f0f0;font-size:10px;letter-spacing:.04em;line-height:1.3;
+    z-index:2;
+    text-shadow:0 1px 2px rgba(0,0,0,.8);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .yt-thumb .yt-caption .yt-ext{color:var(--accent-2);margin-left:4px;}
+  @media(min-width:640px){ .yt-thumb .yt-caption{font-size:11px;left:10px;right:10px;bottom:8px;} }
+  .yt-placeholder{
+    color:#888;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    z-index:1;
+  }
+  .yt-error{
+    color:#c8381c;font-size:10px;letter-spacing:.05em;
+    text-align:center;padding:0 10px;line-height:1.4;z-index:1;
+  }
+  .yt-embed iframe{
+    position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;
+  }
+  .yt-close{
+    position:absolute;top:4px;right:4px;z-index:3;
+    width:24px;height:24px;border-radius:50%;
+    background:rgba(0,0,0,.65);color:#fff;
+    display:grid;place-items:center;
+    font-size:16px;line-height:1;border:0;cursor:pointer;
+    padding:0;
+  }
+  .yt-close:hover{background:rgba(200,56,28,.9);}
+  .yt-open{
+    position:absolute;bottom:4px;right:4px;z-index:3;
+    padding:4px 8px;
+    background:rgba(0,0,0,.65);color:#fff;
+    font-size:10px;letter-spacing:.04em;text-decoration:none;
+    border-radius:2px;
+  }
+  .yt-open:hover{background:rgba(200,56,28,.9);}
+
+  /* Missing-video slot */
+  .yt-thumb.yt-missing{
+    background:repeating-linear-gradient(135deg,#181612 0 6px,#221f1a 6px 12px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:6px;padding:8px;
+  }
+  .yt-thumb.yt-missing::after{display:none;}
+  .yt-missing-lbl{
+    color:var(--muted);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  }
+  .yt-missing-sub{
+    color:#c9c3b5;font-size:11px;line-height:1.3;
+    max-width:90%;text-align:center;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .yt-missing-actions{
+    display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;justify-content:center;
+  }
+  .yt-mini{
+    padding:5px 9px;
+    border:1px solid var(--accent-2);
+    background:transparent;color:var(--accent-2);
+    font-size:10px;letter-spacing:.04em;
+    cursor:pointer;
+  }
+  .yt-mini:hover{background:var(--accent-2);color:var(--ink);}
+  .yt-mini-secondary{border-color:var(--line);color:var(--muted);}
+  .yt-mini-secondary:hover{background:var(--line);color:var(--paper);border-color:var(--line);}
+
+  /* YouTube buttons under each card */
+  .yt-row{
+    display:flex;gap:4px;margin-top:8px;
+  }
+  @media(min-width:640px){ .yt-row{gap:6px;margin-top:12px;} }
+  .yt-btn{
+    flex:1;
+    display:flex;align-items:center;justify-content:center;gap:4px;
+    padding:8px 4px;
+    border:1px solid rgba(26,23,20,.22);
+    background:#fff;
+    color:var(--ink);
+    font-size:10px;letter-spacing:.06em;font-weight:600;
+    text-decoration:none;
+    text-align:center;
+    transition:all .12s ease;
+    cursor:pointer;
+    min-width:0;
+    line-height:1.2;
+  }
+  @media(min-width:640px){ .yt-btn{padding:10px 8px;gap:6px;font-size:11px;letter-spacing:.08em;} }
+  .yt-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .yt-btn.yt-track{background:#ff0033;color:#fff;border-color:#ff0033;}
+  .yt-btn.yt-track:hover{background:#c8001f;border-color:#c8001f;}
+  .yt-btn .yt-ic{
+    font-size:11px;line-height:1;flex-shrink:0;
+  }
+  @media(min-width:640px){ .yt-btn .yt-ic{font-size:13px;} }
+  .yt-btn > span:last-child{
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
+  }
+
+  .vs{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    padding:0 2px;min-width:54px;
+  }
+  @media(min-width:640px){ .vs{min-width:120px;padding:0 6px;gap:12px;} }
+  .vs-text{
+    font-family:"Bodoni 72","Didot",serif;font-style:italic;
+    font-size:clamp(18px,4vw,28px);color:var(--accent);letter-spacing:.06em;
+  }
+  .vs button{
+    padding:8px 4px;border:1px solid var(--line);color:var(--paper);
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    width:100%;white-space:nowrap;
+  }
+  @media(min-width:640px){ .vs button{padding:10px 14px;font-size:11px;letter-spacing:.22em;} }
+  .vs button:hover{border-color:var(--paper);background:var(--paper);color:var(--ink);}
+
+  .hint{
+    margin-top:14px;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  }
+  .hint kbd{
+    display:inline-block;padding:2px 6px;border:1px solid var(--line);border-radius:3px;
+    margin:0 2px;font-family:"Courier New",monospace;font-size:9px;color:var(--paper);
+  }
+  @media(max-width:520px){ .hint{display:none;} }
+
+  .result-head{padding:30px 0 22px;border-bottom:1px solid var(--line);margin-bottom:24px;text-align:center;}
+  .result-head .kicker{font-size:10px;letter-spacing:.35em;color:var(--accent);margin-bottom:12px;}
+  .result-head h2{font-size:clamp(28px,5.5vw,54px);line-height:1;letter-spacing:-.02em;}
+  .result-head h2 em{color:var(--accent-2);font-style:italic;}
+
+  .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;align-items:end;margin-bottom:32px;}
+  @media(max-width:620px){.podium{gap:6px;}}
+  .po-card{background:var(--paper);color:var(--ink);padding:14px 10px;position:relative;text-align:center;}
+  @media(min-width:620px){ .po-card{padding:22px 18px;} }
+  .po-card .po-rank{
+    font-family:"Bodoni 72","Didot",serif;font-size:clamp(42px,10vw,96px);line-height:1;color:var(--accent);margin-bottom:4px;
+  }
+  .po-card.first{background:linear-gradient(180deg,#f5efe2 0%,#e8d9b0 100%);}
+  @media(min-width:620px){ .po-card.first{padding-top:32px;padding-bottom:32px;} }
+  .po-card.first .po-rank{color:var(--accent);font-size:clamp(54px,12vw,120px);}
+  .po-card .po-photo{
+    width:80%;aspect-ratio:1/1;margin:0 auto 10px;overflow:hidden;
+    background:linear-gradient(135deg,#d4c9ad,#b5a685);position:relative;
+  }
+  .po-card .po-photo img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s;position:absolute;inset:0;}
+  .po-card .po-photo img.loaded{opacity:1;}
+  .po-card .po-photo .ph-fallback{
+    position:absolute;inset:0;display:grid;place-items:center;
+    font-family:"Bodoni 72","Didot",serif;font-size:clamp(28px,6vw,64px);color:#8a7e65;
+  }
+  .po-card .po-name{font-family:"Bodoni 72","Didot",serif;font-size:clamp(12px,2.8vw,22px);line-height:1.1;margin-bottom:3px;}
+  .po-card .po-band{font-size:clamp(9px,2.2vw,12px);color:#6a5f4a;}
+
+  .rank-list{background:var(--bg-2);border:1px solid var(--line);}
+  .rank-row{
+    display:grid;grid-template-columns:40px 44px 1fr auto;gap:10px;align-items:center;
+    padding:10px 12px;border-bottom:1px solid var(--line);
+  }
+  @media(min-width:640px){ .rank-row{grid-template-columns:60px 60px 1fr auto;gap:14px;padding:12px 16px;} }
+  .rank-row:last-child{border-bottom:0;}
+  .rank-row .n{font-family:"Bodoni 72","Didot",serif;font-size:18px;color:var(--accent-2);text-align:right;}
+  @media(min-width:640px){ .rank-row .n{font-size:24px;} }
+  .rank-row .thumb{width:44px;height:44px;background:#2a2622;overflow:hidden;position:relative;}
+  @media(min-width:640px){ .rank-row .thumb{width:48px;height:48px;} }
+  .rank-row .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2);opacity:0;transition:opacity .3s;position:absolute;inset:0;}
+  .rank-row .thumb img.loaded{opacity:1;}
+  .rank-row .nm{font-size:13px;font-weight:600;letter-spacing:.01em;min-width:0;}
+  @media(min-width:640px){ .rank-row .nm{font-size:15px;} }
+  .rank-row .nm small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .rank-row .orig{font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
+  @media(min-width:640px){ .rank-row .orig{font-size:10px;letter-spacing:.15em;} }
+
+  .result-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px;}
+
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-backdrop.on{display:flex;}
+  .modal{
+    background:var(--bg-2);border:1px solid var(--line);max-width:520px;width:100%;
+    max-height:80vh;overflow-y:auto;padding:24px;
+  }
+  .modal h3{font-family:"Bodoni 72","Didot",serif;font-size:22px;margin-bottom:16px;}
+  .history-item{padding:12px 0;border-bottom:1px solid var(--line);}
+  .history-item:last-child{border-bottom:0;}
+  .history-item .when{font-size:10px;color:var(--muted);margin-top:3px;}
+  .history-item .who{font-size:13px;font-weight:600;line-height:1.4;}
+  .modal .close{
+    margin-top:16px;width:100%;padding:11px;border:1px solid var(--line);color:var(--paper);
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  }
+
+  button:focus-visible,.card:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
+
+  .grain::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.04;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/></svg>");
+    mix-blend-mode:overlay;
+  }
+</style>
+</head>
+<body class="grain">
+
+<header>
+  <div class="bar">
+    <div class="logo">
+      <span class="mark">G</span>
+      <h1 class="display">Guitarist Sorter <small>ROLLING STONE · 100</small></h1>
+    </div>
+    <nav>
+      <button id="btn-history">履歴</button>
+      <button id="btn-reset">リセット</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="kicker">THE GREATEST GUITARISTS — ROLLING STONE '11</div>
+      <h2 class="display">二者択一で、<br>あなたの<em>最高のギタリスト</em>を。</h2>
+      <p>ローリングストーン誌が2011年に発表した「偉大なギタリスト100人」の中から、2人ずつ表示されるギタリストのうち好きな方を選び続けるだけ。マージソートで順位が自動的に組み上がり、最後にあなただけのランキングが出来上がります。</p>
+
+      <div class="stats">
+        <div><div class="num display" id="stat-total">100</div><div class="lbl">Guitarists</div></div>
+        <div><div class="num display">〜550</div><div class="lbl">Max battles</div></div>
+        <div><div class="num display">1:1</div><div class="lbl">Head to head</div></div>
+      </div>
+
+      <div class="settings">
+        <div>
+          <h3>対象範囲</h3>
+          <div class="pick-range" id="range-picker">
+            <button data-range="20">TOP 20</button>
+            <button data-range="50" class="on">TOP 50</button>
+            <button data-range="100">全 100 人</button>
+          </div>
+          <div class="range-label" id="range-label">50人 / 推定 約 230 回の選択</div>
+        </div>
+        <div>
+          <h3>操作方法</h3>
+          <div class="range-label" style="margin-top:0;">
+            <span class="mono">←</span> / <span class="mono">→</span> キー、またはカードをタップ<br>
+            <span class="mono">Space</span> で「引き分け」、<span class="mono">U</span> で一つ戻る
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <button class="btn primary" id="btn-start">ランキング開始</button>
+        <button class="btn ghost" id="btn-resume" style="display:none;">前回の続きから</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-vote">
+    <div class="vote-top">
+      <span class="l">進捗 バトル <span id="p-cur">0</span> / <span id="p-est">0</span></span>
+      <span class="r display"><span id="p-pct">0</span>%</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="p-fill" style="width:0%;"></div></div>
+
+    <div class="battle">
+      <div class="card" id="card-a" tabindex="0">
+        <span class="rank-badge" id="rb-a">—</span>
+        <div class="photo"><div class="ph-fallback" id="ph-a">?</div></div>
+        <h3 id="nm-a">—</h3>
+        <div class="band" id="bd-a">—</div>
+        <div class="track"><span class="lbl">Key Track</span><span id="tk-a">—</span></div>
+        <div class="yt-embed" id="yte-a" data-nav>
+          <div class="yt-thumb" id="ytet-a">
+            <div class="yt-placeholder">Loading…</div>
+          </div>
+        </div>
+        <div class="yt-row" id="yt-a">
+          <a class="yt-btn yt-search" id="yta-search" target="_blank" rel="noopener" data-nav><span class="yt-ic">🔍</span><span>YouTubeで検索</span></a>
+        </div>
+      </div>
+
+      <div class="vs">
+        <div class="vs-text display">vs.</div>
+        <button id="btn-tie">引き分け</button>
+        <button id="btn-undo">戻る</button>
+      </div>
+
+      <div class="card" id="card-b" tabindex="0">
+        <span class="rank-badge" id="rb-b">—</span>
+        <div class="photo"><div class="ph-fallback" id="ph-b">?</div></div>
+        <h3 id="nm-b">—</h3>
+        <div class="band" id="bd-b">—</div>
+        <div class="track"><span class="lbl">Key Track</span><span id="tk-b">—</span></div>
+        <div class="yt-embed" id="yte-b" data-nav>
+          <div class="yt-thumb" id="ytet-b">
+            <div class="yt-placeholder">Loading…</div>
+          </div>
+        </div>
+        <div class="yt-row" id="yt-b">
+          <a class="yt-btn yt-search" id="ytb-search" target="_blank" rel="noopener" data-nav><span class="yt-ic">🔍</span><span>YouTubeで検索</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint">
+      <kbd>←</kbd> 左 <kbd>→</kbd> 右 <kbd>SPACE</kbd> 引き分け <kbd>U</kbd> 戻る
+    </div>
+  </section>
+
+  <section class="screen" id="screen-result">
+    <div class="result-head">
+      <div class="kicker">YOUR PERSONAL RANKING</div>
+      <h2 class="display">これがあなたの<br><em>偉大なギタリスト</em>です。</h2>
+    </div>
+
+    <div class="podium" id="podium"></div>
+    <div class="rank-list" id="rank-list"></div>
+
+    <div class="result-actions">
+      <button class="btn primary" id="btn-save">この結果を保存</button>
+      <button class="btn" id="btn-again">もう一度やる</button>
+      <button class="btn ghost" id="btn-home">トップへ</button>
+    </div>
+  </section>
+</main>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h3 class="display">保存したランキング</h3>
+    <div id="history-body">まだ保存された履歴はありません。</div>
+    <button class="close" id="modal-close">閉じる</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   Data — Rolling Stone '11 "100 Greatest Guitarists of All Time"
+   `w` = exact Wikipedia page title (with disambiguation where needed)
+   ===================================================================== */
+const GUITARISTS = [
+  {r:1,  n:"Jimi Hendrix",       b:"The Jimi Hendrix Experience",   t:"Purple Haze",                       w:"Jimi Hendrix"},
+  {r:2,  n:"Eric Clapton",       b:"Cream / Derek and the Dominos", t:"Layla",                             w:"Eric Clapton"},
+  {r:3,  n:"Jimmy Page",         b:"Led Zeppelin",                  t:"Stairway to Heaven",                w:"Jimmy Page"},
+  {r:4,  n:"Keith Richards",     b:"The Rolling Stones",            t:"(I Can't Get No) Satisfaction",     w:"Keith Richards"},
+  {r:5,  n:"Jeff Beck",          b:"The Yardbirds / solo",          t:"Cause We've Ended as Lovers",       w:"Jeff Beck"},
+  {r:6,  n:"B.B. King",          b:"solo",                          t:"The Thrill Is Gone",                w:"B.B. King"},
+  {r:7,  n:"Chuck Berry",        b:"solo",                          t:"Johnny B. Goode",                   w:"Chuck Berry"},
+  {r:8,  n:"Eddie Van Halen",    b:"Van Halen",                     t:"Eruption",                          w:"Eddie Van Halen"},
+  {r:9,  n:"Duane Allman",       b:"The Allman Brothers Band",      t:"Statesboro Blues",                  w:"Duane Allman"},
+  {r:10, n:"Pete Townshend",     b:"The Who",                       t:"Baba O'Riley",                      w:"Pete Townshend"},
+  {r:11, n:"George Harrison",    b:"The Beatles",                   t:"While My Guitar Gently Weeps",      w:"George Harrison"},
+  {r:12, n:"Stevie Ray Vaughan", b:"Double Trouble",                t:"Pride and Joy",                     w:"Stevie Ray Vaughan"},
+  {r:13, n:"Albert King",        b:"solo",                          t:"Born Under a Bad Sign",             w:"Albert King"},
+  {r:14, n:"David Gilmour",      b:"Pink Floyd",                    t:"Comfortably Numb",                  w:"David Gilmour"},
+  {r:15, n:"Freddie King",       b:"solo",                          t:"Hide Away",                         w:"Freddie King"},
+  {r:16, n:"Derek Trucks",       b:"Tedeschi Trucks Band",          t:"Midnight in Harlem",                w:"Derek Trucks"},
+  {r:17, n:"Neil Young",         b:"Crazy Horse",                   t:"Cortez the Killer",                 w:"Neil Young"},
+  {r:18, n:"Les Paul",           b:"solo",                          t:"How High the Moon",                 w:"Les Paul"},
+  {r:19, n:"James Burton",       b:"session / Elvis Presley",       t:"Susie Q",                           w:"James Burton"},
+  {r:20, n:"Carlos Santana",     b:"Santana",                       t:"Black Magic Woman",                 w:"Carlos Santana"},
+  {r:21, n:"Chet Atkins",        b:"solo",                          t:"Mister Sandman",                    w:"Chet Atkins"},
+  {r:22, n:"Frank Zappa",        b:"Mothers of Invention",          t:"Watermelon in Easter Hay",          w:"Frank Zappa"},
+  {r:23, n:"Buddy Guy",          b:"solo",                          t:"Stone Crazy",                       w:"Buddy Guy"},
+  {r:24, n:"Angus Young",        b:"AC/DC",                         t:"Back in Black",                     w:"Angus Young"},
+  {r:25, n:"Tony Iommi",         b:"Black Sabbath",                 t:"Paranoid",                          w:"Tony Iommi"},
+  {r:26, n:"Brian May",          b:"Queen",                         t:"Bohemian Rhapsody",                 w:"Brian May"},
+  {r:27, n:"Bo Diddley",         b:"solo",                          t:"Bo Diddley",                        w:"Bo Diddley"},
+  {r:28, n:"Johnny Ramone",      b:"Ramones",                       t:"Blitzkrieg Bop",                    w:"Johnny Ramone"},
+  {r:29, n:"Scotty Moore",       b:"Elvis Presley",                 t:"Hound Dog",                         w:"Scotty Moore"},
+  {r:30, n:"Elmore James",       b:"solo",                          t:"Dust My Broom",                     w:"Elmore James"},
+  {r:31, n:"Ry Cooder",          b:"solo",                          t:"Paris, Texas",                      w:"Ry Cooder"},
+  {r:32, n:"Billy Gibbons",      b:"ZZ Top",                        t:"La Grange",                         w:"Billy Gibbons"},
+  {r:33, n:"Prince",             b:"solo",                          t:"Purple Rain",                       w:"Prince (musician)"},
+  {r:34, n:"Curtis Mayfield",    b:"The Impressions / solo",        t:"Superfly",                          w:"Curtis Mayfield"},
+  {r:35, n:"John Lee Hooker",    b:"solo",                          t:"Boom Boom",                         w:"John Lee Hooker"},
+  {r:36, n:"Randy Rhoads",       b:"Ozzy Osbourne / Quiet Riot",    t:"Crazy Train",                       w:"Randy Rhoads"},
+  {r:37, n:"Mick Taylor",        b:"The Rolling Stones",            t:"Can't You Hear Me Knocking",        w:"Mick Taylor"},
+  {r:38, n:"The Edge",           b:"U2",                            t:"Where the Streets Have No Name",    w:"The Edge"},
+  {r:39, n:"Steve Cropper",      b:"Booker T. & the M.G.'s",        t:"Green Onions",                      w:"Steve Cropper"},
+  {r:40, n:"Tom Morello",        b:"Rage Against the Machine",      t:"Killing in the Name",               w:"Tom Morello"},
+  {r:41, n:"Mick Ronson",        b:"David Bowie",                   t:"Moonage Daydream",                  w:"Mick Ronson"},
+  {r:42, n:"Mike Bloomfield",    b:"Paul Butterfield Blues Band",   t:"East-West",                         w:"Mike Bloomfield"},
+  {r:43, n:"Hubert Sumlin",      b:"Howlin' Wolf",                  t:"Smokestack Lightnin'",              w:"Hubert Sumlin"},
+  {r:44, n:"Mark Knopfler",      b:"Dire Straits",                  t:"Sultans of Swing",                  w:"Mark Knopfler"},
+  {r:45, n:"Link Wray",          b:"solo",                          t:"Rumble",                            w:"Link Wray"},
+  {r:46, n:"Jerry Garcia",       b:"Grateful Dead",                 t:"Ripple",                            w:"Jerry Garcia"},
+  {r:47, n:"Stephen Stills",     b:"CSN&Y / Buffalo Springfield",   t:"For What It's Worth",               w:"Stephen Stills"},
+  {r:48, n:"Jonny Greenwood",    b:"Radiohead",                     t:"Paranoid Android",                  w:"Jonny Greenwood"},
+  {r:49, n:"Muddy Waters",       b:"solo",                          t:"Mannish Boy",                       w:"Muddy Waters"},
+  {r:50, n:"Ritchie Blackmore",  b:"Deep Purple / Rainbow",         t:"Smoke on the Water",                w:"Ritchie Blackmore"},
+  {r:51, n:"Johnny Marr",        b:"The Smiths",                    t:"How Soon Is Now?",                  w:"Johnny Marr"},
+  {r:52, n:"Clarence White",     b:"The Byrds",                     t:"Nashville West",                    w:"Clarence White"},
+  {r:53, n:"Otis Rush",          b:"solo",                          t:"All Your Love",                     w:"Otis Rush"},
+  {r:54, n:"Joe Walsh",          b:"Eagles / James Gang",           t:"Hotel California",                  w:"Joe Walsh"},
+  {r:55, n:"John Lennon",        b:"The Beatles",                   t:"A Hard Day's Night",                w:"John Lennon"},
+  {r:56, n:"Albert Collins",     b:"solo",                          t:"Frosty",                            w:"Albert Collins"},
+  {r:57, n:"Rory Gallagher",     b:"solo",                          t:"Shadow Play",                       w:"Rory Gallagher"},
+  {r:58, n:"Peter Green",        b:"Fleetwood Mac",                 t:"Black Magic Woman",                 w:"Peter Green (musician)"},
+  {r:59, n:"Robbie Robertson",   b:"The Band",                      t:"The Weight",                        w:"Robbie Robertson"},
+  {r:60, n:"Ron Asheton",        b:"The Stooges",                   t:"I Wanna Be Your Dog",               w:"Ron Asheton"},
+  {r:61, n:"Dickey Betts",       b:"The Allman Brothers Band",      t:"Ramblin' Man",                      w:"Dickey Betts"},
+  {r:62, n:"Robert Fripp",       b:"King Crimson",                  t:"21st Century Schizoid Man",         w:"Robert Fripp"},
+  {r:63, n:"Johnny Winter",      b:"solo",                          t:"Rock and Roll Hoochie Koo",         w:"Johnny Winter"},
+  {r:64, n:"Duane Eddy",         b:"solo",                          t:"Rebel Rouser",                      w:"Duane Eddy"},
+  {r:65, n:"Slash",              b:"Guns N' Roses",                 t:"Sweet Child O' Mine",               w:"Slash (musician)"},
+  {r:66, n:"Leslie West",        b:"Mountain",                      t:"Mississippi Queen",                 w:"Leslie West"},
+  {r:67, n:"T-Bone Walker",      b:"solo",                          t:"Call It Stormy Monday",             w:"T-Bone Walker"},
+  {r:68, n:"John McLaughlin",    b:"Mahavishnu Orchestra",          t:"Birds of Fire",                     w:"John McLaughlin (musician)"},
+  {r:69, n:"Richard Thompson",   b:"Fairport Convention / solo",    t:"1952 Vincent Black Lightning",      w:"Richard Thompson (musician)"},
+  {r:70, n:"Jack White",         b:"The White Stripes",             t:"Seven Nation Army",                 w:"Jack White"},
+  {r:71, n:"Robert Johnson",     b:"solo",                          t:"Cross Road Blues",                  w:"Robert Johnson"},
+  {r:72, n:"John Frusciante",    b:"Red Hot Chili Peppers",         t:"Under the Bridge",                  w:"John Frusciante"},
+  {r:73, n:"Kurt Cobain",        b:"Nirvana",                       t:"Smells Like Teen Spirit",           w:"Kurt Cobain"},
+  {r:74, n:"Dick Dale",          b:"solo",                          t:"Misirlou",                          w:"Dick Dale"},
+  {r:75, n:"Joni Mitchell",      b:"solo",                          t:"Big Yellow Taxi",                   w:"Joni Mitchell"},
+  {r:76, n:"Robby Krieger",      b:"The Doors",                     t:"Light My Fire",                     w:"Robby Krieger"},
+  {r:77, n:"Willie Nelson",      b:"solo",                          t:"On the Road Again",                 w:"Willie Nelson"},
+  {r:78, n:"John Fahey",         b:"solo",                          t:"The Yellow Princess",               w:"John Fahey (musician)"},
+  {r:79, n:"Mike Campbell",      b:"Tom Petty and the Heartbreakers",t:"Refugee",                          w:"Mike Campbell (musician)"},
+  {r:80, n:"Buddy Holly",        b:"The Crickets",                  t:"Peggy Sue",                         w:"Buddy Holly"},
+  {r:81, n:"Lou Reed",           b:"The Velvet Underground / solo", t:"Sweet Jane",                        w:"Lou Reed"},
+  {r:82, n:"Nels Cline",         b:"Wilco",                         t:"Impossible Germany",                w:"Nels Cline"},
+  {r:83, n:"Eddie Hazel",        b:"Funkadelic",                    t:"Maggot Brain",                      w:"Eddie Hazel"},
+  {r:84, n:"Joe Perry",          b:"Aerosmith",                     t:"Walk This Way",                     w:"Joe Perry (musician)"},
+  {r:85, n:"Andy Summers",       b:"The Police",                    t:"Every Breath You Take",             w:"Andy Summers"},
+  {r:86, n:"J Mascis",           b:"Dinosaur Jr.",                  t:"Freak Scene",                       w:"J Mascis"},
+  {r:87, n:"James Hetfield",     b:"Metallica",                     t:"Master of Puppets",                 w:"James Hetfield"},
+  {r:88, n:"Carl Perkins",       b:"solo",                          t:"Blue Suede Shoes",                  w:"Carl Perkins"},
+  {r:89, n:"Bonnie Raitt",       b:"solo",                          t:"Something to Talk About",           w:"Bonnie Raitt"},
+  {r:90, n:"Tom Verlaine",       b:"Television",                    t:"Marquee Moon",                      w:"Tom Verlaine"},
+  {r:91, n:"Dave Davies",        b:"The Kinks",                     t:"You Really Got Me",                 w:"Dave Davies"},
+  {r:92, n:"Dimebag Darrell",    b:"Pantera",                       t:"Cowboys from Hell",                 w:"Dimebag Darrell"},
+  {r:93, n:"Paul Simon",         b:"Simon & Garfunkel / solo",      t:"Graceland",                         w:"Paul Simon"},
+  {r:94, n:"Peter Buck",         b:"R.E.M.",                        t:"Losing My Religion",                w:"Peter Buck"},
+  {r:95, n:"Roger McGuinn",      b:"The Byrds",                     t:"Mr. Tambourine Man",                w:"Roger McGuinn"},
+  {r:96, n:"Bruce Springsteen",  b:"The E Street Band",             t:"Born to Run",                       w:"Bruce Springsteen"},
+  {r:97, n:"Steve Jones",        b:"Sex Pistols",                   t:"Anarchy in the U.K.",               w:"Steve Jones (musician)"},
+  {r:98, n:"Alex Lifeson",       b:"Rush",                          t:"Tom Sawyer",                        w:"Alex Lifeson"},
+  {r:99, n:"Thurston Moore",     b:"Sonic Youth",                   t:"Teen Age Riot",                     w:"Thurston Moore"},
+  {r:100,n:"Lindsey Buckingham", b:"Fleetwood Mac",                 t:"Go Your Own Way",                   w:"Lindsey Buckingham"},
+];
+
+/* =====================================================================
+   Photos — MediaWiki Action API with origin=* (CORS-safe)
+   Batched (up to 50 titles per call). Cached in localStorage.
+   ===================================================================== */
+const PHOTO_LS_PREFIX = "gphoto2:";
+const photoMemo = new Map();   // guitarist.n -> url ("" = tried but none)
+
+function lsGetPhoto(name){
+  try{ return localStorage.getItem(PHOTO_LS_PREFIX + name); }catch(e){ return null; }
+}
+function lsSetPhoto(name, url){
+  try{ localStorage.setItem(PHOTO_LS_PREFIX + name, url || ""); }catch(e){}
+}
+function getPhotoSync(name){
+  if(photoMemo.has(name)) return photoMemo.get(name);
+  const ls = lsGetPhoto(name);
+  if(ls !== null){ photoMemo.set(name, ls); return ls; }
+  return null; // means: not yet tried
+}
+
+async function fetchPhotoBatch(gs){
+  const titles = gs.map(g => g.w).join("|");
+  const url =
+    "https://en.wikipedia.org/w/api.php" +
+    "?action=query" +
+    "&format=json" +
+    "&formatversion=2" +
+    "&prop=pageimages" +
+    "&piprop=thumbnail" +
+    "&pithumbsize=400" +
+    "&pilimit=50" +
+    "&redirects=1" +
+    "&origin=*" +
+    "&titles=" + encodeURIComponent(titles);
+  const res = await fetch(url, { mode:"cors" });
+  if(!res.ok) throw new Error("HTTP "+res.status);
+  const j = await res.json();
+
+  const norm = s => (s||"").replace(/_/g," ").trim().toLowerCase();
+  const titleMap = new Map();
+  gs.forEach(g => titleMap.set(norm(g.w), g));
+
+  // The API may normalize and redirect our requested titles; track both
+  const aliasToOriginal = new Map(); // normalized alias -> originally requested normalized title
+  (j?.query?.normalized || []).forEach(r => aliasToOriginal.set(norm(r.to), norm(r.from)));
+  (j?.query?.redirects  || []).forEach(r => {
+    const to = norm(r.to), from = norm(r.from);
+    // follow chain: if from is already aliased back to an original, keep going
+    aliasToOriginal.set(to, aliasToOriginal.get(from) || from);
+  });
+
+  const out = new Map();
+  const pages = j?.query?.pages || [];
+  for(const page of pages){
+    const pageN = norm(page.title);
+    // original requested title?
+    let origN = titleMap.has(pageN) ? pageN
+              : aliasToOriginal.has(pageN) ? aliasToOriginal.get(pageN)
+              : null;
+    // If resolved original isn't in our request set, try looking through redirect chain manually
+    if(!origN || !titleMap.has(origN)){
+      for(const [to, from] of aliasToOriginal){
+        if(to === pageN && titleMap.has(from)){ origN = from; break; }
+      }
+    }
+    if(origN && titleMap.has(origN)){
+      const g = titleMap.get(origN);
+      out.set(g.n, page.thumbnail?.source || "");
+    }
+  }
+  for(const g of gs){ if(!out.has(g.n)) out.set(g.n, ""); }
+  return out;
+}
+
+async function ensurePhotos(guitarists){
+  const toFetch = [];
+  for(const g of guitarists){
+    if(photoMemo.has(g.n)) continue;
+    const ls = lsGetPhoto(g.n);
+    if(ls !== null){ photoMemo.set(g.n, ls); continue; }
+    toFetch.push(g);
+  }
+  if(!toFetch.length) return;
+  for(let i=0;i<toFetch.length;i+=50){
+    const batch = toFetch.slice(i, i+50);
+    try{
+      const map = await fetchPhotoBatch(batch);
+      map.forEach((url, name) => {
+        photoMemo.set(name, url);
+        lsSetPhoto(name, url);
+      });
+      // After each batch lands, allow any listeners to repaint
+      document.dispatchEvent(new CustomEvent("photos-updated"));
+    }catch(e){
+      console.warn("photo batch failed", e);
+      batch.forEach(g => { if(!photoMemo.has(g.n)) photoMemo.set(g.n, ""); });
+    }
+  }
+}
+
+/* =====================================================================
+   Merge-sort interactive sorter
+   ===================================================================== */
+const STORAGE_KEY = "guitarist-sorter:state";
+const HISTORY_KEY = "guitarist-sorter:history";
+let S = null;
+
+function newSession(rangeN){
+  const pool = GUITARISTS.slice(0, rangeN);
+  const ids = pool.map(g=>g.r);
+  for(let i=ids.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [ids[i],ids[j]]=[ids[j],ids[i]];
+  }
+  return {
+    rangeN,
+    runs: ids.map(id=>[id]),
+    merging:null,
+    pendingA:null, pendingB:null,
+    battlesDone:0,
+    estBattles: Math.ceil(rangeN * Math.log2(Math.max(2,rangeN))),
+    history:[],
+    finalOrder:null,
+  };
+}
+function saveState(){ if(S && !S.finalOrder) try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); }catch(e){} }
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return null;
+    const s = JSON.parse(raw);
+    if(s && s.rangeN && s.runs) return s;
+  }catch(e){} return null;
+}
+function clearState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+function snapshot(){
+  return JSON.stringify({
+    runs:S.runs, merging:S.merging,
+    pendingA:S.pendingA, pendingB:S.pendingB, battlesDone:S.battlesDone,
+  });
+}
+function restoreSnapshot(snap){
+  const o = JSON.parse(snap);
+  S.runs=o.runs; S.merging=o.merging;
+  S.pendingA=o.pendingA; S.pendingB=o.pendingB; S.battlesDone=o.battlesDone;
+}
+function advance(){
+  if(!S.merging){
+    if(S.runs.length <= 1){ S.finalOrder = S.runs[0] ? S.runs[0].slice() : []; return true; }
+    const L=S.runs.shift(), R=S.runs.shift();
+    S.merging = { L,R,i:0,j:0,out:[] };
+  }
+  const m = S.merging;
+  if(m.i >= m.L.length){ while(m.j<m.R.length) m.out.push(m.R[m.j++]); S.runs.push(m.out); S.merging=null; return advance(); }
+  if(m.j >= m.R.length){ while(m.i<m.L.length) m.out.push(m.L[m.i++]); S.runs.push(m.out); S.merging=null; return advance(); }
+  S.pendingA = m.L[m.i];
+  S.pendingB = m.R[m.j];
+  return false;
+}
+function decide(side){
+  S.history.push(snapshot()); if(S.history.length>300) S.history.shift();
+  const m = S.merging;
+  if(side==='A') m.out.push(m.L[m.i++]);
+  else if(side==='B') m.out.push(m.R[m.j++]);
+  else { m.out.push(m.L[m.i++]); m.out.push(m.R[m.j++]); }
+  S.pendingA = S.pendingB = null;
+  S.battlesDone++;
+  const done = advance();
+  saveState();
+  return done;
+}
+function undo(){
+  if(!S.history.length) return;
+  restoreSnapshot(S.history.pop());
+  S.finalOrder = null;
+  saveState();
+  render();
+}
+
+/* =====================================================================
+   Rendering
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+function showScreen(name){
+  for(const id of ["home","vote","result"]) $(`screen-${id}`).classList.toggle("active", id===name);
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function byId(id){ return GUITARISTS.find(g=>g.r===id); }
+
+function paintPhoto(photoBox, g){
+  photoBox.dataset.rank = g.r;
+  // update fallback letter
+  let fb = photoBox.querySelector(".ph-fallback");
+  if(fb) fb.textContent = g.n.charAt(0);
+  // remove any old img
+  photoBox.querySelectorAll("img").forEach(x=>x.remove());
+  const known = getPhotoSync(g.n);
+  if(known){
+    const img = new Image();
+    img.alt = g.n;
+    img.onload = ()=>img.classList.add("loaded");
+    img.src = known;
+    photoBox.appendChild(img);
+    return;
+  }
+  if(known === null){
+    // Not yet tried → kick off
+    ensurePhotos([g]);
+  }
+  // else known === "" → no image available on Wikipedia
+}
+
+/* =====================================================================
+   YouTube embed — "thumbnail → click to expand" (方式6)
+                   + RD mix once expanded (方式3)
+   Video IDs are curated (verified via YouTube search for official sources).
+   Users can add/override IDs for any guitarist; their additions are saved
+   in localStorage so the data grows over time.
+   ===================================================================== */
+
+// Curated video IDs — verified as official artist/Topic channels.
+// To extend: open the song on YouTube, copy the 11-char ID after "v=" or
+// after "youtu.be/", and add an entry here (or use the "動画IDを追加" UI
+// on each card at runtime to store a personal override in localStorage).
+const CURATED_VIDEO_IDS = {
+  "Jimi Hendrix":       "WGoDaYjdfSg",  // Purple Haze (Official Audio)
+  "Eric Clapton":       "TngViNw2pOo",  // Layla (Derek & the Dominos, Topic)
+  "Jimmy Page":         "QkF3oxziUI4",  // Stairway to Heaven (Official Audio)
+  "Keith Richards":     "nrIPxlFzDi0",  // (I Can't Get No) Satisfaction (Official Lyric Video)
+  "Jeff Beck":          "xiOPvOBd8IA",  // Cause We've Ended as Lovers (Topic)
+  "B.B. King":          "kpC69qIe02E",  // The Thrill Is Gone (Topic)
+  "Chuck Berry":        "uFeZ_x--aRg",  // Johnny B. Goode (Topic)
+};
+
+const YTID_LS_PREFIX = "gyt3:";     // user-added: name -> 11-char id
+const ytUserOverride = new Map();   // in-memory cache of localStorage
+
+function loadUserYtOverrides(){
+  for(let i=0;i<localStorage.length;i++){
+    const k = localStorage.key(i);
+    if(!k || !k.startsWith(YTID_LS_PREFIX)) continue;
+    const name = k.slice(YTID_LS_PREFIX.length);
+    const v = localStorage.getItem(k);
+    if(v && isValidYouTubeId(v)) ytUserOverride.set(name, v);
+  }
+}
+function saveUserYt(name, id){
+  ytUserOverride.set(name, id);
+  try{ localStorage.setItem(YTID_LS_PREFIX + name, id); }catch(e){}
+}
+function clearUserYt(name){
+  ytUserOverride.delete(name);
+  try{ localStorage.removeItem(YTID_LS_PREFIX + name); }catch(e){}
+}
+function isValidYouTubeId(id){
+  return typeof id === "string" && /^[A-Za-z0-9_-]{11}$/.test(id);
+}
+function extractYouTubeId(input){
+  // Accept a bare 11-char ID, or any YouTube URL/link the user pastes
+  const s = String(input||"").trim();
+  if(isValidYouTubeId(s)) return s;
+  // Try common URL forms
+  const m = s.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if(m) return m[1];
+  return null;
+}
+function getVideoIdFor(g){
+  // user override beats curated
+  return ytUserOverride.get(g.n) || CURATED_VIDEO_IDS[g.n] || null;
+}
+
+function ytEmbedUrl(videoId){
+  // Minimal embed — avoids Chrome's Error 153 that happens with list=RD+autoplay+mute.
+  // Using regular youtube.com (not nocookie) as nocookie also sometimes
+  // triggers 153 in Chrome when referrer context is ambiguous.
+  const p = new URLSearchParams({
+    rel: "0",
+    playsinline: "1",
+  });
+  return `https://www.youtube.com/embed/${videoId}?${p.toString()}`;
+}
+function ytThumbUrl(videoId){
+  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+}
+
+function expandEmbed(embedEl, g, videoId){
+  embedEl.innerHTML = "";
+  const iframe = document.createElement("iframe");
+  iframe.src = ytEmbedUrl(videoId);
+  iframe.title = `${g.n} — ${g.t}`;
+  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+  iframe.setAttribute("allowfullscreen","");
+  iframe.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+  embedEl.appendChild(iframe);
+
+  // Small "×" to collapse back to thumb
+  const close = document.createElement("button");
+  close.className = "yt-close";
+  close.type = "button";
+  close.setAttribute("aria-label","動画を閉じる");
+  close.innerHTML = "×";
+  close.onclick = (e)=>{
+    e.stopPropagation();
+    showThumb(embedEl, g, videoId);
+  };
+  embedEl.appendChild(close);
+
+  // Fallback link — if the embed shows Error 153 (referrer policy blocked
+  // by the host environment, e.g. Claude artifact iframe), this lets the
+  // user jump to YouTube directly.
+  const open = document.createElement("a");
+  open.className = "yt-open";
+  open.href = `https://www.youtube.com/watch?v=${videoId}`;
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.setAttribute("data-nav","");
+  open.textContent = "↗ YouTubeで開く";
+  open.onclick = e => e.stopPropagation();
+  embedEl.appendChild(open);
+}
+
+// YouTube iframe embeds require a valid HTTP referrer. When this HTML is
+// opened via the file:// protocol (e.g. a developer double-clicking the
+// downloaded file), YouTube returns Error 153 because there's no valid
+// referrer. In that case we transparently fall back to opening the video
+// in a new tab. On http(s) hosting (the production environment) we use
+// the proper iframe embed.
+const IS_LOCAL_FILE = (typeof location !== "undefined") && location.protocol === "file:";
+
+function showThumb(embedEl, g, videoId){
+  embedEl.innerHTML = `
+    <div class="yt-thumb" style="background-image:url('${ytThumbUrl(videoId)}')">
+      <div class="yt-play"></div>
+      <div class="yt-caption">▶ ${g.t}${IS_LOCAL_FILE ? ' <span class="yt-ext">↗</span>' : ''}</div>
+    </div>`;
+  embedEl.onclick = (e)=>{
+    e.stopPropagation();
+    if(IS_LOCAL_FILE){
+      window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank", "noopener");
+    }else{
+      expandEmbed(embedEl, g, videoId);
+    }
+  };
+}
+
+function showAddIdSlot(embedEl, g){
+  // No video available — show "add your own" CTA
+  embedEl.innerHTML = `
+    <div class="yt-thumb yt-missing">
+      <div class="yt-missing-lbl">動画未登録</div>
+      <div class="yt-missing-sub">${g.t}</div>
+      <div class="yt-missing-actions">
+        <button class="yt-mini" data-act="add">＋ 動画を登録</button>
+        <button class="yt-mini yt-mini-secondary" data-act="search">YouTubeで検索</button>
+      </div>
+    </div>`;
+  embedEl.onclick = null;
+  const actions = embedEl.querySelector(".yt-missing-actions");
+  actions.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    if(btn.dataset.act === "search"){
+      window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(g.n+" "+g.t)}`, "_blank", "noopener");
+    }else if(btn.dataset.act === "add"){
+      promptAddId(embedEl, g);
+    }
+  });
+}
+
+function promptAddId(embedEl, g){
+  const pasted = prompt(`${g.n} の代表曲 "${g.t}" のYouTube動画URL または 11文字の動画ID を貼り付けてください:`);
+  if(pasted == null) return;
+  const id = extractYouTubeId(pasted);
+  if(!id){ alert("有効なYouTube動画URLまたはIDではありません。"); return; }
+  saveUserYt(g.n, id);
+  // Repaint this slot
+  showThumb(embedEl, g, id);
+}
+
+function paintYouTubeSlot(side, g){
+  const embedEl = document.getElementById("yte-" + (side==='A'?'a':'b'));
+  embedEl.dataset.rank = g.r;
+  const vid = getVideoIdFor(g);
+  if(vid && isValidYouTubeId(vid)){
+    showThumb(embedEl, g, vid);
+  }else{
+    showAddIdSlot(embedEl, g);
+  }
+}
+
+// Load any user-added IDs up front
+loadUserYtOverrides();
+
+function paintCard(side){
+  const g = byId(side==='A' ? S.pendingA : S.pendingB);
+  const suffix = side==='A' ? 'a' : 'b';
+  $("rb-"+suffix).textContent = `#${g.r}`;
+  $("nm-"+suffix).textContent = g.n;
+  $("bd-"+suffix).textContent = g.b;
+  $("tk-"+suffix).textContent = g.t;
+  paintPhoto($("ph-"+suffix).parentElement, g);
+
+  // YouTube search URL for the "検索" button
+  const artistQ = encodeURIComponent(`${g.n} guitar`);
+  const prefix = side==='A' ? 'yta' : 'ytb';
+  $(prefix+"-search").href  = `https://www.youtube.com/results?search_query=${artistQ}`;
+  $(prefix+"-search").title = `${g.n} を YouTube で検索`;
+
+  // YouTube embed slot: synchronous (curated IDs + user overrides)
+  paintYouTubeSlot(side, g);
+}
+
+function renderProgress(){
+  const cur = S.battlesDone;
+  const est = Math.max(cur+1, S.estBattles);
+  const pct = Math.min(99, Math.round(cur/est*100));
+  $("p-cur").textContent = cur;
+  $("p-est").textContent = est;
+  $("p-pct").textContent = pct;
+  $("p-fill").style.width = pct + "%";
+}
+
+function prefetchUpcoming(){
+  if(!S) return;
+  const ids = new Set();
+  if(S.merging){
+    S.merging.L.slice(S.merging.i, S.merging.i+6).forEach(id=>ids.add(id));
+    S.merging.R.slice(S.merging.j, S.merging.j+6).forEach(id=>ids.add(id));
+  }
+  for(const run of S.runs){ if(ids.size>=24) break; run.slice(0,3).forEach(id=>ids.add(id)); }
+  const gs = [...ids].map(byId).filter(Boolean).filter(g=>!photoMemo.has(g.n) && lsGetPhoto(g.n)===null);
+  if(gs.length) ensurePhotos(gs);
+}
+
+function render(){
+  if(!S){ showScreen("home"); return; }
+  if(S.finalOrder){ renderResult(); showScreen("result"); return; }
+  if(S.pendingA==null || S.pendingB==null){
+    advance();
+    if(S.finalOrder){ renderResult(); showScreen("result"); return; }
+  }
+  showScreen("vote");
+  renderProgress();
+  paintCard('A');
+  paintCard('B');
+  prefetchUpcoming();
+}
+
+function renderResult(){
+  const order = S.finalOrder;
+  const podium = $("podium");
+  podium.innerHTML = "";
+  const slots = [1,0,2];
+  slots.forEach(idx=>{
+    if(order[idx]==null) return;
+    const g = byId(order[idx]);
+    const div = document.createElement("div");
+    div.className = "po-card" + (idx===0?" first":"");
+    div.innerHTML = `
+      <div class="po-rank display">${idx+1}</div>
+      <div class="po-photo"><div class="ph-fallback">${g.n.charAt(0)}</div></div>
+      <div class="po-name">${g.n}</div>
+      <div class="po-band">${g.b}</div>
+    `;
+    podium.appendChild(div);
+    paintPhoto(div.querySelector(".po-photo"), g);
+  });
+
+  const list = $("rank-list");
+  list.innerHTML = "";
+  order.forEach((id,idx)=>{
+    const g = byId(id);
+    const row = document.createElement("div");
+    row.className = "rank-row";
+    row.innerHTML = `
+      <div class="n display">${idx+1}</div>
+      <div class="thumb"><div class="ph-fallback" style="position:absolute;inset:0;display:none;"></div></div>
+      <div class="nm">${g.n}<small>${g.b} — ${g.t}</small></div>
+      <div class="orig">RS #${g.r}</div>
+    `;
+    list.appendChild(row);
+    const thumb = row.querySelector(".thumb");
+    thumb.dataset.rank = g.r;
+    const known = getPhotoSync(g.n);
+    if(known){
+      const img = new Image();
+      img.alt = "";
+      img.onload = ()=>img.classList.add("loaded");
+      img.src = known;
+      thumb.appendChild(img);
+    }else if(known === null){
+      ensurePhotos([g]);
+    }
+  });
+}
+
+// When a photo batch completes, repaint anything visible that now has a url
+document.addEventListener("photos-updated", ()=>{
+  // Voting cards
+  ["a","b"].forEach(suf=>{
+    const box = $("ph-"+suf).parentElement;
+    if(!box.dataset.rank) return;
+    const g = byId(+box.dataset.rank);
+    if(!g) return;
+    const url = getPhotoSync(g.n);
+    if(url && !box.querySelector("img")){
+      const img = new Image();
+      img.alt = g.n;
+      img.onload = ()=>img.classList.add("loaded");
+      img.src = url;
+      box.appendChild(img);
+    }
+  });
+  // Result podium + list
+  document.querySelectorAll(".po-photo, .thumb").forEach(box=>{
+    if(!box.dataset.rank) return;
+    if(box.querySelector("img")) return;
+    const g = byId(+box.dataset.rank);
+    if(!g) return;
+    const url = getPhotoSync(g.n);
+    if(url){
+      const img = new Image();
+      img.alt = g.n;
+      img.onload = ()=>img.classList.add("loaded");
+      img.src = url;
+      box.appendChild(img);
+    }
+  });
+});
+
+/* =====================================================================
+   Events
+   ===================================================================== */
+let chosenRange = 50;
+const rangeLabels = {
+  20:"20人 / 推定 約 65 回の選択",
+  50:"50人 / 推定 約 230 回の選択",
+  100:"100人 / 推定 約 550 回の選択",
+};
+document.querySelectorAll("#range-picker button").forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll("#range-picker button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    chosenRange = parseInt(b.dataset.range,10);
+    $("range-label").textContent = rangeLabels[chosenRange];
+  };
+});
+
+$("btn-start").onclick = ()=>{
+  S = newSession(chosenRange);
+  advance(); saveState();
+  ensurePhotos(GUITARISTS.slice(0, chosenRange));
+  render();
+};
+$("btn-resume").onclick = ()=>{
+  S = loadState();
+  if(!S){ alert("続きがありません。"); return; }
+  if(!S.estBattles) S.estBattles = Math.ceil(S.rangeN * Math.log2(Math.max(2,S.rangeN)));
+  S.history = S.history || [];
+  ensurePhotos(GUITARISTS.slice(0, S.rangeN));
+  render();
+};
+(function(){ if(loadState()) $("btn-resume").style.display = "inline-block"; })();
+
+$("card-a").onclick = (e)=>{ if(!S||!S.pendingA) return; if(e.target.closest("[data-nav]")) return; decide('A'); render(); };
+$("card-b").onclick = (e)=>{ if(!S||!S.pendingB) return; if(e.target.closest("[data-nav]")) return; decide('B'); render(); };
+
+// Belt-and-suspenders: explicitly stop propagation for every YT link,
+// so a tap on them never triggers the card's selection.
+["yta-search","ytb-search"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener("click", e => e.stopPropagation());
+});
+$("btn-tie").onclick = (e)=>{ e.stopPropagation(); if(!S||!S.pendingA) return; decide('TIE'); render(); };
+$("btn-undo").onclick = (e)=>{ e.stopPropagation(); undo(); };
+
+document.addEventListener("keydown", e=>{
+  if(!$("screen-vote").classList.contains("active")) return;
+  if(e.key==="ArrowLeft"){ e.preventDefault(); $("card-a").click(); }
+  else if(e.key==="ArrowRight"){ e.preventDefault(); $("card-b").click(); }
+  else if(e.key===" "){ e.preventDefault(); $("btn-tie").click(); }
+  else if(e.key==="u" || e.key==="U"){ e.preventDefault(); undo(); }
+});
+
+$("btn-reset").onclick = ()=>{
+  if(!confirm("現在の進行状況を消去して、トップに戻りますか？")) return;
+  clearState(); S = null;
+  $("btn-resume").style.display = "none";
+  showScreen("home");
+};
+
+$("btn-save").onclick = ()=>{
+  if(!S || !S.finalOrder) return;
+  const top5 = S.finalOrder.slice(0,5).map(id=>byId(id).n).join(" > ");
+  const entry = { when:new Date().toISOString(), range:S.rangeN, top5, full:S.finalOrder };
+  let h = [];
+  try{ h = JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]"); }catch(e){}
+  h.unshift(entry);
+  if(h.length > 20) h = h.slice(0,20);
+  try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); }catch(e){}
+  alert("保存しました。");
+};
+$("btn-again").onclick = ()=>{
+  S = newSession(S.rangeN);
+  advance(); saveState();
+  render();
+};
+$("btn-home").onclick = ()=>{
+  clearState(); S = null;
+  $("btn-resume").style.display = "none";
+  showScreen("home");
+};
+
+$("btn-history").onclick = ()=>{
+  let h = [];
+  try{ h = JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]"); }catch(e){}
+  const body = $("history-body");
+  if(!h.length){ body.innerHTML = "まだ保存された履歴はありません。"; }
+  else{
+    body.innerHTML = h.map(e=>{
+      const d = new Date(e.when);
+      const ts = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+      return `<div class="history-item">
+        <div class="who">${e.top5}</div>
+        <div class="when">${ts}・対象${e.range}人</div>
+      </div>`;
+    }).join("");
+  }
+  $("modal").classList.add("on");
+};
+$("modal-close").onclick = ()=>$("modal").classList.remove("on");
+$("modal").onclick = e=>{ if(e.target.id==="modal") $("modal").classList.remove("on"); };
+
+// Pre-warm top 20 photos at load so the first battle is never empty
+ensurePhotos(GUITARISTS.slice(0, 20));
+showScreen("home");
+</script>
+</body>
+</html>
