@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Guitarist Sorter — ローリングストーン誌 偉大なギタリスト100人</title>
+<title>Guitarist Sorter — 偉大なギタリスト</title>
 <style>
   :root{
     --bg:#0e0d0b;
@@ -15,6 +15,10 @@
     --accent-2:#d9a441;
     --line:#2a2622;
     --muted:#8a8277;
+    --r-sm:6px;   /* small controls: mini buttons, chips */
+    --r-md:10px;  /* default: thumbs, small panels */
+    --r-lg:16px;  /* cards, embeds, photo */
+    --r-xl:24px;  /* podium/modal */
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;overscroll-behavior:none;}
@@ -33,6 +37,9 @@
   .mono{font-family:"Courier New","Courier",monospace;}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;}
 
+  /* ===== Breakpoints ===== */
+  /* phones: default (<720)  |  tablets: >=720  |  desktop: >=1024  |  wide: >=1280 */
+
   header{
     position:sticky;top:0;z-index:20;
     background:linear-gradient(180deg,rgba(14,13,11,.96),rgba(14,13,11,.85));
@@ -40,53 +47,76 @@
     border-bottom:1px solid var(--line);
   }
   .bar{
-    max-width:1400px;margin:0 auto;
-    padding:10px 14px;
+    max-width:1280px;margin:0 auto;
+    padding:9px 14px;
     display:flex;align-items:center;justify-content:space-between;gap:8px;
   }
-  .logo{display:flex;align-items:baseline;gap:8px;min-width:0;}
+  @media(min-width:1024px){ .bar{ padding:12px 28px; } }
+  .logo{
+    display:flex;align-items:baseline;gap:8px;min-width:0;
+    padding:2px 0;cursor:pointer;transition:opacity .15s ease;
+  }
+  .logo:hover{ opacity:.75; }
+  .logo:hover .mark{ border-color:var(--accent-2); color:var(--accent-2); }
   .logo .mark{
-    width:22px;height:22px;border:1.5px solid var(--accent);border-radius:50%;
+    width:26px;height:26px;border:1.5px solid var(--accent);border-radius:50%;
     display:inline-grid;place-items:center;color:var(--accent);
-    font-family:"Bodoni 72","Didot",serif;font-weight:700;font-size:12px;
+    font-family:"Bodoni 72","Didot",serif;font-weight:700;font-size:14px;
     transform:translateY(2px);flex-shrink:0;
   }
-  .logo h1{font-size:14px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .logo h1 small{font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:.08em;font-size:10px;}
+  .logo h1{font-size:17px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .logo h1 small{font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:.08em;font-size:11px;}
   @media(max-width:520px){ .logo h1 small{display:none;} }
-  .bar nav{display:flex;gap:4px;flex-shrink:0;}
+  @media(min-width:1024px){
+    .logo h1{ font-size:20px; }
+    .logo h1 small{ font-size:13px; letter-spacing:.12em; }
+  }
+  .bar nav{display:flex;gap:6px;flex-shrink:0;}
   .bar nav button{
-    font-size:11px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;color:var(--paper);
-    letter-spacing:.08em;
+    font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--paper);
+    letter-spacing:.08em;min-height:36px;
   }
   .bar nav button:hover{border-color:var(--accent-2);color:var(--accent-2);}
 
-  main{max-width:1400px;margin:0 auto;padding:16px 14px 40px;}
+  main{max-width:1280px;margin:0 auto;padding:16px 14px 48px;}
+  @media(min-width:1024px){ main{ padding:24px 28px 56px; } }
   .screen{display:none;}
   .screen.active{display:block;}
 
-  .hero{padding:30px 0 20px;border-bottom:1px solid var(--line);}
-  .hero .kicker{
-    font-size:10px;letter-spacing:.35em;color:var(--accent);margin-bottom:16px;
-    display:flex;align-items:center;gap:12px;
-  }
-  .hero .kicker::before{content:"";flex:0 0 20px;height:1px;background:var(--accent);}
-  .hero .kicker::after{content:"";flex:1;height:1px;background:var(--accent);}
-  .hero h2{font-size:clamp(30px,6vw,64px);line-height:.95;letter-spacing:-.02em;margin-bottom:14px;}
+  /* ===== HERO ===== */
+  .hero{padding:28px 0 20px;border-bottom:1px solid var(--line);text-align:center;}
+  @media(min-width:1024px){ .hero{ padding:56px 0 40px; } }
+  .hero h2{font-size:clamp(34px,6.5vw,72px);line-height:.95;letter-spacing:-.02em;margin-bottom:18px;}
   .hero h2 em{color:var(--accent-2);font-style:italic;font-weight:500;}
-  .hero p{max-width:560px;color:#c9c3b5;line-height:1.7;font-size:14px;}
+  .hero p{max-width:680px;margin:0 auto;color:#c9c3b5;line-height:1.75;font-size:16px;}
+
+  /* Hero body: single centered column on all screens */
+  .hero-body{ display:block; margin-top:22px; }
+  .hero-aside{ margin-top:28px; }
+  @media(min-width:1024px){
+    .hero-body{ margin-top:36px; }
+    .hero-text p{ font-size:18px; margin-bottom:32px; }
+  }
+
   .hero .stats{
-    margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
     background:var(--line);border:1px solid var(--line);
   }
   .hero .stats>div{background:var(--bg);padding:14px 12px;}
   .hero .stats .num{font-size:24px;font-family:"Bodoni 72","Didot",serif;color:var(--accent-2);}
   .hero .stats .lbl{font-size:9px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+  @media(min-width:1024px){
+    .hero .stats{ margin-top:0; }
+    .hero .stats>div{ padding:20px 18px; }
+    .hero .stats .num{ font-size:34px; }
+    .hero .stats .lbl{ font-size:10px; margin-top:6px; }
+  }
 
-  .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;}
+  .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;justify-content:center;}
   .btn{
-    padding:12px 22px;border-radius:0;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    padding:16px 32px;border-radius:999px;font-size:14px;letter-spacing:.2em;text-transform:uppercase;
     border:1px solid var(--paper);color:var(--paper);background:transparent;transition:all .15s ease;
+    min-height:52px; /* tap-safe */
   }
   .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
   .btn.primary:hover{background:#a62c14;border-color:#a62c14;}
@@ -95,63 +125,140 @@
   .btn.ghost:hover{border-color:var(--paper);background:transparent;color:var(--paper);}
 
   .settings{
-    margin-top:32px;padding-top:22px;border-top:1px solid var(--line);
-    display:grid;gap:16px;grid-template-columns:1fr 1fr;
+    margin-top:28px;padding-top:22px;border-top:1px solid var(--line);
+    max-width:420px;margin-left:auto;margin-right:auto;
   }
-  @media(max-width:640px){.settings{grid-template-columns:1fr;}}
-  .settings h3{font-size:10px;letter-spacing:.28em;color:var(--muted);margin-bottom:10px;text-transform:uppercase;}
-  .pick-range{display:flex;flex-wrap:wrap;gap:5px;}
+  @media(min-width:1024px){ .settings{ padding-top:28px; max-width:480px; } }
+  .settings h3{font-size:12px;letter-spacing:.28em;color:var(--muted);margin-bottom:14px;text-transform:uppercase;text-align:center;}
+  .pick-range{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
   .pick-range button{
-    padding:7px 12px;border:1px solid var(--line);border-radius:2px;color:var(--paper);font-size:11px;letter-spacing:.05em;
+    padding:11px 20px;border:1px solid var(--line);border-radius:999px;color:var(--paper);font-size:14px;letter-spacing:.05em;
+    min-height:42px;
   }
   .pick-range button.on{background:var(--accent-2);color:var(--ink);border-color:var(--accent-2);font-weight:600;}
   .pick-range button:hover{border-color:var(--accent-2);}
-  .range-label{margin-top:8px;color:var(--muted);font-size:11px;line-height:1.7;}
+  .range-label{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.7;text-align:center;}
 
+  /* ===== VOTE / BATTLE ===== */
   .vote-top{
     display:flex;justify-content:space-between;align-items:baseline;gap:12px;
     padding:8px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px;
   }
-  .vote-top .l{font-size:10px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;}
-  .vote-top .r{font-family:"Bodoni 72","Didot",serif;font-size:18px;color:var(--accent-2);}
-  .bar-track{height:2px;background:var(--line);position:relative;overflow:hidden;margin-bottom:12px;}
-  .bar-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .3s ease;}
+  .vote-top .l{font-size:12px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;}
+  .vote-top .r{font-family:"Bodoni 72","Didot",serif;font-size:22px;color:var(--accent-2);}
+  @media(min-width:1024px){ .vote-top .r{ font-size:28px; } .vote-top .l{ font-size:13px; } }
+  .bar-track{height:4px;background:var(--line);position:relative;overflow:hidden;margin-bottom:16px;border-radius:999px;}
+  .bar-fill{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .3s ease;border-radius:999px;}
 
-  /* BATTLE — always side-by-side, even on small screens */
+  /* Battle — two cards side by side, controls are placed below */
   .battle{
     display:grid;
-    grid-template-columns:1fr auto 1fr;
-    gap:8px;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
     align-items:stretch;
+    max-width:1280px;margin:0 auto;
   }
-  @media(min-width:640px){ .battle{gap:16px;} }
+  @media(min-width:720px){ .battle{ gap:18px; } }
+  @media(min-width:1024px){ .battle{ gap:28px; } }
 
   .card{
     position:relative;
     background:var(--paper);
     color:var(--ink);
-    padding:10px 10px 12px;
+    padding:14px 14px 16px;
     cursor:pointer;
     transition:transform .12s ease, box-shadow .12s ease;
     display:flex;flex-direction:column;
     min-width:0;
+    border-radius:var(--r-lg);
   }
-  @media(min-width:640px){ .card{padding:22px 20px;} }
+  @media(min-width:720px){ .card{padding:24px 22px;} }
+  @media(min-width:1024px){ .card{padding:32px 30px 30px;} }
   .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -18px rgba(200,56,28,.55);}
   .card:active{transform:translateY(-1px);}
-  .rank-badge{
-    position:absolute;top:6px;right:8px;
-    font-family:"Bodoni 72","Didot",serif;font-size:22px;line-height:1;
-    color:var(--ink);opacity:.2;
+
+  /* Selection feedback — played when user picks a side */
+  .card.selected{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:
+      0 0 0 3px var(--accent),
+      0 24px 60px -12px rgba(200,56,28,.8),
+      0 0 80px -8px rgba(217,164,65,.5);
+    animation:pickPulse .32s ease-out;
+    z-index:2;
   }
-  @media(min-width:640px){ .rank-badge{font-size:40px;top:12px;right:14px;} }
+  .card.selected::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:radial-gradient(circle at 50% 50%, rgba(217,164,65,.18) 0%, rgba(217,164,65,0) 70%);
+    pointer-events:none;animation:pickFlash .32s ease-out;
+  }
+  .card.dimmed{
+    opacity:.35;filter:grayscale(.4);
+    transform:scale(.96);
+    transition:opacity .2s ease, transform .2s ease, filter .2s ease;
+  }
+  .card.locked{ pointer-events:none; }
+  @keyframes pickPulse{
+    0%   { transform:translateY(-1px) scale(1); }
+    55%  { transform:translateY(-6px) scale(1.05); }
+    100% { transform:translateY(-4px) scale(1.03); }
+  }
+  @keyframes pickFlash{
+    0%   { opacity:0; }
+    40%  { opacity:1; }
+    100% { opacity:0; }
+  }
+  .rank-badge{
+    position:absolute;top:8px;right:10px;
+    font-family:"Bodoni 72","Didot",serif;font-size:28px;line-height:1;
+    color:var(--ink);opacity:.2;
+    pointer-events:none;
+  }
+  @media(min-width:720px){ .rank-badge{font-size:48px;top:14px;right:16px;} }
+  @media(min-width:1024px){ .rank-badge{font-size:64px;top:18px;right:24px;} }
+
+  /* Card internals:
+     mobile/tablet: flex column (photo on top)
+     desktop (>=1024): two-column grid using areas (photo | meta) without any HTML change */
+  .card{ grid-template-columns:1fr; }
+  .card > .photo    { grid-area:photo; }
+  .card > h3        { grid-area:name;  }
+  .card > .band     { grid-area:band;  }
+  .card > .bio      { grid-area:bio;   }
+  .card > .track    { grid-area:track; }
+  .card > .yt-embed { grid-area:embed; }
+  .card > .yt-row   { grid-area:btns;  }
+  @media(min-width:1024px){
+    .card{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+      grid-template-rows:auto auto auto auto 1fr auto;
+      grid-template-areas:
+        "photo  name"
+        "photo  band"
+        "photo  bio"
+        "photo  track"
+        "photo  embed"
+        "photo  btns";
+      column-gap:24px;
+      row-gap:0;
+      align-items:start;
+    }
+    .card > .photo{ align-self:stretch; margin-bottom:0; height:100%; }
+    .card > h3{ margin-top:0; }
+    .card > .yt-embed{ margin-top:auto; padding-top:14px; }
+    .card > .yt-row{ padding-top:10px; }
+  }
 
   .photo{
     width:100%;aspect-ratio:1/1;
     background:linear-gradient(135deg,#d4c9ad,#b5a685);
     margin-bottom:10px;position:relative;overflow:hidden;
+    border-radius:var(--r-md);
   }
-  @media(min-width:640px){ .photo{margin-bottom:16px;} }
+  @media(min-width:1024px){ .photo{ border-radius:var(--r-md); } }
+  @media(min-width:720px){ .photo{margin-bottom:16px;} }
+  @media(min-width:1024px){ .photo{ margin-bottom:0; aspect-ratio:1/1; } }
   .photo img{
     width:100%;height:100%;object-fit:cover;display:block;
     opacity:0;transition:opacity .3s ease;
@@ -166,24 +273,45 @@
 
   .card h3{
     font-family:"Bodoni 72","Bodoni Moda","Didot",serif;
-    font-size:clamp(14px,3.8vw,28px);line-height:1.05;
-    margin-bottom:3px;letter-spacing:-.01em;
+    font-size:clamp(18px,4.8vw,28px);line-height:1.05;
+    margin-bottom:4px;letter-spacing:-.01em;
     word-break:break-word;
   }
+  @media(min-width:720px){ .card h3{ font-size:clamp(24px,3.2vw,36px); } }
+  @media(min-width:1024px){ .card h3{ font-size:36px; margin-bottom:8px; } }
+  @media(min-width:1280px){ .card h3{ font-size:42px; } }
   .card .band{
-    font-size:clamp(10px,2.5vw,13px);color:#6a5f4a;letter-spacing:.02em;margin-bottom:6px;
+    font-size:clamp(13px,3vw,15px);color:#6a5f4a;letter-spacing:.02em;margin-bottom:8px;
     line-height:1.3;
   }
-  @media(min-width:640px){ .card .band{margin-bottom:14px;} }
+  @media(min-width:720px){ .card .band{margin-bottom:14px;font-size:15px;} }
+  @media(min-width:1024px){ .card .band{font-size:17px;margin-bottom:18px;} }
+
   .card .track{
-    margin-top:auto;padding-top:6px;border-top:1px solid rgba(26,23,20,.15);
-    font-size:clamp(9px,2.3vw,12px);color:#4a4238;letter-spacing:.03em;line-height:1.35;
+    padding-top:8px;border-top:1px solid rgba(26,23,20,.15);
+    font-size:clamp(12px,2.8vw,14px);color:#4a4238;letter-spacing:.03em;line-height:1.4;
   }
-  @media(min-width:640px){ .card .track{padding-top:10px;} }
+  @media(min-width:720px){ .card .track{padding-top:12px;font-size:14px;} }
+  @media(min-width:1024px){ .card .track{padding-top:14px;font-size:16px;} }
   .card .track .lbl{
-    display:block;font-size:8px;letter-spacing:.28em;color:#9a8e75;
-    text-transform:uppercase;margin-bottom:2px;
+    display:block;font-size:10px;letter-spacing:.28em;color:#9a8e75;
+    text-transform:uppercase;margin-bottom:4px;
   }
+  @media(min-width:1024px){ .card .track .lbl{ font-size:11px; margin-bottom:5px; } }
+
+  /* Bio — short (<=140ch) description, appears only if filled */
+  .card .bio{
+    font-size:clamp(13px,2.9vw,14.5px);
+    line-height:1.7;
+    color:#3a3328;
+    margin-bottom:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid rgba(26,23,20,.1);
+    letter-spacing:.01em;
+  }
+  .card .bio:empty{ display:none; }
+  @media(min-width:720px){ .card .bio{ font-size:14.5px; margin-bottom:12px; padding-bottom:12px; } }
+  @media(min-width:1024px){ .card .bio{ font-size:15.5px; line-height:1.75; margin-bottom:16px; padding-bottom:16px; } }
 
   /* YouTube thumbnail-to-embed slot */
   .yt-embed{
@@ -192,6 +320,7 @@
     background:#000;
     position:relative;overflow:hidden;
     cursor:pointer;
+    border-radius:var(--r-md);
   }
   @media(min-width:640px){ .yt-embed{margin-top:12px;} }
   .yt-thumb{
@@ -227,20 +356,20 @@
   }
   @media(min-width:640px){ .yt-thumb .yt-play::before{border-top-width:9px;border-bottom-width:9px;border-left-width:15px;margin-left:4px;} }
   .yt-thumb .yt-caption{
-    position:absolute;left:8px;right:8px;bottom:6px;
-    color:#f0f0f0;font-size:10px;letter-spacing:.04em;line-height:1.3;
+    position:absolute;left:10px;right:10px;bottom:8px;
+    color:#f0f0f0;font-size:12px;letter-spacing:.04em;line-height:1.3;
     z-index:2;
     text-shadow:0 1px 2px rgba(0,0,0,.8);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .yt-thumb .yt-caption .yt-ext{color:var(--accent-2);margin-left:4px;}
-  @media(min-width:640px){ .yt-thumb .yt-caption{font-size:11px;left:10px;right:10px;bottom:8px;} }
+  @media(min-width:640px){ .yt-thumb .yt-caption{font-size:13px;left:12px;right:12px;bottom:10px;} }
   .yt-placeholder{
-    color:#888;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:#888;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
     z-index:1;
   }
   .yt-error{
-    color:#c8381c;font-size:10px;letter-spacing:.05em;
+    color:#c8381c;font-size:12px;letter-spacing:.05em;
     text-align:center;padding:0 10px;line-height:1.4;z-index:1;
   }
   .yt-embed iframe{
@@ -248,19 +377,19 @@
   }
   .yt-close{
     position:absolute;top:4px;right:4px;z-index:3;
-    width:24px;height:24px;border-radius:50%;
+    width:28px;height:28px;border-radius:50%;
     background:rgba(0,0,0,.65);color:#fff;
     display:grid;place-items:center;
-    font-size:16px;line-height:1;border:0;cursor:pointer;
+    font-size:18px;line-height:1;border:0;cursor:pointer;
     padding:0;
   }
   .yt-close:hover{background:rgba(200,56,28,.9);}
   .yt-open{
     position:absolute;bottom:4px;right:4px;z-index:3;
-    padding:4px 8px;
+    padding:5px 12px;
     background:rgba(0,0,0,.65);color:#fff;
-    font-size:10px;letter-spacing:.04em;text-decoration:none;
-    border-radius:2px;
+    font-size:12px;letter-spacing:.04em;text-decoration:none;
+    border-radius:999px;
   }
   .yt-open:hover{background:rgba(200,56,28,.9);}
 
@@ -269,25 +398,27 @@
     background:repeating-linear-gradient(135deg,#181612 0 6px,#221f1a 6px 12px);
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:6px;padding:8px;
+    border-radius:var(--r-md);
   }
   .yt-thumb.yt-missing::after{display:none;}
   .yt-missing-lbl{
-    color:var(--muted);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
   }
   .yt-missing-sub{
-    color:#c9c3b5;font-size:11px;line-height:1.3;
+    color:#c9c3b5;font-size:13px;line-height:1.3;
     max-width:90%;text-align:center;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .yt-missing-actions{
-    display:flex;gap:4px;margin-top:2px;flex-wrap:wrap;justify-content:center;
+    display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;justify-content:center;
   }
   .yt-mini{
-    padding:5px 9px;
+    padding:6px 14px;
     border:1px solid var(--accent-2);
     background:transparent;color:var(--accent-2);
-    font-size:10px;letter-spacing:.04em;
+    font-size:12px;letter-spacing:.04em;
     cursor:pointer;
+    border-radius:999px;
   }
   .yt-mini:hover{background:var(--accent-2);color:var(--ink);}
   .yt-mini-secondary{border-color:var(--line);color:var(--muted);}
@@ -295,111 +426,124 @@
 
   /* YouTube buttons under each card */
   .yt-row{
-    display:flex;gap:4px;margin-top:8px;
+    display:flex;gap:6px;margin-top:10px;
   }
-  @media(min-width:640px){ .yt-row{gap:6px;margin-top:12px;} }
+  @media(min-width:640px){ .yt-row{gap:8px;margin-top:14px;} }
   .yt-btn{
     flex:1;
-    display:flex;align-items:center;justify-content:center;gap:4px;
-    padding:8px 4px;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:11px 8px;
     border:1px solid rgba(26,23,20,.22);
     background:#fff;
     color:var(--ink);
-    font-size:10px;letter-spacing:.06em;font-weight:600;
+    font-size:12px;letter-spacing:.06em;font-weight:600;
     text-decoration:none;
     text-align:center;
     transition:all .12s ease;
     cursor:pointer;
     min-width:0;
     line-height:1.2;
+    border-radius:999px;
   }
-  @media(min-width:640px){ .yt-btn{padding:10px 8px;gap:6px;font-size:11px;letter-spacing:.08em;} }
+  @media(min-width:640px){ .yt-btn{padding:13px 12px;gap:8px;font-size:13px;letter-spacing:.08em;} }
   .yt-btn:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
   .yt-btn.yt-track{background:#ff0033;color:#fff;border-color:#ff0033;}
   .yt-btn.yt-track:hover{background:#c8001f;border-color:#c8001f;}
   .yt-btn .yt-ic{
-    font-size:11px;line-height:1;flex-shrink:0;
+    font-size:13px;line-height:1;flex-shrink:0;
   }
-  @media(min-width:640px){ .yt-btn .yt-ic{font-size:13px;} }
+  @media(min-width:640px){ .yt-btn .yt-ic{font-size:15px;} }
   .yt-btn > span:last-child{
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;
   }
 
-  .vs{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
-    padding:0 2px;min-width:54px;
+  /* Vote controls — appears below the battle cards */
+  .vote-controls{
+    display:flex;justify-content:center;gap:12px;
+    margin-top:20px;flex-wrap:wrap;
   }
-  @media(min-width:640px){ .vs{min-width:120px;padding:0 6px;gap:12px;} }
-  .vs-text{
-    font-family:"Bodoni 72","Didot",serif;font-style:italic;
-    font-size:clamp(18px,4vw,28px);color:var(--accent);letter-spacing:.06em;
+  @media(min-width:720px){ .vote-controls{ margin-top:28px; gap:16px; } }
+  @media(min-width:1024px){ .vote-controls{ margin-top:36px; gap:20px; } }
+  .vote-controls button{
+    padding:12px 28px;border:1px solid var(--line);color:var(--paper);
+    font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+    min-height:48px;min-width:140px;
+    border-radius:999px;
+    transition:all .15s ease;
   }
-  .vs button{
-    padding:8px 4px;border:1px solid var(--line);color:var(--paper);
-    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    width:100%;white-space:nowrap;
-  }
-  @media(min-width:640px){ .vs button{padding:10px 14px;font-size:11px;letter-spacing:.22em;} }
-  .vs button:hover{border-color:var(--paper);background:var(--paper);color:var(--ink);}
+  @media(min-width:720px){ .vote-controls button{ font-size:14px; padding:14px 36px; min-width:160px; min-height:52px; } }
+  @media(min-width:1024px){ .vote-controls button{ font-size:15px; padding:16px 44px; min-width:180px; min-height:56px; } }
+  .vote-controls button:hover{border-color:var(--paper);background:var(--paper);color:var(--ink);}
+  #btn-tie{ border-color:var(--accent); color:var(--accent); }
+  #btn-tie:hover{ background:var(--accent); border-color:var(--accent); color:#fff; }
 
-  .hint{
-    margin-top:14px;text-align:center;color:var(--muted);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  }
-  .hint kbd{
-    display:inline-block;padding:2px 6px;border:1px solid var(--line);border-radius:3px;
-    margin:0 2px;font-family:"Courier New",monospace;font-size:9px;color:var(--paper);
-  }
-  @media(max-width:520px){ .hint{display:none;} }
-
+  /* ===== RESULT ===== */
   .result-head{padding:30px 0 22px;border-bottom:1px solid var(--line);margin-bottom:24px;text-align:center;}
-  .result-head .kicker{font-size:10px;letter-spacing:.35em;color:var(--accent);margin-bottom:12px;}
-  .result-head h2{font-size:clamp(28px,5.5vw,54px);line-height:1;letter-spacing:-.02em;}
+  @media(min-width:1024px){ .result-head{ padding:48px 0 32px; margin-bottom:36px; } }
+  .result-head .kicker{font-size:12px;letter-spacing:.35em;color:var(--accent);margin-bottom:14px;}
+  @media(min-width:1024px){ .result-head .kicker{ font-size:13px; } }
+  .result-head h2{font-size:clamp(32px,6vw,60px);line-height:1;letter-spacing:-.02em;}
   .result-head h2 em{color:var(--accent-2);font-style:italic;}
 
-  .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;align-items:end;margin-bottom:32px;}
+  .podium{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:10px;align-items:end;margin-bottom:32px;max-width:960px;margin-left:auto;margin-right:auto;}
   @media(max-width:620px){.podium{gap:6px;}}
-  .po-card{background:var(--paper);color:var(--ink);padding:14px 10px;position:relative;text-align:center;}
-  @media(min-width:620px){ .po-card{padding:22px 18px;} }
+  @media(min-width:1024px){.podium{ gap:20px; margin-bottom:48px; }}
+  .po-card{background:var(--paper);color:var(--ink);padding:14px 10px;position:relative;text-align:center;border-radius:var(--r-lg);}
+  @media(min-width:620px){ .po-card{padding:22px 18px;border-radius:var(--r-xl);} }
+  @media(min-width:1024px){ .po-card{ padding:28px 22px; } }
   .po-card .po-rank{
     font-family:"Bodoni 72","Didot",serif;font-size:clamp(42px,10vw,96px);line-height:1;color:var(--accent);margin-bottom:4px;
   }
   .po-card.first{background:linear-gradient(180deg,#f5efe2 0%,#e8d9b0 100%);}
   @media(min-width:620px){ .po-card.first{padding-top:32px;padding-bottom:32px;} }
+  @media(min-width:1024px){ .po-card.first{ padding-top:42px; padding-bottom:42px; } }
   .po-card.first .po-rank{color:var(--accent);font-size:clamp(54px,12vw,120px);}
   .po-card .po-photo{
     width:80%;aspect-ratio:1/1;margin:0 auto 10px;overflow:hidden;
     background:linear-gradient(135deg,#d4c9ad,#b5a685);position:relative;
+    border-radius:var(--r-md);
   }
+  @media(min-width:1024px){ .po-card .po-photo{ width:72%; margin-bottom:16px; } }
   .po-card .po-photo img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s;position:absolute;inset:0;}
   .po-card .po-photo img.loaded{opacity:1;}
   .po-card .po-photo .ph-fallback{
     position:absolute;inset:0;display:grid;place-items:center;
     font-family:"Bodoni 72","Didot",serif;font-size:clamp(28px,6vw,64px);color:#8a7e65;
   }
-  .po-card .po-name{font-family:"Bodoni 72","Didot",serif;font-size:clamp(12px,2.8vw,22px);line-height:1.1;margin-bottom:3px;}
-  .po-card .po-band{font-size:clamp(9px,2.2vw,12px);color:#6a5f4a;}
+  .po-card .po-name{font-family:"Bodoni 72","Didot",serif;font-size:clamp(15px,3vw,24px);line-height:1.1;margin-bottom:4px;}
+  @media(min-width:1024px){ .po-card .po-name{ font-size:28px; margin-bottom:8px; } }
+  .po-card .po-band{font-size:clamp(12px,2.4vw,14px);color:#6a5f4a;}
+  @media(min-width:1024px){ .po-card .po-band{ font-size:15px; } }
 
-  .rank-list{background:var(--bg-2);border:1px solid var(--line);}
+  .rank-list{background:var(--bg-2);border:1px solid var(--line);max-width:960px;margin-left:auto;margin-right:auto;border-radius:var(--r-lg);overflow:hidden;}
   .rank-row{
     display:grid;grid-template-columns:40px 44px 1fr auto;gap:10px;align-items:center;
     padding:10px 12px;border-bottom:1px solid var(--line);
   }
-  @media(min-width:640px){ .rank-row{grid-template-columns:60px 60px 1fr auto;gap:14px;padding:12px 16px;} }
+  @media(min-width:720px){ .rank-row{grid-template-columns:60px 52px 1fr auto;gap:14px;padding:12px 16px;} }
+  @media(min-width:1024px){ .rank-row{grid-template-columns:72px 60px 1fr auto;gap:18px;padding:14px 22px;} }
   .rank-row:last-child{border-bottom:0;}
-  .rank-row .n{font-family:"Bodoni 72","Didot",serif;font-size:18px;color:var(--accent-2);text-align:right;}
-  @media(min-width:640px){ .rank-row .n{font-size:24px;} }
-  .rank-row .thumb{width:44px;height:44px;background:#2a2622;overflow:hidden;position:relative;}
-  @media(min-width:640px){ .rank-row .thumb{width:48px;height:48px;} }
+  .rank-row:hover{ background:rgba(200,56,28,.05); }
+  .rank-row .n{font-family:"Bodoni 72","Didot",serif;font-size:22px;color:var(--accent-2);text-align:right;}
+  @media(min-width:720px){ .rank-row .n{font-size:28px;} }
+  @media(min-width:1024px){ .rank-row .n{font-size:34px;} }
+  .rank-row .thumb{width:44px;height:44px;background:#2a2622;overflow:hidden;position:relative;flex-shrink:0;border-radius:var(--r-sm);}
+  @media(min-width:720px){ .rank-row .thumb{width:56px;height:56px;} }
+  @media(min-width:1024px){ .rank-row .thumb{width:64px;height:64px;} }
   .rank-row .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2);opacity:0;transition:opacity .3s;position:absolute;inset:0;}
   .rank-row .thumb img.loaded{opacity:1;}
-  .rank-row .nm{font-size:13px;font-weight:600;letter-spacing:.01em;min-width:0;}
-  @media(min-width:640px){ .rank-row .nm{font-size:15px;} }
-  .rank-row .nm small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:2px;
+  .rank-row .nm{font-size:15px;font-weight:600;letter-spacing:.01em;min-width:0;}
+  @media(min-width:720px){ .rank-row .nm{font-size:17px;} }
+  @media(min-width:1024px){ .rank-row .nm{font-size:19px;} }
+  .rank-row .nm small{display:block;font-weight:400;font-size:13px;color:var(--muted);margin-top:3px;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .rank-row .orig{font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
-  @media(min-width:640px){ .rank-row .orig{font-size:10px;letter-spacing:.15em;} }
+  @media(min-width:1024px){ .rank-row .nm small{ font-size:14px; margin-top:4px; } }
+  .rank-row .orig{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;}
+  @media(min-width:720px){ .rank-row .orig{font-size:12px;letter-spacing:.15em;} }
+  @media(min-width:1024px){ .rank-row .orig{font-size:13px;} }
 
   .result-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px;}
+  @media(min-width:1024px){ .result-actions{ margin-top:40px; } }
 
   .modal-backdrop{
     position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;
@@ -409,15 +553,17 @@
   .modal{
     background:var(--bg-2);border:1px solid var(--line);max-width:520px;width:100%;
     max-height:80vh;overflow-y:auto;padding:24px;
+    border-radius:var(--r-lg);
   }
-  .modal h3{font-family:"Bodoni 72","Didot",serif;font-size:22px;margin-bottom:16px;}
-  .history-item{padding:12px 0;border-bottom:1px solid var(--line);}
+  .modal h3{font-family:"Bodoni 72","Didot",serif;font-size:26px;margin-bottom:18px;}
+  .history-item{padding:14px 0;border-bottom:1px solid var(--line);}
   .history-item:last-child{border-bottom:0;}
-  .history-item .when{font-size:10px;color:var(--muted);margin-top:3px;}
-  .history-item .who{font-size:13px;font-weight:600;line-height:1.4;}
+  .history-item .when{font-size:12px;color:var(--muted);margin-top:4px;}
+  .history-item .who{font-size:15px;font-weight:600;line-height:1.4;}
   .modal .close{
-    margin-top:16px;width:100%;padding:11px;border:1px solid var(--line);color:var(--paper);
-    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    margin-top:18px;width:100%;padding:13px;border:1px solid var(--line);color:var(--paper);
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    border-radius:999px;
   }
 
   button:focus-visible,.card:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;}
@@ -433,11 +579,12 @@
 
 <header>
   <div class="bar">
-    <div class="logo">
+    <button type="button" class="logo" id="btn-home" aria-label="ホームへ戻る">
       <span class="mark">G</span>
-      <h1 class="display">Guitarist Sorter <small>ROLLING STONE · 100</small></h1>
-    </div>
+      <h1 class="display">Guitarist Sorter</h1>
+    </button>
     <nav>
+      <a href="guitarist-index.html" style="font-size:13px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;color:var(--paper);letter-spacing:.08em;min-height:36px;text-decoration:none;display:inline-flex;align-items:center;">索引</a>
       <button id="btn-history">履歴</button>
       <button id="btn-reset">リセット</button>
     </nav>
@@ -447,38 +594,31 @@
 <main>
   <section class="screen active" id="screen-home">
     <div class="hero">
-      <div class="kicker">THE GREATEST GUITARISTS — ROLLING STONE '11</div>
       <h2 class="display">二者択一で、<br>あなたの<em>最高のギタリスト</em>を。</h2>
-      <p>ローリングストーン誌が2011年に発表した「偉大なギタリスト100人」の中から、2人ずつ表示されるギタリストのうち好きな方を選び続けるだけ。マージソートで順位が自動的に組み上がり、最後にあなただけのランキングが出来上がります。</p>
+      <div class="hero-body">
+        <div class="hero-text">
+          <p>2人ずつ表示されるギタリストのうち、好きな方を選び続けるだけ。<br>マージソートで順位が自動的に組み上がり、あなただけのランキングが完成します。</p>
 
-      <div class="stats">
-        <div><div class="num display" id="stat-total">100</div><div class="lbl">Guitarists</div></div>
-        <div><div class="num display">〜550</div><div class="lbl">Max battles</div></div>
-        <div><div class="num display">1:1</div><div class="lbl">Head to head</div></div>
-      </div>
-
-      <div class="settings">
-        <div>
-          <h3>対象範囲</h3>
-          <div class="pick-range" id="range-picker">
-            <button data-range="20">TOP 20</button>
-            <button data-range="50" class="on">TOP 50</button>
-            <button data-range="100">全 100 人</button>
-          </div>
-          <div class="range-label" id="range-label">50人 / 推定 約 230 回の選択</div>
-        </div>
-        <div>
-          <h3>操作方法</h3>
-          <div class="range-label" style="margin-top:0;">
-            <span class="mono">←</span> / <span class="mono">→</span> キー、またはカードをタップ<br>
-            <span class="mono">Space</span> で「引き分け」、<span class="mono">U</span> で一つ戻る
+          <div class="cta-row">
+            <button class="btn primary" id="btn-start">バトル開始</button>
+            <button class="btn ghost" id="btn-resume" style="display:none;">前回の続きから</button>
           </div>
         </div>
-      </div>
 
-      <div class="cta-row">
-        <button class="btn primary" id="btn-start">ランキング開始</button>
-        <button class="btn ghost" id="btn-resume" style="display:none;">前回の続きから</button>
+        <div class="hero-aside">
+          <div class="settings">
+            <div>
+              <h3>対象範囲</h3>
+              <div class="pick-range" id="range-picker">
+                <button data-range="20">TOP 20</button>
+                <button data-range="50" class="on">TOP 50</button>
+                <button data-range="100">100 人</button>
+                <button data-range="424">全 424 人</button>
+              </div>
+              <div class="range-label" id="range-label">50人 / 推定 約 230 回の選択</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -496,6 +636,7 @@
         <div class="photo"><div class="ph-fallback" id="ph-a">?</div></div>
         <h3 id="nm-a">—</h3>
         <div class="band" id="bd-a">—</div>
+        <div class="bio" id="bio-a"></div>
         <div class="track"><span class="lbl">Key Track</span><span id="tk-a">—</span></div>
         <div class="yt-embed" id="yte-a" data-nav>
           <div class="yt-thumb" id="ytet-a">
@@ -507,17 +648,12 @@
         </div>
       </div>
 
-      <div class="vs">
-        <div class="vs-text display">vs.</div>
-        <button id="btn-tie">引き分け</button>
-        <button id="btn-undo">戻る</button>
-      </div>
-
       <div class="card" id="card-b" tabindex="0">
         <span class="rank-badge" id="rb-b">—</span>
         <div class="photo"><div class="ph-fallback" id="ph-b">?</div></div>
         <h3 id="nm-b">—</h3>
         <div class="band" id="bd-b">—</div>
+        <div class="bio" id="bio-b"></div>
         <div class="track"><span class="lbl">Key Track</span><span id="tk-b">—</span></div>
         <div class="yt-embed" id="yte-b" data-nav>
           <div class="yt-thumb" id="ytet-b">
@@ -530,8 +666,9 @@
       </div>
     </div>
 
-    <div class="hint">
-      <kbd>←</kbd> 左 <kbd>→</kbd> 右 <kbd>SPACE</kbd> 引き分け <kbd>U</kbd> 戻る
+    <div class="vote-controls">
+      <button id="btn-tie">引き分け</button>
+      <button id="btn-undo">戻る</button>
     </div>
   </section>
 
@@ -547,7 +684,7 @@
     <div class="result-actions">
       <button class="btn primary" id="btn-save">この結果を保存</button>
       <button class="btn" id="btn-again">もう一度やる</button>
-      <button class="btn ghost" id="btn-home">トップへ</button>
+      <button class="btn ghost" id="btn-to-home">トップへ</button>
     </div>
   </section>
 </main>
@@ -566,106 +703,441 @@
    `w` = exact Wikipedia page title (with disambiguation where needed)
    ===================================================================== */
 const GUITARISTS = [
-  {r:1,  n:"Jimi Hendrix",       b:"The Jimi Hendrix Experience",   t:"Purple Haze",                       w:"Jimi Hendrix"},
-  {r:2,  n:"Eric Clapton",       b:"Cream / Derek and the Dominos", t:"Layla",                             w:"Eric Clapton"},
-  {r:3,  n:"Jimmy Page",         b:"Led Zeppelin",                  t:"Stairway to Heaven",                w:"Jimmy Page"},
-  {r:4,  n:"Keith Richards",     b:"The Rolling Stones",            t:"(I Can't Get No) Satisfaction",     w:"Keith Richards"},
-  {r:5,  n:"Jeff Beck",          b:"The Yardbirds / solo",          t:"Cause We've Ended as Lovers",       w:"Jeff Beck"},
-  {r:6,  n:"B.B. King",          b:"solo",                          t:"The Thrill Is Gone",                w:"B.B. King"},
-  {r:7,  n:"Chuck Berry",        b:"solo",                          t:"Johnny B. Goode",                   w:"Chuck Berry"},
-  {r:8,  n:"Eddie Van Halen",    b:"Van Halen",                     t:"Eruption",                          w:"Eddie Van Halen"},
-  {r:9,  n:"Duane Allman",       b:"The Allman Brothers Band",      t:"Statesboro Blues",                  w:"Duane Allman"},
-  {r:10, n:"Pete Townshend",     b:"The Who",                       t:"Baba O'Riley",                      w:"Pete Townshend"},
-  {r:11, n:"George Harrison",    b:"The Beatles",                   t:"While My Guitar Gently Weeps",      w:"George Harrison"},
-  {r:12, n:"Stevie Ray Vaughan", b:"Double Trouble",                t:"Pride and Joy",                     w:"Stevie Ray Vaughan"},
-  {r:13, n:"Albert King",        b:"solo",                          t:"Born Under a Bad Sign",             w:"Albert King"},
-  {r:14, n:"David Gilmour",      b:"Pink Floyd",                    t:"Comfortably Numb",                  w:"David Gilmour"},
-  {r:15, n:"Freddie King",       b:"solo",                          t:"Hide Away",                         w:"Freddie King"},
-  {r:16, n:"Derek Trucks",       b:"Tedeschi Trucks Band",          t:"Midnight in Harlem",                w:"Derek Trucks"},
-  {r:17, n:"Neil Young",         b:"Crazy Horse",                   t:"Cortez the Killer",                 w:"Neil Young"},
-  {r:18, n:"Les Paul",           b:"solo",                          t:"How High the Moon",                 w:"Les Paul"},
-  {r:19, n:"James Burton",       b:"session / Elvis Presley",       t:"Susie Q",                           w:"James Burton"},
-  {r:20, n:"Carlos Santana",     b:"Santana",                       t:"Black Magic Woman",                 w:"Carlos Santana"},
-  {r:21, n:"Chet Atkins",        b:"solo",                          t:"Mister Sandman",                    w:"Chet Atkins"},
-  {r:22, n:"Frank Zappa",        b:"Mothers of Invention",          t:"Watermelon in Easter Hay",          w:"Frank Zappa"},
-  {r:23, n:"Buddy Guy",          b:"solo",                          t:"Stone Crazy",                       w:"Buddy Guy"},
-  {r:24, n:"Angus Young",        b:"AC/DC",                         t:"Back in Black",                     w:"Angus Young"},
-  {r:25, n:"Tony Iommi",         b:"Black Sabbath",                 t:"Paranoid",                          w:"Tony Iommi"},
-  {r:26, n:"Brian May",          b:"Queen",                         t:"Bohemian Rhapsody",                 w:"Brian May"},
-  {r:27, n:"Bo Diddley",         b:"solo",                          t:"Bo Diddley",                        w:"Bo Diddley"},
-  {r:28, n:"Johnny Ramone",      b:"Ramones",                       t:"Blitzkrieg Bop",                    w:"Johnny Ramone"},
-  {r:29, n:"Scotty Moore",       b:"Elvis Presley",                 t:"Hound Dog",                         w:"Scotty Moore"},
-  {r:30, n:"Elmore James",       b:"solo",                          t:"Dust My Broom",                     w:"Elmore James"},
-  {r:31, n:"Ry Cooder",          b:"solo",                          t:"Paris, Texas",                      w:"Ry Cooder"},
-  {r:32, n:"Billy Gibbons",      b:"ZZ Top",                        t:"La Grange",                         w:"Billy Gibbons"},
-  {r:33, n:"Prince",             b:"solo",                          t:"Purple Rain",                       w:"Prince (musician)"},
-  {r:34, n:"Curtis Mayfield",    b:"The Impressions / solo",        t:"Superfly",                          w:"Curtis Mayfield"},
-  {r:35, n:"John Lee Hooker",    b:"solo",                          t:"Boom Boom",                         w:"John Lee Hooker"},
-  {r:36, n:"Randy Rhoads",       b:"Ozzy Osbourne / Quiet Riot",    t:"Crazy Train",                       w:"Randy Rhoads"},
-  {r:37, n:"Mick Taylor",        b:"The Rolling Stones",            t:"Can't You Hear Me Knocking",        w:"Mick Taylor"},
-  {r:38, n:"The Edge",           b:"U2",                            t:"Where the Streets Have No Name",    w:"The Edge"},
-  {r:39, n:"Steve Cropper",      b:"Booker T. & the M.G.'s",        t:"Green Onions",                      w:"Steve Cropper"},
-  {r:40, n:"Tom Morello",        b:"Rage Against the Machine",      t:"Killing in the Name",               w:"Tom Morello"},
-  {r:41, n:"Mick Ronson",        b:"David Bowie",                   t:"Moonage Daydream",                  w:"Mick Ronson"},
-  {r:42, n:"Mike Bloomfield",    b:"Paul Butterfield Blues Band",   t:"East-West",                         w:"Mike Bloomfield"},
-  {r:43, n:"Hubert Sumlin",      b:"Howlin' Wolf",                  t:"Smokestack Lightnin'",              w:"Hubert Sumlin"},
-  {r:44, n:"Mark Knopfler",      b:"Dire Straits",                  t:"Sultans of Swing",                  w:"Mark Knopfler"},
-  {r:45, n:"Link Wray",          b:"solo",                          t:"Rumble",                            w:"Link Wray"},
-  {r:46, n:"Jerry Garcia",       b:"Grateful Dead",                 t:"Ripple",                            w:"Jerry Garcia"},
-  {r:47, n:"Stephen Stills",     b:"CSN&Y / Buffalo Springfield",   t:"For What It's Worth",               w:"Stephen Stills"},
-  {r:48, n:"Jonny Greenwood",    b:"Radiohead",                     t:"Paranoid Android",                  w:"Jonny Greenwood"},
-  {r:49, n:"Muddy Waters",       b:"solo",                          t:"Mannish Boy",                       w:"Muddy Waters"},
-  {r:50, n:"Ritchie Blackmore",  b:"Deep Purple / Rainbow",         t:"Smoke on the Water",                w:"Ritchie Blackmore"},
-  {r:51, n:"Johnny Marr",        b:"The Smiths",                    t:"How Soon Is Now?",                  w:"Johnny Marr"},
-  {r:52, n:"Clarence White",     b:"The Byrds",                     t:"Nashville West",                    w:"Clarence White"},
-  {r:53, n:"Otis Rush",          b:"solo",                          t:"All Your Love",                     w:"Otis Rush"},
-  {r:54, n:"Joe Walsh",          b:"Eagles / James Gang",           t:"Hotel California",                  w:"Joe Walsh"},
-  {r:55, n:"John Lennon",        b:"The Beatles",                   t:"A Hard Day's Night",                w:"John Lennon"},
-  {r:56, n:"Albert Collins",     b:"solo",                          t:"Frosty",                            w:"Albert Collins"},
-  {r:57, n:"Rory Gallagher",     b:"solo",                          t:"Shadow Play",                       w:"Rory Gallagher"},
-  {r:58, n:"Peter Green",        b:"Fleetwood Mac",                 t:"Black Magic Woman",                 w:"Peter Green (musician)"},
-  {r:59, n:"Robbie Robertson",   b:"The Band",                      t:"The Weight",                        w:"Robbie Robertson"},
-  {r:60, n:"Ron Asheton",        b:"The Stooges",                   t:"I Wanna Be Your Dog",               w:"Ron Asheton"},
-  {r:61, n:"Dickey Betts",       b:"The Allman Brothers Band",      t:"Ramblin' Man",                      w:"Dickey Betts"},
-  {r:62, n:"Robert Fripp",       b:"King Crimson",                  t:"21st Century Schizoid Man",         w:"Robert Fripp"},
-  {r:63, n:"Johnny Winter",      b:"solo",                          t:"Rock and Roll Hoochie Koo",         w:"Johnny Winter"},
-  {r:64, n:"Duane Eddy",         b:"solo",                          t:"Rebel Rouser",                      w:"Duane Eddy"},
-  {r:65, n:"Slash",              b:"Guns N' Roses",                 t:"Sweet Child O' Mine",               w:"Slash (musician)"},
-  {r:66, n:"Leslie West",        b:"Mountain",                      t:"Mississippi Queen",                 w:"Leslie West"},
-  {r:67, n:"T-Bone Walker",      b:"solo",                          t:"Call It Stormy Monday",             w:"T-Bone Walker"},
-  {r:68, n:"John McLaughlin",    b:"Mahavishnu Orchestra",          t:"Birds of Fire",                     w:"John McLaughlin (musician)"},
-  {r:69, n:"Richard Thompson",   b:"Fairport Convention / solo",    t:"1952 Vincent Black Lightning",      w:"Richard Thompson (musician)"},
-  {r:70, n:"Jack White",         b:"The White Stripes",             t:"Seven Nation Army",                 w:"Jack White"},
-  {r:71, n:"Robert Johnson",     b:"solo",                          t:"Cross Road Blues",                  w:"Robert Johnson"},
-  {r:72, n:"John Frusciante",    b:"Red Hot Chili Peppers",         t:"Under the Bridge",                  w:"John Frusciante"},
-  {r:73, n:"Kurt Cobain",        b:"Nirvana",                       t:"Smells Like Teen Spirit",           w:"Kurt Cobain"},
-  {r:74, n:"Dick Dale",          b:"solo",                          t:"Misirlou",                          w:"Dick Dale"},
-  {r:75, n:"Joni Mitchell",      b:"solo",                          t:"Big Yellow Taxi",                   w:"Joni Mitchell"},
-  {r:76, n:"Robby Krieger",      b:"The Doors",                     t:"Light My Fire",                     w:"Robby Krieger"},
-  {r:77, n:"Willie Nelson",      b:"solo",                          t:"On the Road Again",                 w:"Willie Nelson"},
-  {r:78, n:"John Fahey",         b:"solo",                          t:"The Yellow Princess",               w:"John Fahey (musician)"},
-  {r:79, n:"Mike Campbell",      b:"Tom Petty and the Heartbreakers",t:"Refugee",                          w:"Mike Campbell (musician)"},
-  {r:80, n:"Buddy Holly",        b:"The Crickets",                  t:"Peggy Sue",                         w:"Buddy Holly"},
-  {r:81, n:"Lou Reed",           b:"The Velvet Underground / solo", t:"Sweet Jane",                        w:"Lou Reed"},
-  {r:82, n:"Nels Cline",         b:"Wilco",                         t:"Impossible Germany",                w:"Nels Cline"},
-  {r:83, n:"Eddie Hazel",        b:"Funkadelic",                    t:"Maggot Brain",                      w:"Eddie Hazel"},
-  {r:84, n:"Joe Perry",          b:"Aerosmith",                     t:"Walk This Way",                     w:"Joe Perry (musician)"},
-  {r:85, n:"Andy Summers",       b:"The Police",                    t:"Every Breath You Take",             w:"Andy Summers"},
-  {r:86, n:"J Mascis",           b:"Dinosaur Jr.",                  t:"Freak Scene",                       w:"J Mascis"},
-  {r:87, n:"James Hetfield",     b:"Metallica",                     t:"Master of Puppets",                 w:"James Hetfield"},
-  {r:88, n:"Carl Perkins",       b:"solo",                          t:"Blue Suede Shoes",                  w:"Carl Perkins"},
-  {r:89, n:"Bonnie Raitt",       b:"solo",                          t:"Something to Talk About",           w:"Bonnie Raitt"},
-  {r:90, n:"Tom Verlaine",       b:"Television",                    t:"Marquee Moon",                      w:"Tom Verlaine"},
-  {r:91, n:"Dave Davies",        b:"The Kinks",                     t:"You Really Got Me",                 w:"Dave Davies"},
-  {r:92, n:"Dimebag Darrell",    b:"Pantera",                       t:"Cowboys from Hell",                 w:"Dimebag Darrell"},
-  {r:93, n:"Paul Simon",         b:"Simon & Garfunkel / solo",      t:"Graceland",                         w:"Paul Simon"},
-  {r:94, n:"Peter Buck",         b:"R.E.M.",                        t:"Losing My Religion",                w:"Peter Buck"},
-  {r:95, n:"Roger McGuinn",      b:"The Byrds",                     t:"Mr. Tambourine Man",                w:"Roger McGuinn"},
-  {r:96, n:"Bruce Springsteen",  b:"The E Street Band",             t:"Born to Run",                       w:"Bruce Springsteen"},
-  {r:97, n:"Steve Jones",        b:"Sex Pistols",                   t:"Anarchy in the U.K.",               w:"Steve Jones (musician)"},
-  {r:98, n:"Alex Lifeson",       b:"Rush",                          t:"Tom Sawyer",                        w:"Alex Lifeson"},
-  {r:99, n:"Thurston Moore",     b:"Sonic Youth",                   t:"Teen Age Riot",                     w:"Thurston Moore"},
-  {r:100,n:"Lindsey Buckingham", b:"Fleetwood Mac",                 t:"Go Your Own Way",                   w:"Lindsey Buckingham"},
+  {r:1,  n:"Jimi Hendrix",       b:"The Jimi Hendrix Experience",   t:"Purple Haze",                       w:"Jimi Hendrix",       d:"右利き用ストラトを左手で逆さに弾き、フィードバックとワウを音楽に変えた。モンタレーでギターを燃やし、ウッドストックで米国国歌を爆音で解体。27歳で早世するも、以後のあらゆるロックギターの原点。"},
+  {r:2,  n:"Eric Clapton",       b:"Cream / Derek and the Dominos", t:"Layla",                             w:"Eric Clapton",       d:"Yardbirds・Bluesbreakers・Creamを渡り歩いた英ブルースの伝道者。「Clapton is God」の落書きが象徴する60年代の神格化。ウーマントーンと呼ばれる甘く粘るレスポールの音色でブルースロックを定義した。"},
+  {r:3,  n:"Jimmy Page",         b:"Led Zeppelin",                  t:"Stairway to Heaven",                w:"Jimmy Page",         d:"セッション出身の名職人がYardbirdsを経てZeppelinを結成。弓弾き奏法、変則チューニング、多重録音を駆使した壮大なアレンジ能力。ダブルネック・ギブソンの姿はハードロック時代の象徴となった。"},
+  {r:4,  n:"Keith Richards",     b:"The Rolling Stones",            t:"(I Can't Get No) Satisfaction",     w:"Keith Richards",     d:"5弦オープンGチューニングでテレキャスターをかき鳴らす、リフの錬金術師。ソロ名人ではなくバンドのグルーヴを作る男。Human Riffの異名通り、ロックンロールのリズムそのものを体現する生きた伝説。"},
+  {r:5,  n:"Jeff Beck",          b:"The Yardbirds / solo",          t:"Cause We've Ended as Lovers",       w:"Jeff Beck",          d:"ピックを捨てて指弾きとアームに専念、ギターを歌わせた孤高の革新者。ジャズ、フュージョン、エレクトロニカを横断し常に進化し続けた。同世代のロックスターとは一線を画す、ギタリストが最も尊敬するギタリスト。"},
+  {r:6,  n:"B.B. King",          b:"solo",                          t:"The Thrill Is Gone",                w:"B.B. King",          d:"愛器Lucilleを抱え、一音で会場を泣かせるバタフライ・ヴィブラートの王。複音を弾かず単音のフレーズだけで語る潔さ。ブルースをショービジネスの主流へ押し上げた、モダンブルースギターの父。"},
+  {r:7,  n:"Chuck Berry",        b:"solo",                          t:"Johnny B. Goode",                   w:"Chuck Berry",        d:"ダブルストップのイントロでロックンロールの文法を発明。ダックウォークしながら弾くステージングも含め、後続すべてのロックバンドの原型。ストーンズもビートルズも彼の曲でキャリアを始めた。"},
+  {r:8,  n:"Eddie Van Halen",    b:"Van Halen",                     t:"Eruption",                          w:"Eddie Van Halen",    d:"1978年『Eruption』のライトハンド・タッピングで世界のロックギターを一夜で書き換えた。自作フランケンシュトレートとブラウンサウンド。技術とポップセンスを両立させた80年代ハードロックの革命児。"},
+  {r:9,  n:"Duane Allman",       b:"The Allman Brothers Band",      t:"Statesboro Blues",                  w:"Duane Allman",       d:"薬瓶スライドとレスポールで南部ロックを創造。ディッキー・ベッツとのツインリード、Filmore East盤の伝説的ジャム。エリック・クラプトンと共演した『Layla』の鋭いスライドは別格。24歳でバイク事故により他界。"},
+  {r:10, n:"Pete Townshend",     b:"The Who",                       t:"Baba O'Riley",                      w:"Pete Townshend",     d:"腕を風車のように振り回すウィンドミル奏法と、ステージ最後のギター破壊で知られる。パワーコードを武器に変え、『Tommy』『Quadrophenia』で二枚のロック・オペラを書き上げた作家でありギタリスト。"},
+  {r:11, n:"George Harrison",    b:"The Beatles",                   t:"While My Guitar Gently Weeps",      w:"George Harrison",    d:"12弦リッケンバッカーのチャイム音、シタールを持ち込んだインド音楽、スライドギターの歌心。華やかさは避けつつ楽曲に必要な旋律を奏でる。『Weeps』でクラプトンを呼んだ謙虚さも含め、静かな主役。"},
+  {r:12, n:"Stevie Ray Vaughan", b:"Double Trouble",                t:"Pride and Joy",                     w:"Stevie Ray Vaughan", d:"ヘンドリックスとアルバート・キングを融合させた80年代ブルース復興の旗手。極太弦を低くチューニングしたストラトを叩きつけるように弾く剛腕スタイル。バウイの『Let's Dance』でも名演を残す。"},
+  {r:13, n:"Albert King",        b:"solo",                          t:"Born Under a Bad Sign",             w:"Albert King",        d:"左利きで右利き用フライングVを逆さに構え、弦をグイと引き下げる独特のベンディング。クラプトン、SRV、ヘンドリックスに決定的影響を与えた。Stax期のブッカー・T&MG'sとの共演は教科書。"},
+  {r:14, n:"David Gilmour",      b:"Pink Floyd",                    t:"Comfortably Numb",                  w:"David Gilmour",      d:"一音の選び方と長さで情景を描く、間の達人。ブラックストラトから漏れるコンプレッションの効いたベンドは『Comfortably Numb』のソロで頂点に。ロックの中で最も叙情的なギタリスト。"},
+  {r:15, n:"Freddie King",       b:"solo",                          t:"Hide Away",                         w:"Freddie King",        d:"テキサスとシカゴを繋ぐ三人のキングの一人。プラスチック製サムピックと人差し指メタルピックで弦を弾き飛ばすアタックの強さが特徴。インスト『Hide Away』はクラプトン世代のブルース入門曲。"},
+  {r:16, n:"Derek Trucks",       b:"Tedeschi Trucks Band",          t:"Midnight in Harlem",                w:"Derek Trucks",       d:"ピックを使わず指のみで弾く若き天才スライドプレイヤー。13歳でプロデビュー、Allman Brothersにも参加。インド古典やコルトレーンを吸収した流麗なフレージングで、スライドギターの限界を押し広げた。"},
+  {r:17, n:"Neil Young",         b:"Crazy Horse",                   t:"Cortez the Killer",                 w:"Neil Young",         d:"Old BlackことブラックレスポールでCrazy Horseと繰り広げる、フィードバックまみれの長尺ジャム。美しいメロディと歪みきったノイズが同居する二面性。グランジ世代からも尊敬を集めた。"},
+  {r:18, n:"Les Paul",           b:"solo",                          t:"How High the Moon",                 w:"Les Paul",           d:"自身の名を冠したGibsonレスポールと多重録音技術を発明した、エレクトリックギターそのものの父。メアリー・フォードとの多重録音ヒット曲、96歳の死まで週末のライブを続けた生涯現役の模範。"},
+  {r:19, n:"James Burton",       b:"session / Elvis Presley",       t:"Susie Q",                           w:"James Burton",       d:"テレキャスターのチキンピッキング奏法を確立したセッションの王。デイル・ホーキンス『Susie Q』のリフ、エルヴィスのTCBバンド、エミルー・ハリスのホットバンド。カントリーとロックを繋いだ橋。"},
+  {r:20, n:"Carlos Santana",     b:"Santana",                       t:"Black Magic Woman",                 w:"Carlos Santana",     d:"PRSとMesa/Boogieから生まれる、長いサスティンと歌うようなトーン。ラテンパーカッションとロックを融合させ、1969年ウッドストックで無名ながら観客を圧倒。霊性と官能が同居するフレーズ。"},
+  {r:21, n:"Chet Atkins",        b:"solo",                          t:"Mister Sandman",                    w:"Chet Atkins",        d:"メルル・トラヴィスを発展させた親指と3本指によるフィンガースタイル、通称サムピッキングの完成者。RCAビクターのナッシュビル支社長としてカントリー音楽の録音様式を作り変えた「ミスター・ギター」。ポップ、ジャズ、クラシックを軽々と横断する技巧で後進に絶大な影響を与えた。"},
+  {r:22, n:"Frank Zappa",        b:"Mothers of Invention",          t:"Watermelon in Easter Hay",          w:"Frank Zappa",        d:"作曲家・風刺家・ギタリストの三位一体。変拍子と現代音楽語法を流し込んだ即興ソロは、ロックの文脈では例外的に知的で執拗。SGやGibson SG、後年はPerformance Guitar製のカスタムを操り、膨大な発表作品の中にロック/ジャズ/クラシックを混ぜ込んだ。"},
+  {r:23, n:"Buddy Guy",          b:"solo",                          t:"Stone Crazy",                       w:"Buddy Guy",          d:"ハウリンソロと静寂のダイナミズムを自在に操る、シカゴブルースの巨人。水玉模様のストラトを振り回す派手なステージと、絞り出すような絶唱で観客を煽る姿勢はクラプトンやヘンドリックス、スティーヴィ・レイにも直接の影響を与えた。90年代以降も精力的に活動し、ブルース界の生きる教科書であり続ける。"},
+  {r:24, n:"Angus Young",        b:"AC/DC",                         t:"Back in Black",                     w:"Angus Young", d:"半ズボンと学生帽で舞台を疾走する、ロックンロール最強の少年。兄マルコムの刻むバッキングの上で、一音一音に体重をかけるSGのソロは明快で肉感的。ダックウォークやストリップ演出を含めたパフォーマンス全体が、AC/DCのシンプルで巨大なリフの魅力を体現する。"},
+  {r:25, n:"Tony Iommi",         b:"Black Sabbath",                 t:"Paranoid",                          w:"Tony Iommi", d:"工場勤務中に右手指先を切断しながら、義指を作り軽い弦とダウンチューニングで独自の音を構築。Black Sabbathのずっしりしたリフはヘヴィメタルの設計図そのものであり、あらゆるサブジャンルの出発点となった。影を引きずる重厚なトーンは後のスラッシュ、ドゥーム、ストーナー全てに流れ込んでいる。"},
+  {r:26, n:"Brian May",          b:"Queen",                         t:"Bohemian Rhapsody",                 w:"Brian May", d:"父と自作した「Red Special」1本と、コインをピック代わりに使う独自奏法で音楽を築いた天体物理学博士。多重録音による分厚いギターオーケストラはQueenの代名詞で、ボヘミアン・ラプソディなどに結実。メロディアスで歌心のあるソロは即興より構築を重んじる作曲家のそれである。"},
+  {r:27, n:"Bo Diddley",         b:"solo",                          t:"Bo Diddley",                        w:"Bo Diddley", d:"自身の名を冠したシンコペーションのビートは、ロックンロール、ブルース、R&B、ヒップホップまで延々と再利用されている。長方形のボディを持つ自作グレッチを振りかざし、ジャングルのようなリズムを生み出した。50年代に既にエレキギターを打楽器として扱い、ロックのアフリカ的なルーツを可視化した人物。"},
+  {r:28, n:"Johnny Ramone",      b:"Ramones",                       t:"Blitzkrieg Bop",                    w:"Johnny Ramone", d:"モズライトを低く構え、ダウンピッキングのみでハイスピードに刻み続けたパンクの基礎設計者。ソロは取らず派手な技巧も用いず、1〜3コードを壁のように打ち付けるスタイルはその後のあらゆるパンク/ハードコアの原型となった。飾り気のない機関銃のような刻みが、ラモーンズの速度と怒りを生んだ。"},
+  {r:29, n:"Scotty Moore",       b:"Elvis Presley",                 t:"Hound Dog",                         w:"Scotty Moore", d:"1954年のサン・スタジオでプレスリーと共にロックンロールを発明した当事者。Heartbreak HotelやHound Dogで見せるハイブリッドピッキングとカントリー由来のチキンピッキングはロックギター最初期の語彙となった。キース・リチャーズが「彼が最初のヒーローだった」と語る、静かだが偉大な先駆者。"},
+  {r:30, n:"Elmore James",       b:"solo",                          t:"Dust My Broom",                     w:"Elmore James", d:"「Dust My Broom」の冒頭スライドリフはエレクトリック・ブルース最も有名なフレーズのひとつ。ロバート・ジョンソンから受け継ぎ増幅したスライド奏法は、デュアン・オールマンを筆頭に後続の全スライドプレイヤーへと引き継がれた。声の迫力と一体化した鋭いスライドは、情熱の塊のような音楽を残している。"},
+  {r:31, n:"Ry Cooder",          b:"solo",                          t:"Paris, Texas",                      w:"Ry Cooder", d:"ボトルネックとフィンガースタイルを駆使し、デルタブルース、ハワイアン、テックス・メックス、キューバ、マリ音楽まで世界中の音楽を横断するアメリカ音楽の探訪者。Paris, Texasのサウンドトラックに代表される映画音楽でも知られ、Buena Vista Social Clubを世界に紹介した立役者でもある。"},
+  {r:32, n:"Billy Gibbons",      b:"ZZ Top",                        t:"La Grange",                         w:"Billy Gibbons", d:"深く歪んだレスポールと粘り気のあるピッキングで、テキサス・ブギの地平を切り拓いたZZ Topの司令塔。ペソの小銭をピック代わりに使うこともある独特のトーン感覚と、La Grangeに代表される下半身の効いたグルーヴで、南部ロックとブルースを商業的成功と結び付けた職人肌のリフメイカー。"},
+  {r:33, n:"Prince",             b:"solo",                          t:"Purple Rain",                       w:"Prince (musician)", d:"ギター、作曲、プロデュース、歌、ダンスまで全てを1人でこなした万能の天才の、とりわけ過小評価されがちな側面が鋭いリードプレイ。Purple Rainのエンディングに象徴されるファルセット域の叫びのようなソロは、ヘンドリックス以降で最も劇的なロックギターの瞬間の一つ。"},
+  {r:34, n:"Curtis Mayfield",    b:"The Impressions / solo",        t:"Superfly",                          w:"Curtis Mayfield", d:"オープンFシャープ・チューニングで奏でる柔らかく浮遊感のあるコードワークと、重なる甘い声。The Impressionsでの公民権運動期のメッセージソング、Super Flyでのスウィートなソウルギターはヒップホップのサンプリングソースとして脈々と受け継がれる。"},
+  {r:35, n:"John Lee Hooker",    b:"solo",                          t:"Boom Boom",                         w:"John Lee Hooker", d:"コードもリズムも自分の都合で変える、規則性を拒絶したブギの大家。足踏みのビートと語るような歌の間に、スタッカートで鋭く切り込むギターが入り、聴き手は本人のグルーヴに飲み込まれる。ミシシッピ由来の純度の高いブルース感覚を、最後まで商業的に洗練させずに押し通した一匹狼。"},
+  {r:36, n:"Randy Rhoads",       b:"Ozzy Osbourne / Quiet Riot",    t:"Crazy Train",                       w:"Randy Rhoads", d:"クラシック音楽の語彙をメタルに持ち込んだパイオニア。Crazy TrainやMr. Crowleyの美しく構築されたソロは、細部まで作り込まれた作曲的アプローチで、それ以降のシュレッド系ギタリストの道を示した。25歳で飛行機事故により他界した悲劇も、伝説の一部となっている。"},
+  {r:37, n:"Mick Taylor",        b:"The Rolling Stones",            t:"Can't You Hear Me Knocking",        w:"Mick Taylor", d:"ブルースブレイカーズでクラプトンの後任を務めた天才。ストーンズに在籍した1969〜74年の黄金期、Can't You Hear Me KnockingやSway等で見せる歌うようなスライドとメロディックなソロはバンド史上最も音楽的な時期を築いた。繊細なタッチとフレーズの美しさはキースとは対照的な魅力を持つ。"},
+  {r:38, n:"The Edge",           b:"U2",                            t:"Where the Streets Have No Name",    w:"The Edge", d:"ディレイとリバーブを大胆に駆使し、8分音符と16分音符のリフレインでU2の空間的なサウンドを設計した音響派の先駆者。派手な速弾きとは無縁ながら、Where the Streets Have No NameやWith or Without Youの空気のような轟音でロックの新しい広がりを提示した。エフェクターを楽器の一部とした設計思想は90年代以降のあらゆるロックに影響を与えている。"},
+  {r:39, n:"Steve Cropper",      b:"Booker T. & the M.G.'s",        t:"Green Onions",                      w:"Steve Cropper", d:"スタックス・レコードのハウスギタリストとして、オーティス・レディングの「Dock of the Bay」やサム&デイヴの諸作品を共作・演奏。音数を絞り、歌とホーンのために空間を作るテレキャスターの教科書的なカッティングは、ソウル/R&Bのギター文法そのもの。Booker T. & the M.G.'sではGreen Onionsの名リフで知られる。"},
+  {r:40, n:"Tom Morello",        b:"Rage Against the Machine",      t:"Killing in the Name",               w:"Tom Morello", d:"キルスイッチ、ワーミー、スクラッチ風奏法でギターをターンテーブルのように鳴らすRATMの革命家。Killing in the Nameなどで聞かれる非楽音的なソロは、ロックとヒップホップを正面から接続した画期的な発明。ハーヴァードで政治学を修めた理論武装の上で、音と政治的メッセージを結合したアジテーター。"},
+  {r:41, n:"Mick Ronson",        b:"David Bowie",                   t:"Moonage Daydream",                  w:"Mick Ronson", d:"グラムロック期デヴィッド・ボウイの右腕として、Ziggy Stardust〜Aladdin Saneのサウンドを作り上げたアレンジャー兼ギタリスト。メロディアスで歌心のあるリードとクラシックに通じた編曲能力で、ボウイのポップ性と演劇性を支えた。ルー・リードのTransformerプロデュースなど裏方としても輝いた。"},
+  {r:42, n:"Mike Bloomfield",    b:"Paul Butterfield Blues Band",   t:"East-West",                         w:"Mike Bloomfield", d:"10代でマディ・ウォーターズの前座を務めた早熟の天才。East-West収録の長尺インプロはロックのジャム文化を準備し、ボブ・ディランのライク・ア・ローリング・ストーン等にも参加してシカゴ・ブルースをロック界に橋渡しした。若くして亡くなったが、白人ブルースプレイヤーの最初期の頂点として記憶される。"},
+  {r:43, n:"Hubert Sumlin",      b:"Howlin' Wolf",                  t:"Smokestack Lightnin'",              w:"Hubert Sumlin", d:"ハウリン・ウルフのシカゴ・ブルース期を支えた相棒。ウルフの荒々しい絶唱の隙間を縫うように切り込む鋭いリフとピック無しの指弾きは、キース・リチャーズが自分のヒーローと公言するほど独特の存在感を持つ。音数の少なさが逆に強烈な個性となるタイプの名手。"},
+  {r:44, n:"Mark Knopfler",      b:"Dire Straits",                  t:"Sultans of Swing",                  w:"Mark Knopfler", d:"スリーフィンガーでストラトを弾く独学派。Dire StraitsのSultans of Swing冒頭のアルペジオに代表される、ピックを使わないクリーンで粒立ちのよい音が彼の指紋。ジャズ・R&B・カントリーを消化したメロディ重視のリード、そしてローカル・ヒーローやPrincess Brideの映画音楽でも知られる英国の職人。"},
+  {r:45, n:"Link Wray",          b:"solo",                          t:"Rumble",                            w:"Link Wray", d:"1958年のインスト「Rumble」で、意図的に生み出した歪みとパワーコードのサウンドによりロックギターの攻撃性を提示した父。若き日のピート・タウンゼント、イギー・ポップ、ジミー・ペイジら全員が彼の名を挙げる。歌詞の無いその曲が米国で放送禁止になった、唯一のインスト曲としても知られる。"},
+  {r:46, n:"Jerry Garcia",       b:"Grateful Dead",                 t:"Ripple",                            w:"Jerry Garcia", d:"Grateful Deadの長大なインプロをリードした、米国ヒッピー文化の象徴。バンジョーやブルーグラスも弾きこなすルーツ感覚とジャズ的な探究心で、Fire on the MountainやEyes of the Worldの浮遊するソロを作った。60年代のアシッドテストから90年代まで、ステージの度に別物になる即興の伝道者。"},
+  {r:47, n:"Stephen Stills",     b:"CSN&Y / Buffalo Springfield",   t:"For What It's Worth",               w:"Stephen Stills", d:"バッファロー・スプリングフィールド、CSN&Yで戦友のニール・ヤングと火花を散らしたシンガー兼ギタリスト。For What It's Worthの気だるいリフやBluebirdのアコースティックな手数、ハーモナイズの職人技が特徴。ギター/ベース/歌/アレンジまで自分でこなす1970年前後の米国フォークロックの重要人物。"},
+  {r:48, n:"Jonny Greenwood",    b:"Radiohead",                     t:"Paranoid Android",                  w:"Jonny Greenwood", d:"ピアニスト、アレンジャー、ノイズメイカーを兼ねたRadioheadの多才な男。Paranoid Androidの不穏なソロ、In Rainbowsのオンドマルトノ、映画音楽で聞ける微分音まで、ロックギターの定型を破壊し続ける現代音楽寄りの探究者。リフより音響を設計する、21世紀的なギタリスト像の代表。"},
+  {r:49, n:"Muddy Waters",       b:"solo",                          t:"Mannish Boy",                       w:"Muddy Waters", d:"デルタからシカゴへ、ブルースに電気を通した「King of Chicago Blues」。Rollin' StoneやMannish Boyで聴こえる粘るスライドと雷のような声が、ストーンズの名前から英国R&Bブームまで全ての源流となった。ローリング・ストーン誌の歴代ギタリスト企画で常に最上位に名を連ねる、ブルースの根っこ。"},
+  {r:50, n:"Ritchie Blackmore",  b:"Deep Purple / Rainbow",         t:"Smoke on the Water",                w:"Ritchie Blackmore", d:"クラシカルなフレーズを速弾きに持ち込んだハードロック/メタル黎明期の職人。Smoke on the Waterの名リフと共に、HighwayStarやBurnの長尺ソロで後のシュレッド世代に道を示した。ストラト使いの先駆者でもあり、中世風衣装のRainbow期を含めて神秘と様式美の美学を貫いた。"},
+  {r:51, n:"Johnny Marr",        b:"The Smiths",                    t:"How Soon Is Now?",                  w:"Johnny Marr", d:"ストラトとリックのジャズ・バーンで鮮やかなアルペジオを紡ぐ、The Smithsの音の風景画家。コード感覚と装飾音のセンスは、モリッシーのメロディの下で常に独立した歌を鳴らしているかのよう。パンク以降の英国ギターポップの教科書と言える存在で、モデストマウスやクロマティックスらにも参加した。"},
+  {r:52, n:"Clarence White",     b:"The Byrds",                     t:"Nashville West",                    w:"Clarence White", d:"ブルーグラス出身の技巧派で、Byrdsのカントリーロック化を牽引。自ら考案したパーセンションを搭載したB-ベンダー・テレキャスターは、スティール・ギターのような音程変化をピック一つで実現する革命的な改造。交通事故で33歳で他界したが、その発明は以後の全カントリー・ギタリストに受け継がれている。"},
+  {r:53, n:"Otis Rush",          b:"solo",                          t:"All Your Love",                     w:"Otis Rush", d:"マジック・サムと並ぶウェストサイド・シカゴ・ブルースの雄。左手で薬指/小指を効かせる独特のビブラートと、苦悶する絶唱は、ステヴィー・レイ・ヴォーンやクラプトンが直接影響源と語る。So ManyRoadsなどの慟哭のような演奏は、ブルースの感情の深さを規定するレベルに達している。"},
+  {r:54, n:"Joe Walsh",          b:"Eagles / James Gang",           t:"Hotel California",                  w:"Joe Walsh", d:"ジェームス・ギャング時代のFunk #49、イーグルスでのHotel California後半のリードなど、ロック史に残るソロで知られる。トーカーボックスを流行らせたRocky Mountain Wayのシンセ風リードは衝撃的で、1970年代の音色革新の象徴となった。シリアスな技巧の裏にユーモアも忘れない、芯のあるギタリスト。"},
+  {r:55, n:"John Lennon",        b:"The Beatles",                   t:"A Hard Day's Night",                w:"John Lennon", d:"ビートルズのリズムギタリストとしての優れた感覚が特に評価される。Daytripper、Ticket to Rideのリフ、Come Togetherのコード使い、Revolutionの歪み実験、アコースティックでのNorwegian Woodなど、曲を支えるパートを的確に担当。単独名義でもImagineのピアノ伴奏や、Plastic Ono Bandの生々しい演奏で個性を見せた。"},
+  {r:56, n:"Albert Collins",     b:"solo",                          t:"Frosty",                            w:"Albert Collins", d:"「Master of the Telecaster」と呼ばれる、テキサス・ブルースを氷の鋭さで再定義した男。指で弾く強力なピッキングとカポ使い、そしてステージでの長いギターシールドで客席まで歩き回るパフォーマンスで熱狂を生んだ。ロバート・クレイと並ぶ80年代ブルースリバイバルの立役者の一人。"},
+  {r:57, n:"Rory Gallagher",     b:"solo",                          t:"Shadow Play",                       w:"Rory Gallagher", d:"アイルランドが生んだブルースロックの侠客。汗にまみれたストラトとMessenger、質屋で買ったFender Champアンプで駆け抜けた生涯のライブは今も語り草。技巧を誇示せずあくまで曲のために弾く姿勢でブライアン・メイやスラッシュから尊敬を集め、多くの後続に影響を与えた裏のヒーロー。"},
+  {r:58, n:"Peter Green",        b:"Fleetwood Mac",                 t:"Black Magic Woman",                 w:"Peter Green (musician)", d:"初期フリートウッド・マックの立役者で、Albatross、Black Magic Woman、Oh Wellなどの名曲を書いたブリティッシュ・ブルース屈指のソングライター兼ギタリスト。B.B.キング本人が「唯一冷や汗をかかせる」と讃えた繊細な泣きのトーンは、同世代のクラプトンとも異なる英国ブルースの精華。"},
+  {r:59, n:"Robbie Robertson",   b:"The Band",                      t:"The Weight",                        w:"Robbie Robertson", d:"The Bandのギタリストで、The Weight、The Night They Drove Old Dixie Downなど1960〜70年代の米国ルーツロックの金字塔を書いた男。単音で語るような寡黙なソロとテレキャスターの渋い音色、そしてThe Last Waltzを含む楽曲性重視の姿勢で、ギターを聞かせるのではなくバンドを聞かせる美学を確立した。"},
+  {r:60, n:"Ron Asheton",        b:"The Stooges",                   t:"I Wanna Be Your Dog",               w:"Ron Asheton", d:"The StoogesのメンバーでI Wanna Be Your Dog、Raw Power等の原型を作ったプロトパンクの開祖。子供の怒りをそのまま鉛のように重いパワーコードで打ち付ける、60年代末の異例の攻撃性。パンクロック、ガレージ、グランジ全てのルーツに立つ、ゆるぎない硬派の象徴。"},
+  {r:61, n:"Dickey Betts",       b:"The Allman Brothers Band",      t:"Ramblin' Man",                      w:"Dickey Betts", d:"Allman Brothersでデュアン・オールマンの相方を務めたツインリードの名手。デュアン他界後はバンドを支える中心となり、Ramblin' Manなど南部ロックの主要曲を書いた。カントリー/ブルーグラス由来のメロディックなソロとアルバート・キング風のブルースフィーリングを両立させた、芯の強い奏者。"},
+  {r:62, n:"Robert Fripp",       b:"King Crimson",                  t:"21st Century Schizoid Man",         w:"Robert Fripp", d:"キング・クリムゾンの司令塔。21st Century Schizoid Manの狂気からDisciplineの幾何学模様のインターロッキングまで、論理と感情を直交させた知的プレイの極地。ブライアン・イーノとのFrippertronicsで提唱したループ音楽は、その後のアンビエント音楽の重要な源流となった。"},
+  {r:63, n:"Johnny Winter",      b:"solo",                          t:"Rock and Roll Hoochie Koo",         w:"Johnny Winter", d:"テキサス生まれのブルース狂人。ファイアーバードを振り回して早弾きのブルースを吹き荒らし、JohnnyWinter AndやStill Aliveでは白濁した情熱を炸裂させた。マディ・ウォーターズを1970年代にプロデュースしブルース界の巨匠復活に貢献した、ブルースに尽くした白人ギタリスト。"},
+  {r:64, n:"Duane Eddy",         b:"solo",                          t:"Rebel Rouser",                      w:"Duane Eddy", d:"トゥワンギーという言葉で象徴される、深いトレモロとリバーブで低音弦をねっとり鳴らすインスト・ロックの先駆者。Rebel Rouser、Peter Gunnのテーマ曲などで1950〜60年代の米国ロックの音色を設計した。ブルースではなく明瞭なメロディを軸にした構成で、サーフ・ロックの父とも呼ばれる。"},
+  {r:65, n:"Slash",              b:"Guns N' Roses",                 t:"Sweet Child O' Mine",               w:"Slash (musician)", d:"ガンズ・アンド・ローゼズの象徴。シルクハットと煙草、レスポールにひたすら似合う姿。Sweet Child o' Mineの華麗なイントロやNovember Rainの叙情的なソロで、80年代後半〜90年代のハードロックのアイコンとなった。飾り気のない男前なトーンとブルース由来のフィーリングで世界中のギター小僧を魅了した。"},
+  {r:66, n:"Leslie West",        b:"Mountain",                      t:"Mississippi Queen",                 w:"Leslie West", d:"Mississippi QueenのリフとナンタケットスレイリッジでHRバンドMountainを率いた大柄な男。レス・ポール・ジュニアの分厚いトーンでサウンドピクチャーを描くような演奏は、ジャック・ブルースとも共演したクリーム以降のパワートリオ・ブルースロックの実例として影響を残した。"},
+  {r:67, n:"T-Bone Walker",      b:"solo",                          t:"Call It Stormy Monday",             w:"T-Bone Walker", d:"エレキ・ブルースの最も初期の体系を作ったヒューストン出身のジャズ/ブルース・ギタリスト。Stormy Mondayのジャズ的コードワークとシングルノート・ソロはB.B.キングをはじめ全ブルース・ギタリストの手本となった。アンプでブルースを弾くという発想自体が、彼から始まったと言って差し支えない。"},
+  {r:68, n:"John McLaughlin",    b:"Mahavishnu Orchestra",          t:"Birds of Fire",                     w:"John McLaughlin (musician)", d:"マイルス・デイヴィスの電化期Bitches BrewやIn a Silent Wayに参加し、Mahavishnu Orchestraでジャズ・ロック・フュージョンを開拓した英国人。超高速のピッキングとインド音楽/スピリチュアリティを融合したShaktiなど、ギターの可能性をジャズの側から押し広げた巨星。"},
+  {r:69, n:"Richard Thompson",   b:"Fairport Convention / solo",    t:"1952 Vincent Black Lightning",      w:"Richard Thompson (musician)", d:"フェアポート・コンヴェンションのギタリストとして英国フォークロックを築き、ソロでも独特な変則チューニングとフィンガーピッキングで密度の高い作品を残す。Meet on the Ledgeなどの楽曲に漂う静かな孤独感、そして生ギター1本でも圧倒的な情報量を生み出す手捌きは、英国フォーク/ロック界で別格の尊敬を集める。"},
+  {r:70, n:"Jack White",         b:"The White Stripes",             t:"Seven Nation Army",                 w:"Jack White", d:"Fuzzy for the Love of Teeny Riffに象徴される、ミニマルで獰猛なリフメイカー。ピックアップがF-ホールに浮かぶ安物のAirlineギターとシリルアンプで、ホワイト・ストライプスの生々しいガレージ・ブルースを作った。プロデュース、レーベル運営、楽器オタクとしても知られる、21世紀のブルース蘇生役。"},
+  {r:71, n:"Robert Johnson",     b:"solo",                          t:"Cross Road Blues",                  w:"Robert Johnson", d:"1936〜37年にたった29曲しか残さなかった、神話的存在。Cross Road Blues、Love in Vain、Hellhound on My Trailなどのデルタブルース最重要作品は、ロバート・プラント、キース・リチャーズ、クラプトンらに絶大な衝撃を与え、ロックのブルース受容の原点となった。27歳で謎めいた死を遂げた伝説そのもの。"},
+  {r:72, n:"John Frusciante",    b:"Red Hot Chili Peppers",         t:"Under the Bridge",                  w:"John Frusciante", d:"レッド・ホット・チリ・ペッパーズの音楽的支柱。ハモンドやモーグのような音まで想起させる立体的なコードワークと、Under the BridgeやScar Tissueで見せる泣きのメロディセンスで、バンドの1990年代以降の飛躍を支えた。精神的に抱えたものを音に転化するタイプの、21世紀屈指の繊細なプレイヤー。"},
+  {r:73, n:"Kurt Cobain",        b:"Nirvana",                       t:"Smells Like Teen Spirit",           w:"Kurt Cobain", d:"Nirvanaのフロントマンとして、Smells Like Teen SpiritやCome As You Areでグランジという呼称を全世界に知らしめた。歪ませた単音リフと、ディストーションに埋もれた内省的なコードストロークは、高度な技巧ではなく感情で勝負するギター観を1990年代に決定づけた。技ではなく姿勢で時代を作った人。"},
+  {r:74, n:"Dick Dale",          b:"solo",                          t:"Misirlou",                          w:"Dick Dale", d:"「サーフ・ギターの王」。富士弦製のストラトを爪先でピックし、中東音階と超高速ピッキングで「Misirlou」を演奏。Pulp Fictionのオープニング曲として使用されたこの一曲が、サーフ・ロックとはなにかを世界に改めて広めた。自らアンプ開発にも関わり、大音量耐性を追求した50年代の技術革新者。"},
+  {r:75, n:"Joni Mitchell",      b:"solo",                          t:"Big Yellow Taxi",                   w:"Joni Mitchell", d:"DGDFC#Cなど、60を超える変則チューニングを駆使してアコースティック・ギターで独自の和声空間を作り出したシンガーソングライター。Big Yellow Taxi、Blue、A Case of Youなどで奏でる浮遊感のあるコード感は、ギター一本の弾き語りの可能性を大きく押し広げた。絵画的でパーソナルな音楽表現。"},
+  {r:76, n:"Robby Krieger",      b:"The Doors",                     t:"Light My Fire",                     w:"Robby Krieger", d:"フラメンコを学んだ経歴を持つThe Doorsの影の功労者。Light My Fireの長尺ソロやSpanish Caravanのクラシカルな前奏で、ジム・モリソンの耽美に異国的な色彩を加えた。ピックを使わず指と爪で繊細な表情を作る、ロックの中では比較的珍しいスタイル。"},
+  {r:77, n:"Willie Nelson",      b:"solo",                          t:"On the Road Again",                 w:"Willie Nelson", d:"ガット弦のマーティンN-20「Trigger」一本で自分のサウンドを確立した、米国音楽の生きた宝。ジャズ由来のシンコペーションを交えたリードと、オフビートの歌、独特のタイム感覚で、カントリー、フォーク、ジャズの境目を溶かした。On the Road Againに象徴されるポピュラー音楽の国民的アイコン。"},
+  {r:78, n:"John Fahey",         b:"solo",                          t:"The Yellow Princess",               w:"John Fahey (musician)", d:"アメリカン・プリミティヴ・ギターの発明者。デルタ・ブルースとインド音楽、現代音楽を1人で溶かしたインストゥルメンタルのソロ・ギター音楽を提示し、レオ・コッケからジム・オルークまで広く影響を与えた。Blind Joe Deathというペンネームでも知られる、隠遁的な神秘家。"},
+  {r:79, n:"Mike Campbell",      b:"Tom Petty and the Heartbreakers",t:"Refugee",                          w:"Mike Campbell (musician)", d:"トム・ペティのバンドで、Refugee、American Girl、Free Fallin'など時代を越える名曲のリフと共に鳴り響いたメロディストリセラー。Rickenbackerの12弦ストラムとテレキャスターの粒立ちの良いリードが得意で、ローリング・ストーンズにも参加するような職人的信頼性を持つ裏方のロック伝説。"},
+  {r:80, n:"Buddy Holly",        b:"The Crickets",                  t:"Peggy Sue",                         w:"Buddy Holly", d:"That'll Be the Day、Peggy Sueなど、短い曲の中にロックンロールのテンプレートを詰め込んだ開祖の1人。ストラトを全面に立てたシンプルなバンド編成、ハーフダウンストロークを多用する若々しい刻み、そしてメガネをかけた素朴なキャラクターは、ビートルズからEliott Smithまで幅広く愛された。"},
+  {r:81, n:"Lou Reed",           b:"The Velvet Underground / solo", t:"Sweet Jane",                        w:"Lou Reed", d:"ヴェルヴェット・アンダーグラウンドでI'm Waiting for the ManやHeroinのノイジーなストロークを担当した、NYアングラロックの生みの親。オーガスタスのような単音ソロに留まらず、ぶつけるようなカッティングとディストーション、フィードバックでパンク以降のDIYギター観を準備した、前衛ロックの重要人物。"},
+  {r:82, n:"Nels Cline",         b:"Wilco",                         t:"Impossible Germany",                w:"Nels Cline", d:"Wilcoの音響派リードギタリスト。Impossible GermanyやAt Least That's What You Saidで繰り広げるフリージャズ寄りの狂騒的なソロは、オルタナカントリーを現代音楽に接続した。自身のバンドThe Nels Cline Singersでは即興フュージョンも展開する、21世紀有数の前衛派。"},
+  {r:83, n:"Eddie Hazel",        b:"Funkadelic",                    t:"Maggot Brain",                      w:"Eddie Hazel", d:"ファンカデリックのMaggot Brainで10分にわたる絶唱の泣きギターを弾き切った、サイケデリック・ファンクの魂。「母親が死んだように弾いて」とジョージ・クリントンに指示され録音された一発録りは、ロックギター史上最も感情的なソロの一つとして語り継がれている。"},
+  {r:84, n:"Joe Perry",          b:"Aerosmith",                     t:"Walk This Way",                     w:"Joe Perry (musician)", d:"エアロスミスのリフを生む屋台骨。Walk This Wayの切れのあるリズムギターとSweet Emotionの空気感、Dream Onの叙情性など、1970年代ハードロックの幅広さを体現した。レスポールの唸りをそのまま血肉にしたような、土埃のあるアメリカン・ロックのギタリスト像を決定付けた人。"},
+  {r:85, n:"Andy Summers",       b:"The Police",                    t:"Every Breath You Take",             w:"Andy Summers", d:"ザ・ポリスの空間設計者。EveryBreath You Takeの有名なアルペジオやRoxanneの隙間だらけのカッティングなど、レゲエとジャズフュージョンを融合したクリーントーンのコードワークでロックのギター観を刷新した。コーラスとディレイを組み合わせた80年代的なサウンドデザインのパイオニア。"},
+  {r:86, n:"J Mascis",           b:"Dinosaur Jr.",                  t:"Freak Scene",                       w:"J Mascis", d:"Dinosaur Jr.のフロントマンで、ディストーションとフィードバックを浴びるような壁を作るソロスタイルを確立。ニール・ヤングの轟音とハードコアの攻撃性を併せ持つ、90年代米国インディロックの象徴的ギターヒーロー。弱々しい声と対照的な、超ラウドなソロの破壊力が独自の美学を形成する。"},
+  {r:87, n:"James Hetfield",     b:"Metallica",                     t:"Master of Puppets",                 w:"James Hetfield", d:"MetallicaのリフマスターでMaster of Puppets、One、Enter Sandman等スラッシュメタルの金字塔を書き続けた男。高速ダウンピッキングの鬼で、その手首は伝説。曲全体を通して一切手を緩めないバッキングの剛腕ぶりで、ソロを取るカーク・ハメットを下支えする存在。"},
+  {r:88, n:"Carl Perkins",       b:"solo",                          t:"Blue Suede Shoes",                  w:"Carl Perkins", d:"ブルー・スエード・シューズでロックンロールの原型を書き、エルヴィスに提供した曲でも知られる。ブリッジ・ミュートを駆使したトラヴィスピッキング的なカントリーロック奏法は、ビートルズをはじめ第一世代ロックンロール全てに影響を与えた、サン・レコーズの核。"},
+  {r:89, n:"Bonnie Raitt",       b:"solo",                          t:"Something to Talk About",           w:"Bonnie Raitt", d:"スライドとフィンガーピッキングを自在に操る、女性ブルース/ロックの代表格。ストラトキャスターの指板を素手で押さえて繰り出す粘りのスライドは男性陣にも負けない迫力。Angel From Montgomery、Something to Talk Aboutなどでの歌とギターの統合は、シンガーソングライターの到達点の一つ。"},
+  {r:90, n:"Tom Verlaine",       b:"Television",                    t:"Marquee Moon",                      w:"Tom Verlaine", d:"テレビジョンのフロントマンとしてNYパンクを文学と知性の方向に拡張した詩人ギタリスト。Marquee Moonの10分を超える対話的なツインギターは、パンク初期に既に即興とプログ的構成を持ち込んでいた。リチャード・ロイドとの絡みは、ロックのギターインタープレイの最も洗練された例として今も聴き継がれる。"},
+  {r:91, n:"Dave Davies",        b:"The Kinks",                     t:"You Really Got Me",                 w:"Dave Davies", d:"The KinksのYou Really Got MeやAll Day and All of the Nightで、アンプのスピーカーをナイフで切り刻んでファズの原型を自作した張本人。兄レイの陰に隠れがちだが、1964年時点で最もラウドで最も歪んだロックのリフを発明していたのは彼。ハードロックとパンクの、おそらく本当の起源。"},
+  {r:92, n:"Dimebag Darrell",    b:"Pantera",                       t:"Cowboys from Hell",                 w:"Dimebag Darrell", d:"Panteraのギタリスト。Cemetery GatesやWalkなどで聴ける、ビブラートと不協和音を織り交ぜた独特のスクイール、そしてブリッジ・ミュート主体のダウン・タイムド・リフで、グルーヴメタルの様式を確立した。2004年にステージ上で狙撃され他界した衝撃の末路も、歴史に深く刻まれている。"},
+  {r:93, n:"Paul Simon",         b:"Simon & Garfunkel / solo",      t:"Graceland",                         w:"Paul Simon", d:"ポール・サイモンのフィンガースタイルは、The Boxerの力強いストロークやThe Sound of Silenceの静謐なアルペジオ、Me and Julio Down by the Schoolyardの陽気なリフなど、ポップスの中のアコースティック・ギター表現の代表例。ソロ作ではアフリカ音楽や南米音楽を採り入れ、世界音楽とアメリカンポップを繋いだ。"},
+  {r:94, n:"Peter Buck",         b:"R.E.M.",                        t:"Losing My Religion",                w:"Peter Buck", d:"R.E.M.の要。Rickenbacker 360の甘く煌めく鈴鳴りアルペジオで、Don'tGo Back to Rockville、Losing My Religion(マンドリン)、Driverの各曲で1980〜90年代オルタナロックの音の風景を塗り替えた。派手なソロではなくコード進行そのものを主役にする、ポップ・ソングライティングの達人。"},
+  {r:95, n:"Roger McGuinn",      b:"The Byrds",                     t:"Mr. Tambourine Man",                w:"Roger McGuinn", d:"The ByrdsでMr. Tambourine Manのリッケンバッカー12弦のサウンドを世界に広めた、フォーク・ロックの父。コードトーンの中に旋律を織り込むアルペジオ・スタイルは、ペトラ・ヘイデンからジョニー・マーまで多くのギタリストに影響を与えた。ディランとポップの橋渡しをした歴史的役割も大きい。"},
+  {r:96, n:"Bruce Springsteen",  b:"The E Street Band",             t:"Born to Run",                       w:"Bruce Springsteen", d:"E Street Bandを率い、Born to RunやBorn in the U.S.A.などアメリカン・ロックの王道を書き続けた詩人。派手なテクニックよりも曲に奉仕するリフと熱いソロで勝負するタイプで、フェンダー・テレキャスターを黒く汚れたままで弾く姿は労働者階級ロックの象徴。ロックの書き手=演り手の手本となった。"},
+  {r:97, n:"Steve Jones",        b:"Sex Pistols",                   t:"Anarchy in the U.K.",               w:"Steve Jones (musician)", d:"セックス・ピストルズで、たった1本のギターでAnarchy in the U.K.とGod Save the Queenを支えた、英パンク誕生の張本人。複雑なことはできないと本人が認める上での、厚くざらついたパワーコードのダブル・トラッキングは、パンクを「音そのもの」として現前させる偉大な手つき。"},
+  {r:98, n:"Alex Lifeson",       b:"Rush",                          t:"Tom Sawyer",                        w:"Alex Lifeson", d:"Rushのギタリストで、複雑な変拍子とオーケストレーション的なコードワーク、多彩なエフェクトでプログレッシブロックのギター像を拡張した技術派。Tom Sawyer、YYZ、La Villa Strangiatoなどで見せる緻密な構成力は、後続の全プログ・メタル勢の教科書となっている。"},
+  {r:99, n:"Thurston Moore",     b:"Sonic Youth",                   t:"Teen Age Riot",                     w:"Thurston Moore", d:"Sonic Youthでキム・ゴードンと共に、オルタナティヴ・ロックの音響的可能性を押し広げた実験家。プリペアド・ギター(弦の間にドライバーを挟む等)や独自の変則チューニングで雑音を楽音に転じ、Teen Age Riot、100%などでノイズとポップを同居させた。90年代US Indieの音の知性。"},
+  {r:100,n:"Lindsey Buckingham", b:"Fleetwood Mac",                 t:"Go Your Own Way",                   w:"Lindsey Buckingham", d:"Fleetwood Mac第2黄金期の立役者。Tuscの独創的な構成やGo Your Own Wayの切れのあるリフはもちろん、Landslideの裏で静かに支えるアコースティックのアルペジオまで、指弾きのフィンガースタイルによる緻密な音運びで知られる。ポップの中の職人的複雑さを体現するソングライター兼ギタリスト。"},
+  // ===== Additional guitarists from Guitar World's "100 Greatest" (2023) =====
+  // Ranks 101+ are reference IDs (no intrinsic order) — pool extension for sorting.
+  // Metal / hard rock
+  {r:101,n:"Steve Lukather",     b:"Toto / session",                t:"Rosanna",                           w:"Steve Lukather", d:"ロサンゼルスのスタジオミュージシャン界を牽引した万能職人。Totoでのリードだけでなく、マイケル・ジャクソンのBeat Itのリズムギターや、数千のセッション参加曲でその音を聴くことができる。メロディックで歌うようなソロと、プロデューサーとしての的確な判断力で、業界全体を支えた裏方の頂点。"},
+  {r:102,n:"Brian Setzer",       b:"Stray Cats",                    t:"Rock This Town",                    w:"Brian Setzer", d:"グレッチ6120を振り回して50年代のロカビリーを1980年代に蘇らせたStray Catsのフロントマン。Rock This TownやStray Cat Strutで聴けるハイブリッドピッキングとチキンピッキングの冴えは、テレキャスター一辺倒だったロカビリー観を一新。後にオーケストラと組んだスウィング作品でも成功を収めた。"},
+  {r:103,n:"Dave Mustaine",      b:"Megadeth",                      t:"Holy Wars... The Punishment Due",   w:"Dave Mustaine", d:"Metallica脱退後にMegadethを率い、スラッシュメタルの知性派を体現した男。Holy WarsやTornado of Soulsのような目まぐるしく展開する長尺ソロは、通常のハードロックのフォーマットを超えた構成力の現れ。強い個性とカリスマ、そして執拗なまでの技巧志向でメタル界を揺るがし続けている。"},
+  {r:104,n:"Marty Friedman",     b:"Megadeth / Cacophony",          t:"Tornado of Souls",                  w:"Marty Friedman", d:"Megadethの黄金期Rust in Peaceでデイヴ・ムステインと火花を散らした日本在住のメロディスト。日本の演歌や邦楽的なフレージングをメタルに持ち込んだ独自の音楽語法と、Cacophonyでジェイソン・ベッカーと組んだクラシカルシュレッドで、80〜90年代の速弾きメタルに新鮮な響きをもたらした。"},
+  {r:105,n:"Zakk Wylde",         b:"Ozzy Osbourne / Black Label Society", t:"No More Tears",              w:"Zakk Wylde", d:"オジー・オズボーンのソロバンドでランディ・ローズの後任を務めた大男。ブルースピンのついたレスポール・カスタムを振り回し、No More Tearsのような叙情的なソロもMiracle Manのような攻撃的なリフも叩き出す。自身のBlack Label Societyでは南部ロックとメタルを混ぜた独自色を確立した。"},
+  {r:106,n:"Kerry King",         b:"Slayer",                        t:"Raining Blood",                     w:"Kerry King", d:"Slayerの共同リーダーで、Raining Blood、Angel of Death等スラッシュメタルの究極形を作り上げた狂気のリフ職人。ジェフ・ハンネマンとのツインリードは音楽的というより暴力的で、ソロはホイール付きのワーミーで叫ぶようなもの。ジャンル全体のブルータリティの基準を塗り替えた、正真正銘の破壊者。"},
+  {r:107,n:"Jeff Hanneman",      b:"Slayer",                        t:"Angel of Death",                    w:"Jeff Hanneman", d:"Slayerのもう一方の柱で、Angel of Death、Raining Blood、War Ensembleなどの主要曲を書いたメインコンポーザー。カーキ色の軍人風のステージ姿と、ホラー/戦争を題材にした攻撃的な楽曲群は、スラッシュメタルの尖鋭化を決定づけた。2013年に他界するまで、ジャンルの核心を担い続けた。"},
+  {r:108,n:"K.K. Downing",       b:"Judas Priest",                  t:"Painkiller",                        w:"K. K. Downing", d:"Judas Priestの片翼として、Stained Class、British Steel、Painkillerまでヘヴィメタルの典型的ダブルリード構造を作った技術派。グレン・ティプトンとの調和的なツインリードは、アイアン・メイデンをはじめ後続のNWOBHMバンド全てのお手本となり、フライングVを振り回すステージングも象徴的。"},
+  {r:109,n:"Glenn Tipton",       b:"Judas Priest",                  t:"Electric Eye",                      w:"Glenn Tipton", d:"Judas Priestのもう一人のギタリストで、ロブ・ハルフォードの金切り声を支えるシャープなリフとソロを提供。KK・ダウニングとの二頭体制は、PainkillerやElectric Eyeに象徴されるメタルのツインギター様式を規定した。SGやレスポールを中心に、正確で切れ味の鋭い職人的プレイを貫いている。"},
+  {r:110,n:"Dave Murray",        b:"Iron Maiden",                   t:"The Trooper",                       w:"Dave Murray (guitarist)", d:"Iron Maidenの不動のリードギタリスト。The Numberof the BeastやHallowed Be Thy Nameで、ギャロッピングするベースの上で流麗なレガートソロを展開する英国メタルの美学そのもの。戦闘服のようにストラトを身にまとう姿と、高速だが叙情的なソロは、NWOBHMの象徴中の象徴。"},
+  {r:111,n:"Adrian Smith",       b:"Iron Maiden",                   t:"Wasted Years",                      w:"Adrian Smith (musician)", d:"Iron MaidenでDave Murrayの相方を務めるソングライター兼ギタリスト。2Minutes to MidnightやWasted Yearsなど代表曲の多くに作曲で関わり、ピッキングの正確さと構成力の高さで知られる。力技ではなく設計で勝負する、英国メタル屈指の知性派。"},
+  {r:112,n:"Adam Jones",         b:"Tool",                          t:"Schism",                            w:"Adam Jones (musician)", d:"Toolのギタリストで、Schism、Lateralus、Pneumaなどプログレッシブ・メタルの新しい様式を作り上げた視覚芸術家でもある。奇数拍子とフィボナッチ数列を用いた構成、そして1音1音に重みを込める重厚なレガート・アプローチで、90年代以降のプログメタルを再定義した。"},
+  {r:113,n:"Chuck Schuldiner",   b:"Death",                         t:"Crystal Mountain",                  w:"Chuck Schuldiner", d:"Deathを率い、デスメタルというジャンルに旋律性と知性をもたらした創始者。Crystal Mountain、Spirit Crusherに代表される、ブルータルなリフと対位法的なツインリードを両立させる技巧は、テクニカル・デスメタルの基盤を作った。33歳で脳腫瘍に敗れたが、ジャンルの父として永遠に語られる。"},
+  {r:114,n:"Michael Schenker",   b:"UFO / MSG",                     t:"Rock Bottom",                       w:"Michael Schenker", d:"UFOでRock Bottomを弾き、続くMichael Schenker Groupで独自の世界を築いたドイツ人。白黒のフライングVと、切ないが力強いメロディックなソロは、80年代の正統派HMの美意識を決定した一人。盟友ウリ・ジョン・ロートと共に、ジャーマン・メタル・ギターの創世記を担った職人。"},
+  {r:115,n:"Nuno Bettencourt",   b:"Extreme",                       t:"Get the Funk Out",                  w:"Nuno Bettencourt", d:"Extremeのギタリスト。80〜90年代のファンク・メタル期におけるテクニカル・リフの最重要人物の1人で、Get the Funk Outに象徴されるスラップと交わるハイブリッド・ピッキングの冴えが光る。More Than Wordsのアコースティック曲でも知られ、技巧と音楽性のバランスが高水準で共存するプレイヤー。"},
+  {r:116,n:"Jerry Cantrell",     b:"Alice in Chains",               t:"Man in the Box",                    w:"Jerry Cantrell", d:"Alice in Chainsの重量感のあるリフと不協和なハーモニーを作った陰鬱の設計者。Man in the Box、Would?などで使う独特のドロップDとワウの使い方、そして自身も歌うダークなデュエット・ヴォーカルは、90年代グランジの中でも異質な陰影を作った。精神と音色の両面で深い影を持つプレイヤー。"},
+  {r:117,n:"Mark Tremonti",      b:"Alter Bridge / Creed",          t:"Blackbird",                         w:"Mark Tremonti", d:"Creed、Alter Bridgeで活動する、2000年代以降の正統派ハードロック・ギタリスト。Blackbirdの9分に及ぶエモーショナルな長尺ソロは、プログとクラシックメタルの交差点にある名演で、広範な支持を集めた。愚直にレスポールと向き合う姿勢が好感を呼ぶ、ギターヒーロー復権の功労者の一人。"},
+  {r:118,n:"John 5",             b:"Rob Zombie / Mötley Crüe",      t:"Villisca",                          w:"John 5", d:"Marilyn Manson、Rob Zombieで活躍し、晩年はMötley Crüeにも参加したテレキャスター使いの変人。ホラーとカントリーをメタルに混ぜ込む独特のセンスで、ソロ作ではジェリー・リードに捧げたカントリー曲から、鋸のようなメタルリフまで幅広く展開。舞台化粧とチキンピッキングの同居する稀有な存在。"},
+  // Shred / virtuoso
+  {r:119,n:"Yngwie Malmsteen",   b:"solo / Rising Force",           t:"Black Star",                        w:"Yngwie Malmsteen", d:"クラシカル・メタルの旗手。Johann SebastianBachとニコロ・パガニーニを早弾きの中に流し込んだ1984年のRising Forceは、シュレッドというジャンルの出発点。スクライプ(指板をこする)など視覚的にも派手なパフォーマンスと、スウィープピッキングを武器に世代を越えて信奉者を生み続けている。"},
+  {r:120,n:"Steve Vai",          b:"solo / David Lee Roth",         t:"For the Love of God",               w:"Steve Vai", d:"フランク・ザッパのバンドとデヴィッド・リー・ロスのバンドを経てソロ活動へ。Passion and WarfareのFor the Love of Godに代表されるメロディアスで宇宙的なリードと、ヘプタトニック・スケールを超える独自の音使いが「異星人的」と称される。7弦ギターIbanez Universeの普及にも貢献した革新者。"},
+  {r:121,n:"Joe Satriani",       b:"solo",                          t:"Surfing with the Alien",            w:"Joe Satriani", d:"スティーヴ・ヴァイ、カーク・ハメット、メタリカらを教えたことで知られる「ギタリストの先生」。Surfing with the AlienやAlways with Me, Always with Youで聴けるメロディアスなリードは、速弾きよりも歌うことに主眼を置いた独自のインストゥルメンタル語法。自身のG3ツアーで多くのギターヒーローを世に送り出した功労者。"},
+  {r:122,n:"Eric Johnson",       b:"solo",                          t:"Cliffs of Dover",                   w:"Eric Johnson", d:"テキサス出身の指弾きも交えた超絶技巧派で、Cliffs of Doverのような超高速ピッキングでありながら極めてクリアで音楽的なソロを作る。独特のレイトロック的オーバードライブ・トーンは「ヴァイオリン・トーン」と呼ばれ、音色の完璧主義者としても有名。誇示を嫌い楽曲に奉仕する、ストラトの哲人。"},
+  {r:123,n:"John Petrucci",      b:"Dream Theater",                 t:"Under a Glass Moon",                w:"John Petrucci", d:"Dream Theaterの中心人物で、プログ・メタルのギター語彙を体系化した教師的存在。Images and WordsのPull Me UnderやUnder a Glass Moonに代表される、クラシック音楽の構成感覚を持ち込んだ長尺ソロは、ジョン・マクラフリンとイングヴェイを融合したかのような精密さ。現代プログメタルギターの中心軸。"},
+  {r:124,n:"Paul Gilbert",       b:"Mr. Big / Racer X",             t:"Scarified",                         w:"Paul Gilbert", d:"Mr. Bigでポップに振れ、Racer Xで超絶技巧を見せる二刀流の熟練者。Scarifiedなどで聴こえる正確無比なストリングスキッピングと、ユーモアたっぷりのMCを交えたライブで親しみやすいキャラクターを作り上げた。ドリル・ビットをピックの代わりに使うエンターテイナー的側面も魅力。"},
+  {r:125,n:"Guthrie Govan",      b:"The Aristocrats",               t:"Waves",                             w:"Guthrie Govan", d:"英国のスタジオ職人から世界的注目を集めた、現代最高のギター技術者のひとり。Erotic Cakes収録のWavesやFivesに代表される、ジャズ・ロック・フュージョン・メタルを自在に横断する能力は、ギター表現の今の最前線。The Aristocratsや、ハンス・ジマーの映画音楽でもその縦横無尽ぶりを披露している。"},
+  {r:126,n:"Buckethead",         b:"solo",                          t:"Jordan",                            w:"Buckethead", d:"白いバケツと能面を被り、黙々と超絶技巧を繰り出す匿名の名手。ガンズアンドローゼズに一時加入した経歴を持ちつつ、ソロでは500枚を優に超えるアルバムをリリースし続けている異常な多作家。Jordanに代表される、キルスイッチを駆使した断続的な速弾きで独特の音響空間を生み出す。"},
+  {r:127,n:"Jason Becker",       b:"Cacophony / David Lee Roth",    t:"Altitudes",                         w:"Jason Becker", d:"18歳でCacophonyでデビュー、20歳でデヴィッド・リー・ロスのバンドに参加した天才シュレッダー。Altitudesの美しいメロディが示すように、速弾きを超えた作曲センスを持っていたが、ALS(筋萎縮性側索硬化症)を発症。目の動きだけで作曲を続ける姿が世界中のミュージシャンから尊敬を集める、不屈の才能。"},
+  {r:128,n:"Allan Holdsworth",   b:"solo / UK / Soft Machine",      t:"Devil Take the Hindmost",           w:"Allan Holdsworth", d:"スーパーレガート奏法の開祖。Soft Machine、U.K.、Allan Holdsworth Grand を経てソロ名義で活動を展開した、ジャズ/フュージョン/プログを横断するギター革新者。Devil Take the Hindmostのような流麗な音の流れはホーン奏者を目指していたからだと本人が語る、もう一つのギター史の主役。"},
+  // Blues / modern blues
+  {r:129,n:"Joe Bonamassa",      b:"solo / Black Country Communion",t:"Sloe Gin",                          w:"Joe Bonamassa", d:"現代ブルースロックの顔。レス・ポールとストラトを持ち替え、1960〜70年代の英国ブルースロックの語彙を2000年代以降に継承し続けた。Sloe Ginのような叙情的な長尺演奏と、プロとしての完璧なステージ運営で、ブルースという古典ジャンルを現代のマーケットで成立させ続けている立役者。"},
+  {r:130,n:"John Mayer",         b:"solo / John Mayer Trio",        t:"Gravity",                           w:"John Mayer", d:"スティーヴィー・レイ・ヴォーンに憧れて始めた少年が、ポップシンガーとして頂点に立ち、トリオ名義では黒いストラトの「ブラック・ワン」を手にブルースロックの第一線で戦う真の二刀流。Gravityに代表される、歌とギターソロを同等に重視する姿勢は、21世紀のブルース系ギタリストのお手本になっている。"},
+  {r:131,n:"Gary Clark Jr.",     b:"solo",                          t:"Bright Lights",                     w:"Gary Clark Jr.", d:"テキサスのオースティン出身のブルース/ソウル/ロック/ヒップホップ横断型ギタリスト。エピフォンカジノの極太歪みと、ジミ・ヘンドリックスを思わせる泥臭いフィーリングで、若い世代のブルース再興を牽引。Bright Lightsで一躍名が知れ、クロスオーバー感覚で現代ロックを更新する旗手となった。"},
+  {r:132,n:"Jeff Healey",        b:"The Jeff Healey Band",          t:"Angel Eyes",                        w:"Jeff Healey", d:"生後まもなく網膜芽細胞腫で失明したカナダ人。ギターを膝の上に横にして弾く独自のラップスタイルで、Angel Eyesのヒットを含むブルース・ロックの豊かな音楽性を示した。映画『ロードハウス』でも名演を残し、41歳で早世したが、一聴して分かる独特のタッチで永遠に愛される存在。"},
+  {r:133,n:"Sister Rosetta Tharpe",b:"solo",                        t:"Strange Things Happening Every Day",w:"Sister Rosetta Tharpe", d:"「ロックンロールのゴッドマザー」と呼ばれる、ゴスペル/ロックの開祖。エレクトリック・ギターを教会音楽に持ち込み、1944年のStrange Things Happening Every Dayはロックンロールの最古の可能性を秘めた録音の1つ。チャック・ベリーやエルヴィスが登場する遥か前に電気ギターを攻撃的に鳴らした先駆者。"},
+  {r:134,n:"Samantha Fish",      b:"solo",                          t:"Bulletproof",                       w:"Samantha Fish", d:"ミズーリ州カンザスシティ出身の女性ブルース・ロック・ギタリスト。シガーボックス・ギターとストラトを自在に持ち替え、ブルースに現代的なポップ感覚を織り込む。Bulletproofなどの粘りのあるトーンと、ステージ上のエネルギッシュな存在感で、新世代女性ブルースの最前線を担っている。"},
+  {r:135,n:"Robert Cray",        b:"The Robert Cray Band",          t:"Smoking Gun",                       w:"Robert Cray", d:"シカゴ・ブルースよりもソウル寄りの洗練されたサウンドを持つ、1980年代ブルース・リバイバルの象徴。ストラトのクリーンな音色で、Smoking Gunなどの都会的ブルースを書いた。泣きの要素を抑えたクールなフレージングは、カリフォルニアのスタジオシーンでも高く評価される。"},
+  {r:136,n:"Warren Haynes",      b:"Gov't Mule / Allman Brothers",  t:"Soulshine",                         w:"Warren Haynes", d:"Allman Brothers BandとGov't Muleで、1990〜2010年代のサザンロック/ジャムバンドを支え続けたリーダー。Soulshineに象徴されるソウルフルなスライドと歌、そして長尺ソロの構築力で、デュアン・オールマン以後の流派を代々継承させた役割は計り知れない。ブルース的語彙の現代的翻訳者。"},
+  // Alternative / indie / grunge
+  {r:137,n:"Graham Coxon",       b:"Blur",                          t:"Song 2",                            w:"Graham Coxon", d:"Blurのギタリストで、Song 2のようなグランジ的ラウドさから、Coffee & TVのクリーン・アルペジオまで、幅広い表現を持つ90年代英国ロックの重要人物。ソロ作ではアヴァンギャルドに振れ、プロデューサーのスティーヴン・ストリートと緊密に組んで、ブリットポップの枠を越えていった職人。"},
+  {r:138,n:"Kevin Shields",      b:"My Bloody Valentine",           t:"Only Shallow",                      w:"Kevin Shields", d:"My Bloody Valentineのフロントマン。Only ShallowやSometimesのような曲を、トレモロアームを押し付けた不安定なチューニングの「グライド・ギター」と、膨大な多重録音で構築。Lovelessの朦朧とした音像はシューゲイザーという語を世界に広め、以後のインディロックの音響像を決定づけた。"},
+  {r:139,n:"Josh Homme",         b:"Queens of the Stone Age",       t:"No One Knows",                      w:"Josh Homme", d:"Queens of the Stone Ageのフロントマン。No One Knowsの有名な「オムパ」リフに代表されるように、ストーナー・ロックに奇妙なグルーヴと洗練を持ち込んだ。Kyuss時代からダウンチューンと荒砂のような歪みを武器にし、砂漠ロックというサブジャンルを成立させた張本人。"},
+  {r:140,n:"Billie Joe Armstrong",b:"Green Day",                    t:"Basket Case",                       w:"Billie Joe Armstrong", d:"Green Dayのフロントマンで、Basket CaseやAmerican Idiotを書いたポップパンクの旗手。派手な技巧ではなくパワーコードの勢いとメロディで勝負するスタイルで、1990年代後半以降のパンクリバイバルの世代的象徴となった。ブルーのストラトコピー「ブルー」を愛用する姿も印象的。"},
+  {r:141,n:"Robert Smith",       b:"The Cure",                      t:"Just Like Heaven",                  w:"Robert Smith (musician)", d:"The Cureの唯一の恒常メンバーで、Just Like Heavenのきらめくアルペジオから、Pictures of YouのディレイがかったPlaintiveなリードまで、ポストパンクの感傷を音にした男。フェンダー・バスマンのクリーンチャンネルをうっすら歪ませたトーンは、ゴスロック/ニューウェイヴのギター感覚の礎となった。"},
+  {r:142,n:"Billy Corgan",       b:"The Smashing Pumpkins",         t:"Cherub Rock",                       w:"Billy Corgan", d:"The Smashing Pumpkinsの中核。Cherub RockやTodayで聴こえる、低域が壁のように押し寄せるファズ+多重録音のギター音は、90年代オルタナティヴの音像を書き換えた。自身のスタジオBugg Recordingsでギター・トーンに執着する完璧主義者で、ビッグ・マフを爆音で鳴らす美学の体現者。"},
+  {r:143,n:"Kim Thayil",         b:"Soundgarden",                   t:"Black Hole Sun",                    w:"Kim Thayil", d:"Soundgardenの創設メンバーで、Black Hole SunやRusty Cageなど主要曲のオーバードライブの壁を作った職人。DADFADドロップDに近い独自のオープンチューニングを多用し、ミドルからローが押し寄せるようなヘヴィでプログレッシブなリフを書く、グランジの中では最も技術派のギタリスト。"},
+  {r:144,n:"Mike McCready",      b:"Pearl Jam",                     t:"Alive",                             w:"Mike McCready", d:"Pearl JamのリードギタリストでAliveやYellow Ledbetterの情熱的なソロで知られる。ジミ・ヘンドリックス、スティーヴィー・レイ・ヴォーンの系譜を引き継ぐブルースロック派で、ストラトのネックを絞り込むような粘りのあるタッチが持ち味。若くしてバンドの顔になりながら、正統派の継承者であり続ける。"},
+  // Right now / contemporary
+  {r:145,n:"Tosin Abasi",        b:"Animals as Leaders",            t:"CAFO",                              w:"Tosin Abasi", d:"黒人ギタリストとしてはメタル界で数少ない第一線のリーダー。Animals as Leadersを率いて、8弦ギターとタッピングを融合したインストゥルメンタルのメタルを確立した「ジェント」の中心人物。Cafoなどで聴ける複雑なポリリズムは、数学的厳密さと歌心を同時に実現する、2010年代以降のギター革命の旗手。"},
+  {r:146,n:"Tim Henson",         b:"Polyphia",                      t:"Playing God",                       w:"Tim Henson", d:"Polyphiaのフロントマンで、2020年代ギター界の最も影響力のある新世代の一人。Playing Godなどに見られるフラメンコ/トラップ/プログを混ぜ込んだタッピングとハイブリッドピッキングのスタイルは、いかにもインスタ時代の速度感で、若いギタリスト達を大量に刺激している。"},
+  {r:147,n:"Plini",              b:"solo",                          t:"Handmade Cities",                   w:"Plini", d:"オーストラリア/シドニー出身のインスト・ギタリスト。Handmade Citiesに象徴される浮遊感のあるメロディと、緻密なポリリズムの上で優しく歌うリードトーンで、スティーヴ・ヴァイから「史上最高のインスト・ギター・アルバムの一つ」と讃えられた。スタジオ・プロデューサーとしての耳も抜群。"},
+  {r:148,n:"Nita Strauss",       b:"solo / Alice Cooper",           t:"Our Most Desperate Hour",           w:"Nita Strauss", d:"アリス・クーパーのバンドで、女性ギタリストとしての地位を確立。ストラト一本で勢いよく速弾きを繰り出すショーマンシップと、ソロ作Controlled Chaosの完成度で、2010年代以降のギター界で存在感を増してきた。メタル界における女性表現の先頭に立ち続ける、ステージ度外れのエンターテイナー。"},
+  {r:149,n:"Christone Ingram",   b:"solo",                          t:"Fresh Out",                         w:"Christone Ingram", d:"ミシシッピ州クラークスデイル出身の新世代ブルース旗手。Buddy GuyやEric Claptonから早くから支援を受け、デビュー作KingfishとFresh Outで古典ブルースを現代に蘇らせた。ゴスペルとブルースとファンクを自然に溶け込ませた21世紀ブルースの希望。"},
+  // Jazz / fusion
+  {r:150,n:"Django Reinhardt",   b:"Quintette du Hot Club de France",t:"Minor Swing",                      w:"Django Reinhardt", d:"左手指のうち2本しか動かなかったにもかかわらず、2本指でジプシー・ジャズという完全な新ジャンルを生み出したベルギー生まれのロマ。Minor Swing、Nuages、Djangologyはその後のジャズ・ギターの全ての基準となった。Quintette du Hot Club de Franceでバイオリンのステファン・グラッペリと組んだ演奏は今も伝説。"},
+  {r:151,n:"Wes Montgomery",     b:"solo",                          t:"Four on Six",                       w:"Wes Montgomery", d:"親指一本でピッキングするハイブリッド奏法と、オクターヴ・メロディの二刀流で、モダン・ジャズ・ギターのスタイルを完成させた巨匠。Four on SixやWestCoast Bluesに代表される、流麗で音数の多いラインとブルージーなフィーリングを両立させるソロは、以降のジャズ・ギター演奏の普遍的教科書。"},
+  {r:152,n:"Charlie Christian",  b:"Benny Goodman Sextet",          t:"Solo Flight",                       w:"Charlie Christian", d:"ベニー・グッドマン楽団での仕事を通して、エレキ・ギターを単なるリズム楽器からソロ楽器へと引き上げた革命家。Solo Flightなどで見せるホーン的単音ラインは、ジャズ・ギターの近代の始まりそのもの。結核により25歳で早世したが、残した僅かな録音がチャーリー・パーカー以降のビバップ世代を準備した。"},
+  {r:153,n:"Pat Metheny",        b:"Pat Metheny Group",             t:"Are You Going with Me?",            w:"Pat Metheny", d:"ECMレコードを象徴するギタリストで、ジャズにアメリカーナの空気を持ち込んだ叙情派。Are You Going With Me?のシンセ・ギターで聴こえる宇宙的なリードと、Bright Size Life以来の浮遊するメロディ・センスで、ジャズ・ギターの語彙を根本から広げた。現代ジャズで最も多作かつ尊敬される作曲家の1人。"},
+  {r:154,n:"Al Di Meola",        b:"Return to Forever / solo",      t:"Mediterranean Sundance",            w:"Al Di Meola", d:"リターン・トゥ・フォーエヴァーでのフュージョン演奏と、パコ・デ・ルシアやジョン・マクラフリンと組んだFriday Night in San Franciscoのアコースティック三重奏で名高い、イタリア系アメリカ人の超絶技巧派。Mediterranean Sundanceなどで聴こえる弾丸のような右手の技巧は、今もアコースティック速弾きの頂点の一つ。"},
+  // Acoustic / fingerstyle
+  {r:155,n:"Tommy Emmanuel",     b:"solo",                          t:"Classical Gas",                     w:"Tommy Emmanuel", d:"オーストラリア出身のフィンガースタイル巨匠。チェット・アトキンスを師と仰ぎ、Classical GasやAngelinaを含むソロ・パフォーマンスで、ギター一本でバンドを再現する独自のスタイルを完成させた。体全体でリズムを取りながら、ベース、コード、メロディを同時に演奏する姿は多くの若手を鼓舞している。"},
+  {r:156,n:"Michael Hedges",     b:"solo",                          t:"Aerial Boundaries",                 w:"Michael Hedges", d:"Windham Hillのスター的存在で、変則チューニングとタッピング、スラップ・ハーモニクスを組み合わせて、アコースティック・ギター一本でオーケストラのような響きを作った。Aerial Boundariesに象徴される作品群は、ソロ・ギターの物理的な限界を超えており、自動車事故で43歳で他界した後も神格化され続けている。"},
+  {r:157,n:"Leo Kottke",         b:"solo",                          t:"Vaseline Machine Gun",              w:"Leo Kottke", d:"ジョン・フェイヒイの後継者として、Takoma Recordsから登場した12弦指弾きの巨匠。1969年の6- and 12-String Guitarは今もアコースティックギターの古典で、Vaseline Machine Gunの流れるような三連タッチと、親しみやすい語り口で、前衛的なアメリカン・プリミティヴをより広い聴衆に届けた。"},
+  {r:158,n:"Bert Jansch",        b:"Pentangle",                     t:"Angie",                             w:"Bert Jansch", d:"英国フォーク・リバイバルの中心に立ち、Pentangleの一員でもあったスコットランド出身の指弾きの巨人。1965年のデビュー盤に収録されたAngie(デイヴィー・グラハムのカバー)は、若きジミー・ペイジに計り知れない影響を与えた。英国フォークのトラディショナル・チューニングと即興演奏を融合した、影響力大きな開拓者。"},
+  // Punk
+  {r:159,n:"Joe Strummer",       b:"The Clash",                     t:"London Calling",                    w:"Joe Strummer", d:"The Clashのフロントマンで、パンクに政治性と世界音楽の感覚を持ち込んだ声の人。ミック・ジョーンズとは対照的に、コードを殴りつけるリズムギタリストの役割に徹し、London Callingで象徴される英国パンクの大河を作った。メスカレロス時代まで、常に叫び続けた生粋のシンガー・ソングライター。"},
+  {r:160,n:"Mick Jones",         b:"The Clash",                     t:"Train in Vain",                     w:"Mick Jones (The Clash guitarist)", d:"The Clashのリードギタリスト兼ソングライター。Train in Vain、Should I Stay or Should I Go、Londonヘ Callingなどの曲を書いたメロディ・メーカーで、パンクにレゲエやR&Bのコード感覚を融合させた。後のBig Audio Dynamiteでサンプリングとダブをロックに取り込み、80年代以降の音楽にも影響を残した。"},
+  // Early innovators / classic rock
+  {r:161,n:"Hank Marvin",        b:"The Shadows",                   t:"Apache",                            w:"Hank Marvin", d:"The Shadowsのリーダーで、英国でストラトキャスターを最初期に広めたインスト・ロックの父。Apacheの郷愁のあるメロディとビブラート、そして深いエコーは1960年以降の英国全ギタリストの憧れとなり、クラプトンからブライアン・メイまで全員が幼少期に彼を聴いた。英国ロックの発芽点。"},
+  {r:162,n:"Peter Frampton",     b:"Humble Pie / solo",             t:"Do You Feel Like We Do",            w:"Peter Frampton", d:"ハンブル・パイを経て、1976年のライブ盤Frampton Comes Alive!が歴代有数のセールスを記録し、Do You Feel Like We Doで「トーカーボックス」を一気に普及させた男。フェンダー・カスタム・ストラトの愛機「フェノミナル・トーマス」で奏でる親しみやすい歌物のソロで、ロックの顔の一つとなった。"},
+  {r:163,n:"Steve Howe",         b:"Yes",                           t:"Roundabout",                        w:"Steve Howe", d:"Yesのギタリスト。ES-175のホロウボディを特徴的に使い、Roundaboutに象徴される複雑なリフとクラシック・フラメンコ風のフィンガースタイルで、プログレッシブロックのギター語法を広げた。アコースティックとエレクトリック、ロックとジャズとクラシックを自由に渡り歩く、英国プログ屈指の職人。"},
+  {r:164,n:"Malcolm Young",      b:"AC/DC",                         t:"Highway to Hell",                    w:"Malcolm Young", d:"弟アンガスのソロをこそ目立たせる、AC/DCのリズムギター・マスター。Highway to HellやYou Shook Me All Night Longの背後にある揺るがないダウン・ピッキングのバッキングが、AC/DCのサウンドの本当の核だと多くのギタリストが証言する。派手さと無縁の、ロックンロールの土台そのものを担った男。"},
+  {r:165, n:"Steve Morse", b:"Dixie Dregs / Deep Purple", t:"Take It Off the Top", w:"Steve Morse", d:"Dixie Dregsの首謀者で、Deep Purpleのリッチー・ブラックモア後任として活動した全方位型の職人。カントリー、ジャズ、クラシック、メタルを完璧にこなし、MusicMagazineで5年連続「Best Overall Guitarist」に選ばれた実績がある。速弾きを超えた音楽性と作曲力で同業者から最も尊敬される一人。"},
+  {r:166, n:"Danny Gatton", b:"solo / Redneck Jazz Explosion", t:"Funky Mama", w:"Danny Gatton", d:"ワシントンDCを拠点に活動したテレキャスター使いの超絶技巧派。ジャズ、ブルース、ロカビリー、カントリーを瞬時に切り替えるスタイルは「世界で最高のアンノウン・ギタリスト」と称された。1991年の88 Elmira St.所収のFunky Mamaは無伴奏テレキャスターのジャズとしての到達点。1994年に自ら命を絶った。"},
+  {r:167, n:"Roy Buchanan", b:"solo", t:"The Messiah Will Come Again", w:"Roy Buchanan", d:"テレキャスター一本で絶唱するような泣きのブルースを作り上げた、通称「The Messiah of the Telecaster」。1972年の同名曲でピッキングハーモニクスと人工ハーモニクスを組み合わせた表現はギター界を震撼させた。ストーンズのミック・テイラー後任を断り生涯ソロで活動を貫いた孤高の人。"},
+  {r:168, n:"Steve Hackett", b:"Genesis / solo", t:"Firth of Fifth", w:"Steve Hackett", d:"Genesisの黄金期ギタリストで、タッピング奏法をEVHより先に公に披露した技術革新者。Firth of Fifthの叙情的な長尺ソロはプログレッシブロックのギターソロの最高峰とされる。ナイロン弦の繊細なフィンガースタイルも得意で、クラシカルな作曲センスが際立つ。"},
+  {r:169, n:"Phil Keaggy", b:"Glass Harp / solo", t:"Salvation Army Band", w:"Phil Keaggy", d:"Glass Harpを率いた後、クリスチャン音楽と純器楽の世界で活動を続ける技巧派。ポール・マッカートニー本人に「地球上で最高のギタリストの一人」と讃えられた伝説を持ち、アコースティックからシュレッドまで全方位に対応。右手指の欠損のハンデを感じさせない流麗なフレージングが持ち味。"},
+  {r:170, n:"Jan Akkerman", b:"Focus", t:"Hocus Pocus", w:"Jan Akkerman", d:"オランダのプログレバンドFocusの中心人物で、ヨーロッパのジャズ、クラシック、中世音楽を流し込んだ独自のロックギター語彙を作った。ヨーデル入りのHocus Pocusで一躍世界に知られ、1973年のMelody Maker誌で世界ベスト・ギタリストに選ばれたこともある。"},
+  {r:171, n:"Uli Jon Roth", b:"Scorpions / Electric Sun", t:"The Sails of Charon", w:"Uli Jon Roth", d:"Scorpionsの第2期でIn TranceやVirgin Killerを築き、ヘンドリックスの直接的後継を自任するドイツの巨匠。Sails of CharonはYngwieを含めクラシカル・メタル世代全員が最大の影響源と挙げる、中東旋法と半音階を溶かした革新的な一曲。後に7弦の「Sky Guitar」を自作した。"},
+  {r:172, n:"Gary Moore", b:"Thin Lizzy / solo", t:"Still Got the Blues", w:"Gary Moore", d:"アイルランドが生んだブルースとハードロックの両刃。Thin Lizzy在籍期からソロ期のStill Got the Bluesまで、激情的な泣きのレスポールトーンで知られる。絞り出すようなビブラートと音の一粒一粒の重みで、80年代メタルから90年代ブルースリバイバルまで橋渡しした職人。"},
+  {r:173, n:"Joe Messina", b:"The Funk Brothers", t:"My Girl", w:"Joe Messina", d:"Motownのハウスバンド「The Funk Brothers」の3人ギタリストの一人。ジャズ出身でクリーンなコードワークとフィルを提供し、Temptations、Four Tops、Marvin Gayeなど60年代の無数のヒット曲の背景で鳴り続けた。ドキュメンタリー「Standing in the Shadows of Motown」で世に存在が広まるまで、匿名の偉大な職人だった。"},
+  {r:174, n:"Robert White", b:"The Funk Brothers", t:"I Heard It Through the Grapevine", w:"Robert White (guitarist)", d:"Motownのハウスバンド「The Funk Brothers」の3人ギタリストの一人。My GirlのイントロリフやI Heard It Through the Grapevine、Baby Loveなど数多くのモータウンのヒットで輝いた、ソウルの隠れた立役者。クリーンなシングルラインの美しさでMotownサウンドを定義づけた。"},
+  {r:175, n:"Eddie Willis", b:"The Funk Brothers", t:"Ain't Too Proud to Beg", w:"Eddie Willis (guitarist)", d:"Motownのハウスバンド「The Funk Brothers」の3人ギタリストの一人。ミシシッピ生まれのブルース的な粘りとファンクのリズム感をモータウンのポップに注入した。カッティング主体の脇役に徹しつつ、60年代アメリカン・ポップの根幹を支えた無名の巨人。"},
+  {r:176, n:"Jimmy Nolen", b:"James Brown band", t:"Papa's Got a Brand New Bag", w:"Jimmy Nolen", d:"ジェームス・ブラウン楽団の「King of Funk Rhythm Guitar」。16分音符のスタッカート・カッティングを主軸にした「チキン・スクラッチ」奏法はファンクの基礎言語となり、あらゆるソウル/ファンク/ディスコ/ヒップホップのギターバッキングの原型になった。"},
+  {r:177, n:"Lonnie Mack", b:"solo", t:"Memphis", w:"Lonnie Mack", d:"1963年のインスト「Memphis」と「Wham!」で、ブルースロックにおけるフィンガーピッキングとアームを使ったビブラートを先駆けた。フライングVを愛用した最初のスターの一人で、スティーヴィー・レイ・ヴォーンは彼を師と仰いだ。テキサス・ブルース・ロックの隠れた源流。"},
+  {r:178, n:"Cliff Gallup", b:"Gene Vincent & His Blue Caps", t:"Be-Bop-A-Lula", w:"Cliff Gallup", d:"ジーン・ヴィンセントの初期バンドで1956〜57年に活動した、ロカビリー最初期の伝説的リードギタリスト。Be-Bop-A-LulaやRace With the Devilで披露した、チェット・アトキンス譲りのハイブリッドピッキングの切れ味は、ジェフ・ベックが最も愛したギタリストとして半世紀を越えて敬意を集める。"},
+  {r:179, n:"Shawn Lane", b:"Black Oak Arkansas / solo", t:"Not Again", w:"Shawn Lane", d:"ギタリストの間で「史上最速」と評される超人的な超絶技巧の持ち主。ブルース、ジャズ、インド音楽まで理解し、Powers of Tenなどで難解な時間感覚と音符密度を両立させた。2003年に持病により40歳で他界したが、録音とライヴ映像は今もギタリスト界の伝説として語り継がれる。"},
+  {r:180, n:"Lee Ranaldo", b:"Sonic Youth", t:"Mote", w:"Lee Ranaldo", d:"Sonic Youthで、サーストン・ムーアと共にオルタナティブ・ロックの音響的可能性を押し広げた実験家。変則チューニングと、プリペアド・ギター(ドライバーやドラムスティックを挟むテクニック)の名手。ノイズと旋律を共存させる詩的なギターは、ポストパンク以降のインディロックに欠かせない基礎。"},
+  {r:181, n:"Terry Kath", b:"Chicago", t:"25 or 6 to 4", w:"Terry Kath", d:"シカゴの初代ギタリストで、25 or 6 to 4の長尺ソロはジミ・ヘンドリックス本人に「俺より上手い」と言わしめた逸話を持つ。テレキャスターで紡ぐ歌心と、ファズ/ワウを駆使した表現力で、ブラス・ロックを真にギター的なジャンルに押し上げた。1978年の銃器事故により31歳で他界。"},
+  {r:182, n:"Tommy Bolin", b:"Deep Purple / James Gang / solo", t:"Teaser", w:"Tommy Bolin", d:"Deep Purple後期のリッチー・ブラックモア後任を務めた、テクニックと音楽性を兼ね備えた若きギターヒーロー。James GangではJoe Walshの後任、そしてビリー・コブハムのSpectrumでフュージョン作品にも参加。多才さを発揮したが1976年にヘロイン過剰で25歳で他界した悲劇の人。"},
+  {r:183, n:"Neal Schon", b:"Santana / Journey", t:"Don't Stop Believin'", w:"Neal Schon", d:"15歳でカルロス・サンタナと肩を並べたSantana加入、そしてJourneyを結成したハードロックの早熟天才。Don't Stop Believin'のイントロやFaithfullyの劇的なソロに代表される、歌メロを尊重する美しいフレージングで、AOR/アリーナロックの標準形を作り上げた。"},
+  {r:184, n:"Kirk Hammett", b:"Metallica", t:"One", w:"Kirk Hammett", d:"Joe Satrianiの弟子として入団したMetallicaのリードギタリスト。ワウペダルと半音階を自在に組み合わせ、Master of PuppetsやOneのような長尺のメロディックなソロは、スラッシュメタルの中で最も歌心のある存在として機能した。メタル世代の多くが最初に憧れるギターヒーローの一人。"},
+  {r:185, n:"Alvin Lee", b:"Ten Years After", t:"I'm Going Home", w:"Alvin Lee", d:"Ten Years Afterのフロントマンで、ウッドストックでのI'm Going Homeの11分に及ぶ狂騒的な高速ブルース演奏によって「世界最速のギタリスト」の称号を得た。ギブソンES-335に「Big Red」と愛称を付けて生涯使い続けた、英国ブルースブームの最重要人物の一人。"},
+  {r:186, n:"Vinnie Moore", b:"UFO / solo", t:"In Control", w:"Vinnie Moore", d:"1980年代後半のShrapnelレコード所属のネオクラシカル・シュレッドの代表格。1986年のMind's Eyeの冒頭を飾るIn Controlは、後のテクニカルギター世代に大きな影響を与えた教科書的な速弾きインスト。その後UFOに加入し、メンバー交代を経てなお活動を続ける、正統派速弾き職人。"},
+  {r:187, n:"Tony MacAlpine", b:"M.A.R.S. / Planet X / solo", t:"The Raven", w:"Tony MacAlpine", d:"Shrapnel Records発のシュレッドとネオクラシカル・メタル世代の中心人物の一人。クラシックピアノの素養を生かした複雑な和声感覚と超絶的ピッキング技巧を持ち、Planet XやCABなどでフュージョンの世界にも踏み込んだ、オールラウンドな技術派。"},
+  {r:188, n:"Ray Gomez", b:"Stanley Clarke / solo", t:"Make Your Move", w:"Ray Gomez", d:"スタンリー・クラーク・バンドや数々のセッションで活躍した、モロッコ生まれの驚異的技巧派フュージョンギタリスト。1980年のソロ作Volumeで、Allan Holdsworthが讃える独自のレガートとスーパーテクニックを披露。代表曲Make Your MoveはKSHE(セントルイス)で1位を獲得した、知る人ぞ知る伝説の職人。"},
+  {r:189, n:"Michael Landau", b:"session / Landau Band", t:"I'm Buzzed", w:"Michael Landau", d:"ロサンゼルスの一流セッションマン。スティーヴ・ルカサー同世代として数千の録音に参加しつつ、自身のソロ作Tales from the BulgeのI'm Buzzedなどで硬派のブルースロックを展開。ストラトキャスターから絞り出す濃密なトーンと、歌い手のように感情豊かなソロは、プロの耳を最も集める現代ロックの巨匠。"},
+  {r:190, n:"Carl Verheyen", b:"Supertramp / Carl Verheyen Band", t:"Opening Above", w:"Carl Verheyen", d:"スーパートランプを含む数多のセッションで活躍しつつ、自身のバンドでジャズ、ロック、カントリーを横断する高度な音楽を展開。教則本やマスタークラスの著者としても知られ、理論と実践の両面で後進の教育にも力を入れる、L.A.屈指の職人。"},
+  {r:191, n:"Adrian Belew", b:"King Crimson / David Bowie / solo", t:"Thela Hun Ginjeet", w:"Adrian Belew", d:"キング・クリムゾン第3期を率いたギタリストで、ギターで象や鳥の鳴き声を模倣する独特のエフェクト使いで知られる前衛派。ザッパ、ボウイ、トーキング・ヘッズら巨匠達の右腕を務めた経歴を持ち、ソロ作でも独創的なポップ・プログレッシブを発表し続けている。"},
+  {r:192, n:"Martin Barre", b:"Jethro Tull", t:"Aqualung", w:"Martin Barre", d:"Jethro Tullの40年以上にわたるギタリスト。Aqualungの有名なリフやLocomotive Breathの重厚なソロで、イアン・アンダーソンのフルートとの絶妙な絡みを作り上げた。ハードロックとフォークとプログを溶かす、英国ロック屈指の縁の下の職人。"},
+  {r:193, n:"Ray Davies", b:"The Kinks", t:"Waterloo Sunset", w:"Ray Davies", d:"The Kinksの兄でソングライター、そして弟デイヴと共にバンドのリズムギターを担った。You Really Got MeやWaterloo Sunsetに象徴されるように、シンプルなコードとメロディで英国ロックの知的な一面を築いた。ソングライターとしての側面が有名だが、リズムギタリストとしての基礎的な貢献も大きい。"},
+  {r:194, n:"Scott Gorham", b:"Thin Lizzy", t:"The Boys Are Back in Town", w:"Scott Gorham", d:"Thin Lizzyのツインギター編成を築いた米国人。ブライアン・ロバートソンやゲイリー・ムーアと組んだツインリードは、Iron MaidenをはじめNWOBHM世代全てに多大な影響を与えた。The Boys Are Back in Townのハモリは今もロックのツインリードの教科書的瞬間。"},
+  {r:195, n:"Brian Robertson", b:"Thin Lizzy / Motörhead", t:"Still in Love with You", w:"Brian Robertson (guitarist)", d:"Thin Lizzy黄金期の片翼として、ラフで情熱的なソロを担当。Still in Love with Youの泣きのリードは、生涯の名演として語り継がれる。後にMotörheadにも短期参加。その荒々しくも芯のある音色は、英ハードロックの真髄を体現する。"},
+  {r:196, n:"Big Jim Sullivan", b:"session work", t:"Hurdy Gurdy Man", w:"Big Jim Sullivan", d:"1960〜70年代の英国ポップ/ロックの裏方を支えたセッションの帝王の1人。トム・ジョーンズやドノヴァン、デヴィッド・ボウイなど数千曲で演奏し、ジミー・ペイジと並んで英国セッション界の双璧とされた。ギブソンL-5を愛用する典型的な職人タイプ。"},
+  {r:197, n:"Mickey Baker", b:"Mickey & Sylvia / session", t:"Love Is Strange", w:"Mickey Baker", d:"1950年代のNY R&Bセッションの中心にいた巨匠で、Mickey & SylviaのLove Is Strangeで自身名義のヒットも持つ。ジャズ、ブルース、ロックンロールを橋渡しするシングルライン・ソロと、著名な教則本「Jazz Guitar」で後進を多数育てた教育者。"},
+  {r:198, n:"Robin Trower", b:"Procol Harum / solo", t:"Bridge of Sighs", w:"Robin Trower", d:"Procol Harumを経てソロへ、ジミ・ヘンドリックス系のファズ/ワウで自らの世界を築いた英国の雄。1974年のBridge of Sighsはアトモスフェリックなブルースロックの到達点として、今も多くのギタリストから愛される。スローかつ重たいトーンと、泣きのフレージングが彼の指紋。"},
+  {r:199, n:"Jorma Kaukonen", b:"Jefferson Airplane / Hot Tuna", t:"Embryonic Journey", w:"Jorma Kaukonen", d:"Jefferson Airplaneのオリジナルメンバーで、後にHot Tunaを率いた指弾きの名手。レヴェレンド・ゲイリー・デイヴィスから継承したラグタイム/ブルースのフィンガースタイルをロックの文脈に持ち込み、60年代サイケデリック・ロックに独自のアコースティックな色を添えた。"},
+  {r:200, n:"Misha Mansoor", b:"Periphery", t:"Marigold", w:"Misha Mansoor", d:"Peripheryのリーダーで、2010年代のジェント(djent)ムーブメントを牽引した現代プログレッシブ・メタルの中心人物。高度に制御された7弦/8弦のリフとトーン作りで、Meshuggahが生んだ低音の美学を完成された楽曲に昇華させた。プロデューサー、機材設計者としても多方面で活躍する万能職人。"},
+  {r:201, n:"Matteo Mancuso", b:"solo", t:"Silkroad", w:"Matteo Mancuso", d:"シチリア出身のジャズ/フュージョン界の新星。ピックを使わず、フラメンコ/クラシックギター由来の右手指奏法をエレキに転用した独自のアプローチで、ヴァイから「エレキギターの未来」と讚えられた。流麗なレガートと複雑な和声感覚で20代にして世界の第一線に立つ。"},
+  {r:202, n:"Jared James Nichols", b:"solo", t:"Easy Come, Easy Go", w:"Jared James Nichols", d:"ピックを使わず指で弾くスタイルを貫く、P-90シングルコイルのレスポールを愛用するブルース/ロック・リバイバルの旗手。クラシックな70年代型のパワートリオ編成で、激しくも表情豊かなベンディングと泣きのビブラートを聞かせる、現代における正統派ギターヒーローの一人。"},
+  {r:203, n:"Scott LePage", b:"Polyphia", t:"G.O.A.T.", w:"Scott LePage", d:"Tim HensonとともにPolyphiaの双頭を成すギタリスト。New Levels New DevilsのG.O.A.T.に象徴される、ヒップホップ/EDM感覚のノリと複雑なタッピング/ハイブリッドピッキングを融合した新世代のインスト・ロック語彙を、相方と共に作り上げた。"},
+  {r:204, n:"Mateus Asato", b:"solo / session", t:"The Breakup Song", w:"Mateus Asato", d:"ブラジル生まれのギタリストで、Instagramの短編動画で世界的スターになった稀有な存在。SuhrのTスタイルから紡ぎ出す甘く歌うようなトーンと、ネオソウル系の洗練されたコードボイシングは「neo-soul guitar」というジャンルそのものを定義した。ソングライターとしても進化を続ける。"},
+  {r:205, n:"Ichika Nito", b:"solo", t:"flowers", w:"Ichika Nito", d:"日本が世界に誇るベッドルーム・ギタリストで、YouTube登録者数は270万人超。両手タッピングを駆使した1分程度のミニ・コンポジションで世界中の若いギタリストに影響を与えた。Math rock/Math funkの影響を感じさせる浮遊感のある和声と、繊細な音色の選択で、独自のギター語彙を築いた。"},
+  {r:206, n:"Jason Richardson", b:"All That Remains / solo", t:"Tendinitis", w:"Jason Richardson & Luke Holland", d:"圧倒的な速弾きと完璧なピッキング精度で知られるシュレッダー。All That Remainsを経てソロに。現代ギターヒーローの代表格で、技術的な正確さと音楽性を両立する。"},
+  {r:207, n:"St. Vincent", b:"solo (Annie Clark)", t:"Los Ageless", w:"St. Vincent", d:"アーニー・クラークによるアートロック・プロジェクト。独特のフレーズ感と歪みをまとったギターで現代女性ギタリストの筆頭格。シグネチャーモデルも所有する。"},
+  {r:208, n:"Synyster Gates", b:"Avenged Sevenfold", t:"Afterlife", w:"Synyster Gates", d:"Avenged Sevenfoldのリードギタリスト。スウィープ、タッピング、ネオクラシカル要素を融合させた派手なソロで2010年代メタル・シーンを牽引した。"},
+  {r:209, n:"Kiko Loureiro", b:"Angra / Megadeth", t:"Escaping", w:"Kiko Loureiro", d:"ブラジル出身。Angraのギタリストとしてプログレメタルとラテン/ネオクラシカルの融合で独自の地位を確立し、後にMegadethに加入。テクニックと音楽性のバランスが絶妙。"},
+  {r:210, n:"Trey Anastasio", b:"Phish", t:"You Enjoy Myself", w:"Phish", d:"Phishのフロントマン兼ギタリスト。ジャムバンド・シーンの中心人物で、長尺の即興演奏と複雑な作曲を得意とする。独自のトーンと物語性のあるソロで愛される。"},
+  {r:211, n:"Eric Gales", b:"solo", t:"I Want My Crown", w:"Eric Gales & Joe Bonamassa", d:"左右逆さまに構える独特のスタイルで知られるブルース・ロックギタリスト。ジミヘンの精神を受け継ぐ現代的ブルースマンで、感情豊かなソロが絶品。"},
+  {r:212, n:"John Pizzarelli", b:"solo", t:"I Like Jersey Best", w:"John Pizzarelli", d:"バッキー・ピザレリの息子。7弦ギターと歌を両立する珍しいスタイルで、スウィング時代の粋を現代に伝える。ナット・キング・コールへの愛も深い。"},
+  {r:213, n:"Norman Brown", b:"solo", t:"After The Storm", w:"Norman Brown", d:"スムース・ジャズ界で長く活躍するギタリスト。ジョージ・ベンソンの流れを汲むメロウなトーンと、R&Bテイストの洗練されたフレージングが持ち味。"},
+  {r:214, n:"Mary Osborne", b:"solo", t:"Mary's Goodbye Blues", w:"Mary Osborne", d:"1940年代から活躍した女性ジャズギタリストの先駆者。チャーリー・クリスチャンの影響を強く受け、スウィング期に数少ない女性演奏家として活躍した。"},
+  {r:215, n:"Russell Malone", b:"solo / session", t:"Sweet Georgia Peach", w:"Russell Malone", d:"ジョージ・ベンソンとウェス直系のメインストリーム・ジャズギタリスト。ダイアナ・クラールとの共演でも有名。太く温かいトーンとスウィング感が素晴らしい。"},
+  {r:216, n:"Emily Remler", b:"solo", t:"Softly, As In A Morning Sunrise", w:"Emily Remler", d:"32歳で早逝した女性ジャズギタリスト。ウェス・モンゴメリー直系のビバップを体現し、高度なスウィング感と確かなテクニックで男性優位の世界に輝きを残した。"},
+  {r:217, n:"Charlie Hunter", b:"solo", t:"Bing, Bing, Bing, Bing", w:"Charlie Hunter Trio", d:"8弦ギターでベースとギターを同時に演奏する独自スタイル。ジャズ、ファンク、ソウルを横断し、ディアンジェロのVoodooにも参加。グルーヴの達人。"},
+  {r:218, n:"Kurt Rosenwinkel", b:"solo", t:"Zhivago", w:"Kurt Rosenwinkel", d:"現代ジャズギターの最重要人物の一人。浮遊感のある独特のフレージングと幻想的なサウンドで若手に絶大な影響を与える。モダン・ジャズの革新者。"},
+  {r:219, n:"Julian Lage", b:"solo", t:"Boo's Blues", w:"Julian Lage", d:"神童として注目を集め、現在も第一線で活躍するジャズギタリスト。テレキャスターを使いジャズ、ブルース、カントリー、アメリカーナを溶かし込む独自の美学を持つ。"},
+  {r:220, n:"Earl Klugh", b:"solo", t:"Living Inside Your Love", w:"Earl Klugh", d:"ナイロン弦のアコギを駆使するスムース・ジャズの第一人者。チェット・アトキンスの影響を受け、優しく叙情的なフィンガースタイルで世界中に愛されている。"},
+  {r:221, n:"James \"Blood\" Ulmer", b:"solo", t:"Jazz Is The Teacher, Funk Is The Preacher", w:"James Blood Ulmer", d:"オーネット・コールマンのハーモロディクスを受け継ぐフリージャズ／ファンクのギタリスト。鋭く切り裂くようなトーンとブルース的な濃さが融合した独自の世界。"},
+  {r:222, n:"Eric Gale", b:"solo / session", t:"Ginseng Woman", w:"Eric Gale", d:"Stuffのメンバーとしても知られるセッションの名手。ブルースに根ざした味わい深いトーンで500を超えるアルバムに参加し、日本でも深く愛された。"},
+  {r:223, n:"Eddie Lang", b:"solo / Paul Whiteman", t:"Stringing the Blues", w:"Joe Venuti & Eddie Lang", d:"\"ジャズギターの父\"と呼ばれる伝説。1920年代にギターをバンジョーに代わる主役楽器として確立させ、現代のジャズギターの礎を築いた先駆者。"},
+  {r:224, n:"Larry Carlton", b:"solo / session", t:"Room 335 (Long Version)", w:"Larry Carlton", d:"Gibson ES-335を愛用し\"Mr. 335\"と呼ばれる名手。Steely Danの\"Kid Charlemagne\"ソロなど数々の歴史的セッションに参加。甘く伸びるトーンは唯一無二。"},
+  {r:225, n:"Laurindo Almeida", b:"solo / Stan Kenton", t:"Naked City Theme", w:"Laurindo Almeida & The Bossa Nova Allstars", d:"ブラジル出身のクラシカル／ジャズギタリスト。スタン・ケントン楽団を経てボサノヴァ前夜のクラシカル・ギターとジャズの融合を先駆けた。グラミー多数受賞。"},
+  {r:226, n:"George Van Eps", b:"solo", t:"Stompin' At The Savoy", w:"George Van Eps & Howard Alden", d:"7弦ギターを発明した先駆者。\"ラップ・ピアノ\"と呼ぶ独自のコード／メロディ／ベースを同時に奏でるスタイルを確立し、後のジャズギター発展に多大な影響を与えた。"},
+  {r:227, n:"Sonny Sharrock", b:"solo", t:"Promises Kept", w:"Sonny Sharrock", d:"フリージャズの革新的ギタリスト。コルトレーンのサックスをギターで表現しようとした獰猛なフィードバックと爆発力で、オルタナ／アヴァンギャルドに巨大な影響。"},
+  {r:228, n:"Howard Roberts", b:"solo / Wrecking Crew", t:"Smolderin'", w:"The Howard Roberts Quartet", d:"LAのセッション・シーンで活躍した名手。Wrecking Crewの一員として数多くのポップス録音に参加しつつ、ジャズギターの教育家としても大きな足跡を残した。"},
+  {r:229, n:"Kevin Eubanks", b:"solo", t:"Turning Point (Part I)", w:"Kevin Eubanks", d:"Tonight Showのバンドリーダーとしても有名なジャズ／フュージョン・ギタリスト。兄弟家系の音楽家で、滑らかなラインとフィンガースタイルの技巧が光る。"},
+  {r:230, n:"Bill Connors", b:"Return To Forever / solo", t:"Theme To The Gaurdian", w:"Bill Connors", d:"Return To Forever初期メンバーとしてチック・コリアと共演した後、ECMでソロ・アコースティック作品を制作。繊細でリリカルなプレイが印象的。"},
+  {r:231, n:"Steve Khan", b:"solo / session", t:"Dr. Slump", w:"Steve Khan", d:"Eyewitnessでの鋭いフュージョン演奏で知られる。ウェス・モンゴメリーやジム・ホールの影響を咀嚼した知的なフレージングと、個性的なコード感覚が特徴。"},
+  {r:232, n:"Lee Ritenour", b:"solo / Fourplay", t:"Captain Fingers", w:"Lee Ritenour", d:"\"Captain Fingers\"の愛称で親しまれる指の速さで知られるセッション／スムース・ジャズの名手。Fourplayでも活躍し、数千もの録音に参加している。"},
+  {r:233, n:"Pat Martino", b:"solo", t:"Sunny", w:"Pat Martino", d:"脳動脈瘤で記憶を失ったが奇跡的に復帰した伝説のプレイヤー。16分音符の機関銃のような流麗なラインと独自のマイナー・コンバージョン理論で知られる。"},
+  {r:234, n:"Ralph Towner", b:"Oregon / solo", t:"Icarus", w:"Ralph Towner & Gary Burton", d:"Oregonの中心人物として知られるアコースティックの巨匠。12弦ギターとクラシカル・ギターを駆使し、ジャズ、フォーク、クラシックを融合した独特の世界観を築く。"},
+  {r:235, n:"John Abercrombie", b:"solo / ECM", t:"Timeless", w:"John Abercrombie Jan Hammer Jack DeJohnette", d:"ECMレーベルの看板ギタリスト。Gatewayトリオでの活動で知られる。フュージョンから内省的なモダン・ジャズまで、多彩な音楽性と独特の浮遊感を持つトーンが魅力。"},
+  {r:236, n:"Bill Frisell", b:"solo", t:"Have a Little Faith in Me", w:"Bill Frisell", d:"アメリカーナ、カントリー、ジャズを横断する独特の世界観を持つギタリスト。エフェクトを駆使した浮遊感あるサウンドと、プレイの詩情で世界中のファンを魅了。"},
+  {r:237, n:"Freddie Green", b:"Count Basie Orchestra", t:"Corner Pocket", w:"Count Basie And His Orchestra", d:"カウント・ベイシー楽団で50年間リズムギターを担当した巨人。ソロはほとんど取らず、4ビートのコードカッティングだけでバンドを揺らす職人の極致。"},
+  {r:238, n:"Herb Ellis", b:"Oscar Peterson Trio", t:"Pap's Blues", w:"Herb Ellis", d:"オスカー・ピーターソン・トリオのギタリストとして名を馳せた。テキサス出身らしいブルージーな感覚と伸びやかなスウィング感で、ジャズギター黄金時代を支えた。"},
+  {r:239, n:"Lenny Breau", b:"solo", t:"Five O'clock Bells", w:"Lenny Breau", d:"カナダ出身の天才。チェット・アトキンス流のフィンガースタイルとジャズのコード・メロディを融合させた独自のハーモニクス奏法で後進に強い影響を残した。"},
+  {r:240, n:"Mike Stern", b:"Miles Davis / solo", t:"Upside Downside", w:"Mike Stern", d:"マイルス・デイビス・バンドを経てソロとして活躍するフュージョン・ギタリスト。ロックの激しさとジャズの洗練を兼ね備えた、情熱的でブルージーなスタイルが特徴。"},
+  {r:241, n:"John Scofield", b:"Miles Davis / solo", t:"Chank", w:"John Scofield", d:"マイルス・バンド出身の現代ジャズ・ギター第一人者。独特のベンドとアウト感を活かしたフレージングで、ジャズ、ファンク、ジャムバンドを縦横無尽に行き来する。"},
+  {r:242, n:"Charlie Byrd", b:"solo / Stan Getz", t:"Desafinado", w:"Stan Getz & Charlie Byrd", d:"スタン・ゲッツとの\"Jazz Samba\"でボサノヴァをアメリカに紹介した立役者。クラシックギター出身で、ナイロン弦の温かみある音色がブラジル音楽と絶妙に調和する。"},
+  {r:243, n:"Larry Coryell", b:"Eleventh House / solo", t:"Spaces (Infinite)", w:"Larry Coryell", d:"\"Godfather of Fusion\"と称される。The Eleventh Houseでジャズ・ロックを開拓し、ジョン・マクラフリンと並ぶ初期フュージョンの象徴的存在だった。"},
+  {r:244, n:"Jimmy Raney", b:"solo", t:"Stella By Starlight", w:"Stan Getz", d:"スタン・ゲッツ・カルテットの一員として1950年代クール・ジャズを代表するギタリスト。澄んだトーンとバップ語法の流麗なラインで\"ギタリストのギタリスト\"と呼ばれる。"},
+  {r:245, n:"Gabor Szabo", b:"solo / Chico Hamilton", t:"Gypsy Queen", w:"Gábor Szabó", d:"ハンガリー出身のギタリスト。\"Gypsy Queen\"はサンタナによってロックの名曲に生まれ変わった。ジャズ、東欧音楽、インド音楽を融合した神秘的なサウンドを確立。"},
+  {r:246, n:"Johnny Smith", b:"solo", t:"Moonlight In Vermont", w:"Johnny Smith", d:"\"ムーンライト・イン・ヴァーモント\"の名演で知られるクール・ジャズの巨匠。ピアノ的な密集ヴォイシングのコード・メロディで、ジャズギターの概念を広げた。"},
+  {r:247, n:"Stanley Jordan", b:"solo", t:"Eleanor Rigby", w:"Stanley Jordan", d:"両手タッピングによる革新的奏法で1980年代に登場。ピアニストのように旋律、和声、ベースを同時演奏する独自技術で、ジャズギターに全く新しい可能性を示した。"},
+  {r:248, n:"Tal Farlow", b:"solo / Red Norvo Trio", t:"Meteor", w:"Tal Farlow", d:"巨大な手を活かした軽快で高速なフレージングで\"Octopus\"の異名を取る。レッド・ノーヴォ・トリオでの活躍で50年代ジャズギター界の頂点の一人に上り詰めた。"},
+  {r:249, n:"Joe Pass", b:"solo", t:"Night And Day", w:"Joe Pass", d:"\"Virtuoso\"シリーズで証明した至高の無伴奏ソロ・ギターの達人。メロディ、コード、ベースラインを同時に演奏する完璧なテクニックで世界を驚かせた真の巨匠。"},
+  {r:250, n:"Kenny Burrell", b:"solo", t:"Chitlins Con Carne", w:"Kenny Burrell", d:"\"Midnight Blue\"で知られるデトロイト出身の名手。ブルースを血に持ちつつ上品にスウィングするプレイで、デューク・エリントンが最愛のギタリストと称した。"},
+  {r:251, n:"Barney Kessel", b:"solo / Wrecking Crew", t:"Jordu", w:"Barney Kessel & Ray Brown & Shelly Manne", d:"チャーリー・クリスチャン直系のビバップ・ギタリスト。Poll Winnersトリオで名を轟かせ、Wrecking Crewのメンバーとしても数多くのポップス録音に参加した。"},
+  {r:252, n:"Grant Green", b:"solo / Blue Note", t:"Idle Moments", w:"Grant Green", d:"Blue Noteレーベルのハウス・ギタリストとして活躍。ホーン的な単音ライン主体のシンプルで力強いスタイルで、ソウル・ジャズとハード・バップの両方に足跡を残した。"},
+  {r:253, n:"George Benson", b:"solo", t:"Breezin'", w:"George Benson", d:"ウェス・モンゴメリーの最高の後継者とされる名手。\"Breezin'\"で世界的スターとなり、歌とギターを高レベルで両立する稀有な才能でジャンルの壁を超えた。"},
+  {r:254, n:"Jim Hall", b:"solo", t:"Concierto De Aranjuez", w:"Jim Hall", d:"\"クワイエット・ジャイアント\"と呼ばれる静謐な巨匠。空間を活かした繊細なフレージングで、パット・メセニーやビル・フリゼールら現代の巨匠たちに深い影響を与えた。"},
+  {r:255, n:"Doc Watson", b:"solo", t:"Black Mountain Rag", w:"Doc Watson & Merle Watson", d:"盲目のギタリスト兼フォークシンガー。フラットピッキング・ギターの第一人者にしてブルーグラス三大ギタリストの一人。フィドル曲を驚くべき正確さでアコースティックギターで再現し、この奏法を芸術の域まで高めた。"},
+  {r:256, n:"Sabicas", b:"solo", t:"Bulerias", w:"Sabicas", d:"少年時代のパコ・デ・ルシアが憧れたフラメンコ界空前絶後の技巧派。カルロス・モントーヤと共にフラメンコギターを世界に知らしめた巨匠。チェット・アトキンスが「最高のテクニックはサビーカスだ」と絶賛した。"},
+  {r:257, n:"João Gilberto", b:"solo", t:"Chega de Saudade", w:"João Gilberto", d:"ボサノバの創始者にしてバチーダ奏法の生みの親。囁くような歌声と、メトロノームのように刻むギターのシンコペーションで、ブラジル音楽を世界的な新ジャンルへと昇華させた\"O Mito\"(神話)と呼ばれる巨匠。"},
+  {r:258, n:"Derek Bailey", b:"solo / Music Improvisation Company", t:"Third Stream Boogaloo", w:"Derek Bailey", d:"ノンイディオマティック(既存の音楽語法に依らない即興)を提示した伝説のギター即興演奏家。ジム・オルーク、大友良英、マーク・リボー等、「癖のある」ミュージシャンたちに深い影響を与えた即興演奏の巨匠。"},
+  {r:259, n:"Robben Ford", b:"solo / Yellowjackets", t:"Revelation", w:"Robben Ford", d:"ジャズとブルースを股にかけて活躍するギタリスト兼シンガー。マイルス・バンド、Yellowjackets、リッキー・リー・ジョーンズ等、数多くの名盤に参加してきた百戦錬磨の超一流セッションマン。"},
+  {r:260, n:"Nokie Edwards", b:"The Ventures", t:"Pipeline", w:"The Ventures", d:"ベンチャーズの2代目リードギタリスト。「テケテケ旋風」で昭和の日本に\"1億総エレキ化\"のブームを巻き起こした。日本のギター音楽界に与えた影響は計り知れない、エレキギターの偉大な伝道師。"},
+  {r:261, n:"John Williams", b:"solo / Sky", t:"Cavatina (Theme from The Deer Hunter)", w:"John Williams", d:"現代クラシックギター界の帝王、\"キング・オブ・ギター\"。セゴビアの愛弟子で、映画「ディア・ハンター」のテーマ「カヴァティーナ」での世界的ヒットは有名。ジュリアン・ブリームとの夢の共演は20世紀を代表するギターデュオと評される。"},
+  {r:262, n:"Jake E. Lee", b:"Ozzy Osbourne / Badlands", t:"Bark at the Moon", w:"Ozzy Osbourne", d:"急逝したランディ・ローズの後任としてオジー・オズボーンのバンドに加入。期待を裏切らないプレイで日本でも高い人気を誇る。\"ジェイク・フェイク\"と言われたトリッキーかつ華麗なプレイで人気を博したギターヒーロー。"},
+  {r:263, n:"Francisco Tárrega", b:"solo (composer)", t:"Capricho árabe", w:"Francisco Tárrega", d:"\"近代ギターの父\"。「アルハンブラの思い出」の作曲者としても有名。それまでの古い演奏法を改め、ギターのあらゆる可能性を極限まで追求し、ギター音楽を揺るぎない地位まで築き上げた19世紀最大の功労者の一人。"},
+  {r:264, n:"Cornell Dupree", b:"solo / Stuff", t:"Teasin'", w:"Cornell Dupree", d:"アレサ・フランクリン、ダニー・ハサウェイ、ジョー・コッカー、スタッフ等、数多の名盤に参加した百戦錬磨の超一流セッションマンであり、黒人ジャズギター四天王の一人。キング・カーティスのバンドでジミヘンと共演した経歴も持つ。"},
+  {r:265, n:"Baden Powell", b:"solo", t:"Valsa De Eurídice", w:"Baden Powell", d:"ブラジル史上最高のギタリスト。ボサノバ、ショーロ、アフロ・サンバを融合した独自のスタイルを持つ。特にソロギターによるバラードでの絶妙な間とスピード感による強弱は、他のどのギタリストにも到達出来ない圧倒的な凄みを感じさせる。"},
+  {r:266, n:"Julian Bream", b:"solo", t:"Asturias (Leyenda)", w:"Julian Bream", d:"イギリス出身の20世紀を代表するクラシックギタリスト。ルネサンス以前の音楽の演奏におけるパイオニア的存在。リュートも駆使する多才な音楽家で、同時代のジョン・ウィリアムスとの夢の共演は20世紀を代表するギターデュオ。"},
+  {r:267, n:"Narciso Yepes", b:"solo", t:"Jeux interdits (Romance)", w:"Narciso Yepes", d:"スペインのクラシックギタリスト。映画「禁じられた遊び」の主題曲「愛のロマンス」での名演で世界的な名声を確立。10弦ギターを開発した革新者でもあり、クラシックギターの可能性を大きく拡張した。"},
+  {r:268, n:"John Sykes", b:"Whitesnake / Blue Murder", t:"Still of the Night", w:"Whitesnake", d:"シン・リジィやホワイトスネイクを経てブルーマーダーを結成。リードギタリスト兼ボーカリスト兼コンポーザーという多彩な才能の持ち主。切れ味鋭いリフと情熱的なソロで愛された\"悲運のギターヒーロー\"。"},
+  {r:269, n:"David T. Walker", b:"solo / session", t:"What's Goin' On", w:"David T. Walker", d:"スティービー・ワンダー、マーヴィン・ゲイ、ジャクソン5等、無数の名盤に参加した百戦錬磨の超一流セッションマンで、黒人ジャズギター四天王の一人。甘く歌うようなトーンは一度聴けば忘れられない。日本でも絶大な人気を誇る。"},
+  {r:270, n:"Paco de Lucía", b:"solo / Super Guitar Trio", t:"Entre Dos Aguas", w:"Paco de Lucía", d:"フラメンコ史上最高のギタリスト。フラメンコのみならずジャズの世界でも活躍。アル・ディメオラ、ジョン・マクラフリンとのスーパーギタートリオで世界のギター小僧たちを虜にし、一大センセーションを巻き起こした。"},
+  {r:271, n:"Andrés Segovia", b:"solo", t:"Bach: Chaconne (BWV 1004)", w:"Andrés Segovia", d:"現代クラシックギター奏法の父。それまでのギターという楽器の立ち位置を、ピアノやヴァイオリンのようにコンサートホールで演奏する芸術性の高い独奏楽器へと引き上げた最大の功労者の一人。"},
+  {r:272, n:"Ronnie Earl", b:"solo / Roomful of Blues", t:"Blues For The West Side", w:"Ronnie Earl", d:"Roomful of Bluesを経てRonnie Earl & The Broadcastersを率いるブルースギタリスト。Blues Music Award最優秀ギタリスト賞を4度受賞。バークリー音楽院元教員でもあり、ストラトから紡ぎ出される豊かなトーンと感情表現で絶大な評価を受ける名手。"},
+  {r:273, n:"Earl Hooker", b:"solo", t:"Earl Hooker Blues", w:"Earl Hooker", d:"シカゴ・ブルース屈指のスライドギター名手で、B.B.キングが「スライドでは誰にも負けない。唯一無二だった」と絶賛した伝説。John Lee Hookerの従弟。40歳で結核で早逝したが「Blue Guitar」は後にMuddyの「You Shook Me」の原型となった。"},
+  {r:274, n:"Son House", b:"solo", t:"Death Letter Blues", w:"Son House", d:"デルタブルースの巨人の一人。説教師として生きつつブルースに身を投じた強烈な人生の持ち主で、Robert JohnsonとMuddy Watersに直接的な影響を与えた。1965年に再発見され「Death Letter」の名演で新世代のブルース・ファンを魅了した。"},
+  {r:275, n:"Jimmie Vaughan", b:"The Fabulous Thunderbirds / solo", t:"Six Strings Down", w:"Jimmie Vaughan", d:"スティービー・レイ・ヴォーンの実兄でテキサス・ブルース界の重鎮。The Fabulous Thunderbirdsの創設メンバーとして70-80年代のブルース復興を牽引。無駄を削ぎ落とした簡潔で歌うようなプレイは多くの後進ギタリストの手本となっている。"},
+  {r:276, n:"Lonnie Johnson", b:"solo", t:"Tomorrow Night", w:"Lonnie Johnson", d:"ギターを独奏楽器として確立した現代ブルースギターの原点。T-Bone Walker、Charlie Christian、B.B. Kingら電化ブルース/ジャズの父たちが全員影響を受けたと公言する最重要人物。Louis ArmstrongやDuke Ellingtonとも共演した。"},
+  {r:277, n:"Duke Robillard", b:"Roomful of Blues / solo", t:"Stomp The Blues Tonight", w:"Duke Robillard", d:"Roomful of Bluesの創設者にして、Jimmie Vaughan脱退後のFabulous Thunderbirdsにも参加。スイング、ジャンプ・ブルース、ジャズ、スタンダードまで自在に弾きこなす。W.C.ハンディ賞最優秀ギタリスト4回受賞の「ギタリストのためのギタリスト」。"},
+  {r:278, n:"Clarence \"Gatemouth\" Brown", b:"solo", t:"Okie Dokie Stomp", w:"Clarence \"Gatemouth\" Brown", d:"ブルース、カントリー、ジャズ、R&B、ケイジャンなど枠に収まらない多彩なテキサス出身のギタリスト兼マルチ演奏家。1954年のインストゥルメンタル「Okie Dokie Stomp」はテキサス・ブルース史上屈指の名曲として広く愛される。"},
+  {r:279, n:"Blind Lemon Jefferson", b:"solo", t:"See That My Grave Is Kept Clean", w:"Blind Lemon Jefferson", d:"\"テキサス・ブルースの父\"と称されるプリ・ウォー期の巨人。高音の特徴的な歌声と独創的なギター・スタイルで1920年代の商業的ブルースを切り開いた先駆者。「Matchbox Blues」はロックの殿堂「ロックンロールを形作った500曲」にも選出されている。"},
+  {r:280, n:"Charley Patton", b:"solo", t:"Pony Blues", w:"Charley Patton", d:"\"デルタブルースの父\"。Son HouseやRobert Johnsonに直接的な影響を与えた最重要人物。小柄な体から500ヤード届くと言われる迫力の声、力強いギター、派手なステージパフォーマンスで後のロック・ショーマンシップの原型も作った伝説。"},
+  {r:281, n:"Mississippi John Hurt", b:"solo", t:"Candy Man", w:"Mississippi John Hurt", d:"デルタの激しさとは対極にある、穏やかで流麗なフィンガーピッキングが魅力の唯一無二のスタイル。1928年にOkehで録音したが長らく忘れられ、1960年代のフォークブルース復興で再発見。晩年の録音が世代を超えて愛される名手となった。"},
+  {r:282, n:"Son Seals", b:"solo", t:"Hot Sauce (Live)", w:"Son Seals", d:"アリゲーター・レコーズを代表するシカゴ・ブルースの闘将。唸るようなボーカルと鋭く切り込むギターで、70-80年代の現代シカゴ・ブルースを牽引した。W.C.ハンディ賞を複数受賞し、2009年にはブルースの殿堂入り。"},
+  {r:283, n:"Robert Nighthawk", b:"solo", t:"Black Angel Blues", w:"Robert Nighthawk", d:"澄み切った粒立ちの良いスライドで知られるシカゴ・ブルースの隠れた名手。Elmore James、Muddy Waters、Earl Hooker、B.B. Kingといった後続の巨人たちに影響を与えた。1949年のAristocrat盤はB.B. Kingの「Sweet Little Angel」の原型となった。"},
+  {r:284, n:"Magic Sam", b:"solo", t:"All Your Love", w:"Magic Sam", d:"Otis RushやBuddy Guyと並ぶウエスト・サイド・サウンドの創始者の一人。1957年「All Your Love」で若くして頭角を現し、独特のトレモロと高音ボーカル、ゴスペル色の強いスタイルで衝撃を与えたが、32歳で夭折した早世の天才。"},
+  {r:285, n:"Luther Allison", b:"solo", t:"Cherry Red Wine", w:"Luther Allison", d:"シカゴ・ブルース界から長年欧州を拠点に活動し、晩年にアリゲーターから復活作を出したブルース史屈指のリバイバル・ストーリーの持ち主。「Cherry Red Wine」はアルコール中毒の親友への哀悼歌として、聴く者の胸を締めつける名曲。"},
+  {r:286, n:"Mississippi Fred McDowell", b:"solo", t:"Shake 'Em on Down", w:"Mississippi Fred McDowell", d:"ノース・ミシシッピ・ヒル・カントリー・ブルースの代表的スライド奏者。「You Gotta Move」はRolling Stonesの「Sticky Fingers」でカバーされ世界に広まった。\"I do not play no rock and roll\"と言いつつ、そのグルーヴは現代のルーツ音楽の礎となった。"},
+  {r:287, n:"Jimmy Thackery", b:"solo / The Nighthawks", t:"Drive to Survive", w:"Jimmy Thackery", d:"ワシントンDCのブルースロック・バンドThe Nighthawksで20年活躍後、Jimmy Thackery and the Driversを結成してソロとして成功。重厚なトーンと力強いブルース・ロック・ドライヴで根強い人気を誇る職人肌のギタリスト。"},
+  {r:288, n:"Lonnie Brooks", b:"solo", t:"Voodoo Daddy", w:"Lonnie Brooks", d:"ルイジアナ出身のバイユー・ブギーマン。Guitar Juniorの名でキャリアを始め、シカゴのアリゲーター移籍後に\"ヴードゥー・ブルース\"サウンドで開花。テキサスのスイング、メンフィスのソウル、シカゴのブルースを融合した独自のガンボを生み出した。"},
+  {r:289, n:"Lightnin' Hopkins", b:"solo", t:"Mojo Hand", w:"Lightnin' Hopkins", d:"テキサス・カントリー・ブルースを代表する吟遊詩人。何十枚ものアルバムを気の向くままに録音した伝説的な多作家で、即興的な歌詞とループするようなギターリフの魅力は唯一無二。Stevie Ray Vaughanら後進への影響も計り知れない。"},
+  {r:290, n:"Earl King", b:"solo", t:"Trick Bag", w:"Earl King", d:"ニューオリンズR&Bの重要人物。「Come On」はJimi Hendrixが、「Trick Bag」はThe Metersがカバーし、「Big Chief」はProfessor Longhairの名演で知られる。ギタリスト、ヴォーカリスト、作曲家、プロデューサーとして多方面で才能を発揮した。"},
+  {r:291, n:"Blind Willie Johnson", b:"solo", t:"John the Revelator", w:"Blind Willie Johnson", d:"ゴスペル・ブルースの最高峰。瞑想的なスライドギターと胸の底から響く唸りのような歌声は、Eric Clapton、Led Zeppelin、Bob Dylan、Jack White等、数え切れないミュージシャンに影響を与えた。「Dark Was the Night」はボイジャー探査機に積まれ宇宙へ旅立った。"},
+  {r:292, n:"Johnny Copeland", b:"solo", t:"Copeland Special", w:"Johnny Copeland", d:"\"テキサス・ツイスター\"の異名を持つ豪快なギタリスト兼シンガー。T-Bone Walker譲りの伝統を受け継ぎつつ、力強いゴスペル調のボーカルで独自の境地を築いた。Albert Collins、Robert Crayとの「Showdown!」でグラミー賞受賞。娘は歌手のShemekia Copeland。"},
+  {r:293, n:"Big Bill Broonzy", b:"solo", t:"Key to the Highway", w:"Big Bill Broonzy", d:"プリ・ウォー・ブルースから戦後シカゴ・ブルースへの橋渡しを担った最重要人物の一人。300曲以上の作品を残し、「Key to the Highway」はEric Claptonを始め無数のミュージシャンに愛される永遠のブルース・スタンダード。Muddy Watersの恩人でもある。"},
+  {r:294, n:"Kim Simmonds", b:"Savoy Brown", t:"Tell Mama", w:"Savoy Brown", d:"ウェールズ出身のブリティッシュ・ブルース・ロックの先駆者。1965年にSavoy Brownを結成し、「Street Corner Talking」「Hellbound Train」など70年代初頭の名作でアメリカ中心に成功。Foghatを輩出した母体でもある。2022年死去まで演奏を続けた。"},
+  {r:295, n:"Elvin Bishop", b:"solo / Paul Butterfield Blues Band", t:"Fooled Around And Fell In Love", w:"Elvin Bishop", d:"Paul Butterfield Blues Bandの創設メンバーでブルースロックの開拓者。ソロでの「Fooled Around and Fell in Love」は全米3位の大ヒットで、映画「ガーディアンズ・オブ・ギャラクシー」でも使用された。ロックの殿堂入りも果たしている。"},
+  {r:296, n:"Walter Trout", b:"solo / Canned Heat / Bluesbreakers", t:"Say Goodbye To The Blues", w:"Walter Trout", d:"John Lee HookerやPercy Mayfieldのサイドマンを経て、Canned Heat、John Mayall's Bluesbreakersで活躍後にソロへ。2014年に肝臓移植という生死の淵から奇跡の復活を遂げた現代のブルース・ギター・ヒーロー。熱いプレイで世界中のファンを魅了する。"},
+  {r:297, n:"Roy Rogers", b:"solo / The Delta Rhythm Kings", t:"Walkin' Blues", w:"Roy Rogers", d:"現代屈指のスライドギター名手の一人。John Lee Hookerの「The Healer」(グラミー受賞)をプロデュースした名プロデューサーでもあり、計8回のグラミー・ノミネートを受けている。ソロ活動とThe Delta Rhythm Kingsを率いた力強い演奏で知られる。"},
+  {r:298, n:"Guitar Slim", b:"solo", t:"The Things That I Used To Do", w:"Guitar Slim", d:"1954年の大ヒット「The Things That I Used to Do」でR&Bチャート1位を6週維持した伝説。Ray Charlesがピアノと編曲を担当。Jimi Hendrixより10年早く歪ませたギターの音で表現したロックンロール史の革新者。32歳で早逝。"},
+  {r:299, n:"Sonny Landreth", b:"solo / The Delta Rhythm Kings", t:"Congo Square", w:"Sonny Landreth", d:"ルイジアナ発\"スライデコ王\"。スライドの裏側でコードを押さえながら演奏する驚異のテクニックで知られる。Eric Claptonが「世界で最も進歩した、最も過小評価されているギタリストの一人」と絶賛。ザイデコ、ブルース、ロックを融合した独自のスタイル。"},
+  {r:300, n:"Robert Jr. Lockwood", b:"solo", t:"Steady Rollin' Man", w:"Robert Jr. Lockwood", d:"Robert Johnsonから直接ギターを教わった唯一の存在で、その義理の息子。Charlie ChristianやT-Bone Walkerの影響も受け、50年代にはMuddy WatersやLittle Walterら名盤のセッションで活躍。Johnsonの遺産を最も誠実に伝えた橋渡し役。"},
+  {r:301, n:"Isaiah Sharkey", b:"solo / D'Angelo / John Mayer", t:"It's A Shame", w:"Isaiah Sharkey", d:"シカゴ出身の現代ネオソウル界の至宝。14歳で地元ジャズクラブで演奏を始め、D'Angeloの「Black Messiah」でVanguardの中核メンバーとしてグラミー受賞。2016年からはJohn Mayerのサポートも務める。流麗なプレイと歌うようなフレージングで絶大な評価を得る。"},
+  {r:302, n:"Spanky Alford", b:"D'Angelo / The RH Factor / solo", t:"Untitled (How Does It Feel)", w:"D'Angelo", d:"ネオソウル・ギターの祖と呼ばれる伝説。D'AngeloのVoodooツアーバンドThe Soultronicsの中核を担い、Raphael SaadiqやIsaiah Sharkeyにギターを教えた恩師でもある。ゴスペルとジャズのハーモニーを融合したコード感がネオソウル・ギターの基礎を築いた。2008年死去。"},
+  {r:303, n:"Jairus Mozee", b:"solo / Anderson .Paak / Prince", t:"Daydreaming", w:"NxWorries", d:"4度グラミー受賞のプロデューサー兼ギタリスト。高校3年時にPrinceのLAハウスバンドに抜擢された早熟の天才で、Anderson .Paak、Kendrick Lamar、Janet Jacksonなど錚々たるアーティストと仕事を重ねる。オルタネート、ハイブリッド、スイープを自在に操る高度な技巧が身上。"},
+  {r:304, n:"Tom Misch", b:"solo", t:"It Runs Through Me (feat. De La Soul)", w:"Tom Misch", d:"ロンドン発のマルチ楽器奏者兼プロデューサー。自室から発信したSoundCloudから世界的な人気を得たシンガーソングライター型ギタリスト。John Mayerの影響を感じさせつつ、ディスコ、ジャズ、ヒップホップを溶け込ませた独自のチル・ネオソウルを確立。Yussef Dayesとのコラボ作品も高く評価される。"},
+  {r:305, n:"Melanie Faye", b:"solo", t:"It's A Moot Point", w:"Melanie Faye", d:"ナッシュビル出身のシンガーギタリスト。2017年SZAがInstagramに投稿された彼女のプレイ動画をリツイートしたことから一躍スターダムに。Jimi Hendrix、Michael Jackson、Eric Galeに影響を受けたR&B、ネオソウル、ファンクを横断する感性と歌心あるソロで知られる。"},
+  {r:306, n:"Kerry \"2 Smooth\" Marshall", b:"solo / session", t:"R&B Guitar Playing", w:"Kerry Marshall", d:"アラバマ出身で現LA拠点のR&Bギタリスト兼教育者。陸軍イラク派遣中のタレントショーで実力を開花。オンラインギタースクール「Kerry's Kamp」の創設者でもあり、Jason Derulo、Tori Kelly、Ledisiらとのツアーを経験。確かなゴスペル由来の理論と感性で絶大な支持を得る。"},
+  {r:307, n:"Erick Walls", b:"solo / Beyoncé / Black Waat3r", t:"All Blues Guitar Solo", w:"Erick Walls", d:"Beyoncé「Lemonade」とJohn Legend「Bigger Love」でグラミー受賞の現代R&Bシーンの屋台骨。Michael Jackson、Alicia Keys、Rihanna等の錚々たるセッションで活躍。ゴスペルルーツを持ち、親指ピックによる独特のパーカッシブな奏法が魅力。ロックバンドBlack Waat3rのメンバーでもある。"},
+  {r:308, n:"Cory Wong", b:"solo / Vulfpeck / The Fearless Flyers", t:"Meditation", w:"Cory Wong & Jon Batiste", d:"Vulfpeckの客演から一躍有名になったミネアポリス発のファンク・ギタリスト。The Fearless Flyersのメンバーとしても活躍し、正確無比なカッティングとグルーヴで知られる。旺盛なソロ活動でも人気を博し、Jon BatisteやDave Kozら多様なアーティストとコラボ。"},
+  {r:309, n:"Jubu Smith", b:"Tony! Toni! Toné! / session", t:"Anniversary", w:"Tony! Toni! Toné!", d:"Tony! Toni! Toné!のギタリストで、1993年「Anniversary」や「If I Had No Loot」の伝説的なギターパートを担当。Telecasterから紡ぎ出される\"いなたい\"ファンキーでソウルフルなプレイは、現代のネオソウル・ギタリストたちに多大な影響を与え続けている。"},
+  {r:310, n:"Todd Pritchard", b:"solo", t:"Silent Night (Neosoul Guitar)", w:"Todd Pritchard", d:"繊細な指弾きアレンジで知られるネオソウル・ギタリスト兼プロデューサー。Role Model、Dominic Fike、Alina Baraz等と仕事を重ねる。アコースティックでのネオソウル表現を極め、\"James Taylorがネオソウルを弾いたような\"と評される唯一無二のサウンドを持つ。"},
+  {r:311, n:"Mansur Brown", b:"solo / Yussef Kamaal", t:"God Willing", w:"Mansur Brown", d:"ロンドン・ジャズシーンの旗手。Yussef Kamaal「Black Focus」の重要メンバーとして頭角を現し、Kamaal Williams主宰レーベルからデビュー作「Shiroi」を発表。Hendrix風の豪快なソロと浮遊感のあるアンビエントなテクスチャーを融合した独自のスタイルで国際的評価を得る。"},
+  {r:312, n:"Kazuki Isogai", b:"solo / SANABAGUN.", t:"Worldwide (feat. JPRK)", w:"edbl & Kazuki Isogai", d:"東京を拠点に世界で活躍する日本のギタリスト/作曲家。2019年NAMM SHOW出演を機に海外展開、ロンドンのedblとのコラボアルバム「The edbl x Kazuki Sessions」は400万ストリームを記録。ミニマルで洗練されたフレーズはSNSで高評価。木村カエラ、Def Techのサポートも務める。"},
+  {r:313, n:"Beau Diakowicz", b:"solo", t:"Walking on My Toes", w:"Beau Diako", d:"ジャズ・フュージョン的なアプローチをネオソウルに落とし込む若き天才。Beau Diakoの名で活動し、Jordan Rakei、Noah Slee、Masegoらと共演。ハイブリッドピッキングとジャズ・コードを駆使した夢幻的で流麗なプレイで、ネオソウル・ギター界で絶大な存在感を示す。"},
+  {r:314, n:"Ruben Wan", b:"solo", t:"Rose", w:"Ruben Wan", d:"パナマ出身、現LA拠点のギタリスト兼プロデューサー。R&B、ゴスペル、ジャズロック・フュージョンを融合した独自のスタイルで、George Benson的クロマチシズムとJohn Mayer的ソウルフルなリックを併せ持つ。キャッチーなリフと独自のボイシングでモダンなネオソウルを牽引。"},
+  {r:315, n:"Mark Lettieri", b:"Snarky Puppy / The Fearless Flyers / solo", t:"Naptime", w:"Mark Lettieri", d:"Snarky Puppyのギタリストとして3度のグラミー受賞。Vulfpeck派生のThe Fearless Flyersでも活躍。「Deep: The Baritone Sessions, Vol.2」はグラミーにもノミネートされた。R&B、ファンク、ロック、フュージョンを自在に行き来する抜群の多様性が魅力の名手。"},
+  {r:316, n:"Justus West", b:"solo / Mac Miller / John Mayer", t:"Best Practice Guitar", w:"Justus West", d:"カンザスシティ出身の3度のグラミー受賞者(John Legend、Beyoncé「Cowboy Carter」他)。Mac MillerのTiny Desk Performanceで広く知られ、Ariana Grande、Alicia Keys等のセッションでも活躍。John Mayerが\"お気に入り\"と称賛するゴスペル・チョップスの使い手。"},
+  {r:317, n:"Nii Quaye", b:"solo / Musical Lunatics", t:"Remember Me (feat. GoodGirl LA & Sister Deborah)", w:"NiiQuaye", d:"ガーナ・アクラ出身のマルチ楽器奏者兼プロデューサー。Musical Luniticsバンドを率いる実力派で、Cina Soul、MzVee、Kidi等をサポート。2020年のアルバム「Atomic Muse」でハイライフ、アフロビート、ジャズ、ソウルを融合した独自のサウンドを提示。パーカッシブなギターアプローチが特徴。"},
+  {r:318, n:"Nile Rodgers", b:"Chic / solo / producer", t:"Good Times", w:"Chic", d:"Chicのリーダーにして史上最も成功したギタリストの一人。Bernard Edwardsと共に築いたミニマルで抜群のグルーヴを持つカッティングは、Hip-Hop(Rapper's Delight)からMadonna、Daft Punk「Get Lucky」まで数世代の音楽を定義。\"Hitmaker\"Stratocasterは世界で最も聴かれたギター音色。"},
+  {r:319, n:"Leo Nocentelli", b:"The Meters / session", t:"Cissy Strut", w:"The Meters", d:"ニューオーリンズ・ファンクの父The Metersのギタリスト。独特の\"溜め\"と遅延するシンコペーション、スカンクなシングルノート・リフで新しいグルーヴ言語を発明。Cissy StrutやLook-Ka Py Pyは現代ファンクの設計図となり、Red Hot Chili PeppersからJam Bandsまで絶大な影響を与え続ける。"},
+  {r:320, n:"Freddie Stone", b:"Sly & The Family Stone", t:"Thank You (Falettinme Be Mice Elf Agin)", w:"Sly & The Family Stone", d:"Sly & The Family Stoneのリードギタリスト、Sly Stoneの実弟。ロック、ゴスペル、サイケデリアをファンクに持ち込み「Thank You」「I Want to Take You Higher」等のクラシックで狂騒的なグルーヴを生み出した。PrinceやRed Hot Chili Peppersらへの影響は計り知れない。"},
+  {r:321, n:"Al McKay", b:"Earth, Wind & Fire", t:"September", w:"Earth, Wind & Fire", d:"Earth, Wind & Fireのリードギタリスト、「September」「Sing a Song」「Shining Star」などの共作者。完璧なタイミングで刻まれる16分カッティングは世界中のミュージシャンの教科書となり、彼のリズムパターンはディスコ/R&Bの標準的なフィールを確立した。"},
+  {r:322, n:"Catfish Collins", b:"James Brown / Bootsy's Rubber Band", t:"Stretchin' Out (In a Rubber Band)", w:"Bootsy Collins", d:"弟Bootsy Collinsと共にJames BrownのバンドJ.B.'sに参加、後期JBサウンドを決定づけた伝説。「Get Up (I Feel Like Being a) Sex Machine」等の伝説的セッションを経て、Bootsy's Rubber BandではタイトでミニマルなカッティングでP-Funkの中核を支えた。2010年死去。"},
+  {r:323, n:"Gary Shider", b:"Parliament-Funkadelic", t:"One Nation Under a Groove", w:"Funkadelic", d:"P-Funkの「Diaper Man」として知られる象徴的存在。おむつ一枚のステージ衣装と、歌心ある暖かなギターとリードボーカルで\"One Nation Under a Groove\"共作者となり、Parliament-FunkadelicのRock & Roll Hall of Fame入りに大きく貢献。2010年死去。"},
+  {r:324, n:"Michael Hampton", b:"Parliament-Funkadelic", t:"(Not Just) Knee Deep", w:"Funkadelic", d:"P-Funk \"Kidd Funkadelic\"、Eddie Hazelの後継として17歳で加入した超絶技巧の天才。「Maggot Brain」を完璧に再現できる唯一の人物として伝説に。「(Not Just) Knee Deep」の狂気的なギターソロや「Flash Light」等でファンクにハードロック的な熱量をもたらした。"},
+  {r:325, n:"Blackbyrd McKnight", b:"The Headhunters / P-Funk / RHCP", t:"God Make Me Funky", w:"The Headhunters", d:"Herbie Hancockの Headhunters、George ClintonのP-Funk双方で活躍した稀有なジャズ/ファンク両刀の達人。Miles DavisやRed Hot Chili Peppersとも共演、1980-2008年までP-Funkの音楽監督を務めた。メロディックでありながら攻撃的なソロが持ち味で2019年グラミー生涯功労賞を受賞。"},
+  {r:326, n:"Wah Wah Watson", b:"Motown / Herbie Hancock / solo", t:"Hang Up Your Hang Ups", w:"Herbie Hancock", d:"本名Melvin Ragin、その異名通りワウペダルの達人。Motownの看板セッションプレーヤーとしてMarvin GayeやTemptationsで活躍、Herbie Hancockの「Man-Child」ではジャズ・ファンクの歴史的名演を残した。独自のソロ作「Elementary」も後世に絶大な影響を与えた名盤。2018年死去。"},
+  {r:327, n:"Ray Parker Jr.", b:"Raydio / session", t:"A Woman Needs Love (Just Like You Do)", w:"Ray Parker Jr. & Raydio", d:"「Ghostbusters」で広く知られるが、本来は超一流のファンク・セッションマン兼シンガーソングライター。Stevie Wonder、Barry White、Herbie Hancockらと仕事を重ねた後、Raydioとして「Jack and Jill」「A Woman Needs Love」等のR&Bヒットを連発。歌心あるプレイが身上。"},
+  {r:328, n:"Paul Jackson Jr.", b:"session / Daft Punk / Michael Jackson", t:"Get Lucky (Daft Punk)", w:"Daft Punk feat. Pharrell Williams & Nile Rodgers", d:"世界で最も録音されたギタリストの一人。Michael Jacksonの「Thriller」「Bad」「Dangerous」「HIStory」全てに参加、Daft Punk「Get Lucky」でグラミー受賞。クリーンでタイトな極上のリズムプレイとジャズ・フュージョンの素養を併せ持つ現代セッション王者。"},
+  {r:329, n:"Ernie Isley", b:"The Isley Brothers", t:"That Lady, Pts. 1 & 2", w:"The Isley Brothers", d:"Isley Brothers末弟のリードギタリスト。実家に居候していたJimi Hendrixから直接影響を受け、「That Lady」の伝説的なファズ+フェイザー・ソロや「Who's That Lady」等でファンクのリズムとヘンドリックス直系の爆音リードを同居させる稀有なスタイルを確立。"},
+  {r:330, n:"Johnny \"Guitar\" Watson", b:"solo", t:"A Real Mother For Ya", w:"Johnny Guitar Watson", d:"50年代にブルース・ギタリストとして活動開始、70年代にファンクへ華麗に転向。独特の鋭いタッチと歌心あるフレージング、ユーモア溢れるスタイルで「A Real Mother For Ya」「Ain't That a Bitch」等をヒットさせ、Frank Zappaや後のヒップホップ世代にも多大な影響を与えた。1996年死去。"},
+  {r:331, n:"Tony Maiden", b:"Rufus & Chaka Khan", t:"Tell Me Something Good", w:"Rufus & Chaka Khan", d:"Rufus & Chaka Khanのギタリスト兼共同プロデューサー。「Tell Me Something Good」では初期のトークボックス使用でヒットを決定づけ、「Sweet Thing」「Ain't Nobody」などのファンキーでパーカッシブなカッティングは多くのフォロワーを生んだ。Princeも憧れた名手。"},
+  {r:332, n:"Charles \"Skip\" Pitts", b:"Isaac Hayes / The Bo-Keys", t:"Theme From Shaft", w:"Isaac Hayes", d:"Isaac Hayes「Theme from Shaft」(1971)の、あの象徴的なワウ・ペダル・リフを弾いた男。Wilson Pickettのバンド、The Isley Brothersのツアーも経験、後期The Bo-Keysでも活躍。たった一つのリフで映画史・音楽史に永遠に名を刻んだ存在。2012年死去。"},
+  {r:333, n:"Bruce Conte", b:"Tower of Power", t:"What Is Hip?", w:"Tower of Power", d:"Tower of Powerの黄金期(1973-79)を支えたギタリスト。「What Is Hip?」「So Very Hard to Go」等、16ビート・ファンクの頂点とも言える緻密なグルーヴを構築。Rocco Prestia(b)とDavid Garibaldi(dr)との鉄壁のリズムセクションの一翼を担った。"},
+  {r:334, n:"George Johnson", b:"The Brothers Johnson", t:"Strawberry Letter 23", w:"The Brothers Johnson", d:"弟Louis JohnsonのスラップベースとQuincy Jonesのプロデュースで一世を風靡したBrothers Johnsonのギタリスト。Shuggie Otis原曲の「Strawberry Letter 23」の夢幻的なイントロソロや「Stomp!」「I'll Be Good to You」等で強烈なグルーヴを刻んだ。"},
+  {r:335, n:"Mark Speer", b:"Khruangbin", t:"Maria También", w:"Khruangbin", d:"ヒューストン発のトリオKhruangbinのギタリスト。タイ、イラン、中東、西アフリカ等のワールド・グルーヴを現代のチル・ファンクに溶け込ませる独自のスタイルを確立。Telecasterの低いトーンと極小のフレーズ数で最大限のムードを作り出す、現代屈指のミニマリスト。"},
+  {r:336, n:"Eric Krasno", b:"Soulive / Lettuce / producer", t:"Turn It Out", w:"Soulive", d:"Soulive、Lettuceの中核メンバーとして現代ジャム/ファンクシーンを牽引。ジャズの素養を活かした流麗なリード、ソウルとR&Bの深い理解に基づくリズムワークを併せ持つ。D'Angelo、The Roots等のプロデュース/セッションも手がけ、TEDEschi Trucks Band等でも活躍。"},
+  {r:337, n:"Rob Harris", b:"Jamiroquai", t:"Little L", w:"Jamiroquai", d:"2000年からJamiroquaiを支えるイギリス出身のギタリスト。Simon Katz後任として加入し「A Funk Odyssey」以降の全作に参加、「Little L」「Love Foolosophy」等で洗練されたアシッド・ジャズ/ファンク・ディスコのグルーヴを構築。現代UKファンクシーンの体現者。"},
+  {r:338, n:"寺内タケシ", b:"Takeshi Terauchi & Bunnys / solo", t:"羅生門", w:"Takeshi Terauchi", d:"「エレキの神様」と呼ばれた日本のインスト・ロック草分け。1960年代から活動、民謡や歌舞伎の旋律をエレキで表現する独自のスタイルを確立。「運命」「津軽じょんがら節」などベンチャーズ以降の日本エレキ史における最重要人物。"},
+  {r:339, n:"加山雄三", b:"加山雄三 / The Launchers", t:"Black Sand Beach", w:"Kayama Yuzo", d:"1960年代の若大将映画で絶大な人気を博した俳優・シンガー・ギタリスト。モズライトを愛用しThe Launchersを率いて演奏、「夜空の星」「君といつまでも」はじめエレキインストの名手として活動。日本エレキブーム黎明期の象徴的存在。"},
+  {r:340, n:"竹田和夫", b:"Creation / Blues Creation", t:"Lonely Heart", w:"Creation", d:"Blues Creation〜Creationを率いた日本ロック黎明期の代表的ブルース系ギタリスト。BB King共演ツアーでも知られ、重く歌うロングトーンとブルースの血を通わせたリードプレイで数多のフォロワーに影響を与えた国産ハードロックの先駆者。"},
+  {r:341, n:"成毛滋", b:"Flied Egg / strawberry path", t:"Rolling Down The Broadway", w:"Flied Egg", d:"1970年前後のニューロックを切り拓いた先鋭的ギタリスト。Flied Egg、strawberry pathでジャズ・ブルース・プログレを融合したテクニカルな演奏を展開、チャー達にも影響。「日本ロックの教科書」と称されるプレイヤー。"},
+  {r:342, n:"高中正義", b:"高中正義 / Sadistic Mika Band", t:"Blue Lagoon", w:"Takanaka Masayoshi", d:"サディスティック・ミカ・バンドを経てソロ活動、リゾート感あふれるメロディックなフュージョン・インストを確立。「Blue Lagoon」「Ready To Fly」等の名曲を残し、カラフルなペインテッド・ストラトと官能的なトーンで日本フュージョン黄金期を築いた。"},
+  {r:343, n:"渡辺香津美", b:"Kazumi Watanabe / KYLYN", t:"Lonesome Cat", w:"Kazumi Watanabe", d:"日本ジャズ・フュージョン界を代表する世界的ギタリスト。YMO「Public Pressure」ツアー参加、KYLYN、TOCHIKA、「Spice of Life」などで国内外から高評価を獲得。超絶技巧と抒情性を両立するスタイルで、海外ミュージシャンからも敬愛される存在。"},
+  {r:344, n:"Char", b:"Char / Pink Cloud / SMOKY MEDICINE", t:"気絶するほど悩ましい", w:"Char", d:"1970年代からトップ・ギタリストとして第一線で活躍する日本ロック界の伝説。ブルース、R&B、ファンクを基盤に歌心あふれるトーンとフレージングで世代を超えて愛される。ストラトキャスター使いの名手としても知られ、多くの後進に影響を与え続ける。"},
+  {r:345, n:"仲井戸麗市", b:"RCサクセション / 仲井戸\"CHABO\"麗市", t:"雨あがりの夜空に", w:"RC Succession", d:"忌野清志郎の盟友としてRCサクセションを牽引した日本ロック史に残るギタリスト。「雨あがりの夜空に」「スローバラード」でのブルージーでソウルフルなバッキングとソロは、歌との掛け合いのお手本。CHABOの愛称で親しまれるロックの良心。"},
+  {r:346, n:"鮎川誠", b:"Sheena & The Rokkets", t:"You May Dream", w:"Sheena & The Rokkets", d:"シーナ&ロケッツを率いた日本パンク/ロックンロールの巨人。「You May Dream」はYMO細野晴臣プロデュースで日本ニュー・ウェイヴ史の名曲となった。シンプルで骨太なリフとストレートなロック魂で、後世のバンドシーンに絶大な影響を残した。"},
+  {r:347, n:"森園勝敏", b:"四人囃子 / PRISM", t:"空と雲", w:"Yonin Bayashi", d:"日本プログレ最高峰と評される四人囃子の初代ギタリスト。「一触即発」「空と雲」で繊細かつ緻密なフレージングを展開、脱退後はPRISMでフュージョンを探求。知的な音楽性と高度な演奏力で同世代ギタリストから別格視される存在。"},
+  {r:348, n:"松本孝弘", b:"B'z", t:"ultra soul", w:"B'z", d:"B'z のリーダーとして日本国内音楽売上歴代1位を誇るロック・ギタリスト。ハードロック/メタルをベースにキャッチーなリフを量産、ギブソンのシグネチャーモデルでも知られる。インストソロ「Thousand Wave」等、インストプレイヤーとしての評価も高い。"},
+  {r:349, n:"布袋寅泰", b:"BOØWY / 布袋寅泰 solo", t:"Battle Without Honor Or Humanity", w:"Hotei Tomoyasu", d:"BOØWY のリード・ギタリストを経てソロでも成功、映画『Kill Bill』の「Battle Without Honor Or Humanity」で世界的知名度を獲得。独特のキャラクター塗装のZodiacworks、鋭いリフと歌うトーンで日本ロックシーンを牽引し続けるアイコン。"},
+  {r:350, n:"hide", b:"X JAPAN / hide with Spread Beaver", t:"Pink Spider", w:"hide", d:"X JAPAN のリード・ギタリスト、ソロでも「ROCKET DIVE」「Pink Spider」など数多の名曲を残した日本ロック・アイコン。鋭角的なリフ、ポップセンスと前衛性を共存させた独自の音楽性で現在も絶大な影響力を持ち続けている。1998年永眠。"},
+  {r:351, n:"Pata", b:"X JAPAN / P.A.F.", t:"Rusty Nail", w:"X JAPAN", d:"X JAPAN のリズム・ギタリストとして加入、Les Paulから繰り出される骨太なバッキングと泣きのソロでバンドの屋台骨を担う。「Rusty Nail」「DAHLIA」で聴ける職人的なアプローチは日本メタル/ヴィジュアル系のスタンダードとなった。"},
+  {r:352, n:"SUGIZO", b:"LUNA SEA / X JAPAN / S.O.B.", t:"ROSIER", w:"LUNA SEA", d:"LUNA SEA のギタリスト、ヴァイオリニストとしても活動する多才な音楽家。「ROSIER」「TRUE BLUE」のドラマティックなソロで知られ、2009年からX JAPAN にも参加。スピリチュアルな表現と社会活動を両立するヴィジュアル系のカリスマ。"},
+  {r:353, n:"INORAN", b:"LUNA SEA / Tourbillon / solo", t:"TONIGHT", w:"LUNA SEA", d:"LUNA SEA のリズム・ギタリスト。作曲面での貢献が大きく「TONIGHT」「IN SILENCE」など多くの名曲を手掛けた。歌うような繊細なアルペジオとテクスチャーで、SUGIZOと対を成すバンドサウンドの基盤を築き上げるアーティスト。"},
+  {r:354, n:"DAITA", b:"SIAM SHADE / Breaking Arrows", t:"1/3の純情な感情", w:"SIAM SHADE", d:"SIAM SHADE のギタリストとして「1/3の純情な感情」等のヒットを生み、超絶技巧と歌心を両立するスタイルで高評価を得た。バンド解散後もBreaking Arrows、ソロなど多方面で活動、現在も日本ハードロックの技巧派として第一線に立つ。"},
+  {r:355, n:"Ken", b:"L'Arc-en-Ciel / SONS OF ALL PUSSYS", t:"Driver's High", w:"L'Arc-en-Ciel", d:"L'Arc-en-Cielのリード・ギタリスト、作曲家。「Driver's High」「HONEY」などバンドの代表曲を多数手掛ける。ポップセンスと泣きのメロディ、豊富な機材知識を活かした多彩なサウンドメイクで日本ロックシーンに不可欠な存在となっている。"},
+  {r:356, n:"HISASHI", b:"GLAY", t:"SURVIVAL", w:"GLAY", d:"GLAYのリード・ギタリスト。「SURVIVAL」「HOWEVER」「口唇」等のメロディアスなリフと泣きのソロでバンドのサウンドを決定づけた。幅広い機材知識とポップセンスを融合させた職人的プレイで、日本ロック史に確固たる地位を築いた存在。"},
+  {r:357, n:"浅井健一", b:"BLANKEY JET CITY / SHERBETS", t:"Bang!", w:"BLANKEY JET CITY", d:"BLANKEY JET CITYを率いた日本オルタナティヴ・ロックの象徴的ギタリスト/ヴォーカリスト。グレッチから繰り出されるエッジの効いたトーンと独自の詩世界で90年代を疾走。ベンジーの愛称で親しまれ、現在もSHERBETS、AJICO等で活動継続中。"},
+  {r:358, n:"高崎晃", b:"LOUDNESS", t:"CRAZY NIGHTS", w:"LOUDNESS", d:"LOUDNESS のリーダーとして1980年代に全米チャートインを果たし、日本メタルを世界に届けた伝説的ギタリスト。東洋的フレージングとネオクラシカルな速弾きを融合した独自のスタイルは世界のメタル・ギタリストから尊敬を集める。"},
+  {r:359, n:"MIYAVI", b:"MIYAVI solo / Dué le quartz", t:"What's My Name?", w:"MIYAVI", d:"「サムライ・ギタリスト」を掲げ世界規模で活動するソロ・ギタリスト/アーティスト。ピック不使用のスラップ奏法を駆使した独自のパーカッシブなプレイで知られ、海外ツアー、映画出演、UNHCR親善大使など音楽の枠を超えて活躍している。"},
+  {r:360, n:"藤岡幹大", b:"TRICK BOX / BABYMETAL神バンド", t:"HARMONYx", w:"Trick Box", d:"超絶技巧と豊かな音楽性を兼ね備えた日本を代表する技巧派ギタリスト。TRICK BOX、BABYMETAL神バンドでのプレイで知られ、テクニカルかつ歌心あるソロで後進から絶大な敬意を集めた。2018年に若くして急逝、多くのミュージシャンが惜しんだ。"},
+  {r:361, n:"大村孝佳", b:"BABYMETAL神バンド / Marty Friedman band", t:"Soldiers Of The Fire", w:"Takayoshi Ohmura", d:"BABYMETAL神バンドでのプレイで国内外に知られる超絶技巧派ギタリスト。Marty Friedmanバンドにも参加、ネオクラシカルなアプローチとモダンメタルのテクニックを融合した高速フレーズで世界中のプレイヤーを魅了するモダン・シュレッダー。"},
+  {r:362, n:"Leda", b:"DELUHI / Far East Dizain / Galneryus", t:"REVOLVER BLAST", w:"DELUHI", d:"DELUHI、UNDIVIDE、Far East Dizainを率いたヴィジュアル系メタル/ジェント系の代表的ギタリスト。BABYMETAL神バンドにも参加、シュレッドからジェントまでこなす幅広いテクニックとビジュアル面でのこだわりで海外にも多くのファンを持つ。"},
+  {r:363, n:"SYU", b:"GALNERYUS / SPINALCORD", t:"HUNTING FOR YOUR DREAM", w:"GALNERYUS", d:"GALNERYUSのリーダー/ギタリスト、作曲家。日本ネオクラシカル・メタル界の第一人者として超絶技巧とキャッチーなメロディを両立、アニメ「HUNTER×HUNTER」EDの「HUNTING FOR YOUR DREAM」などで幅広い層に支持される存在。"},
+  {r:364, n:"AssH", b:"solo / YOASOBIサポート", t:"OMG (Live at イケシブ)", w:"AssH", d:"YOASOBI ライブサポートで知名度を高めた「次世代ギター・ヒーロー」。17歳でギターを開始、アメリカ滞在時にゴスペルやブルースに触発された情感豊かなプレイが持ち味。ソロの「OMG」はiTunesチャート1位、国内外のフェスで活躍する若手注目株。"},
+  {r:365, n:"Li-sa-X", b:"Li-sa-X / Li-sa-X BAND", t:"Serendipity", w:"Li-sa-X", d:"8歳でYouTube投稿したRacer X「Scarified」カヴァーで世界的注目を浴びた天才少女ギタリスト。Paul Gilbertに師事、12歳でSony Music Japanよりデビュー。超絶技巧と屈託のない表情で国内外のファンを魅了し続ける若きシュレッダー。"},
+  {r:366, n:"ISAO", b:"Trimurti / Cube-Ray / soLi / BABYMETAL神バンド", t:"Golf (CUBE-RAY)", w:"Cube-Ray", d:"7弦・8弦ギターを駆使する「技のデパート」の異名を持つ超絶技巧派。Cube-Ray、Spark7、Trimurtiでのテクニカルなインスト活動、BABYMETAL神バンドや魔界少女拳参加でも知られる。星野沙織とのユニット「soLi」でも幅広い表現を展開。"},
+  {r:367, n:"今剛", b:"Studio Cat / PARACHUTE", t:"Ruby No Yubiwa (寺尾聰)", w:"Akira Terao", d:"「ギター仙人」と称される日本随一のスタジオ・ミュージシャン。寺尾聰「ルビーの指環」、宇多田ヒカル「Automatic」等、日本ポップス史の名曲多数に参加。松原正樹とのPARACHUTEでのツインギターは日本ロック史に残る伝説。"},
+  {r:368, n:"松原正樹", b:"solo / PARACHUTE", t:"流宇夢サンド", w:"Masaki Matsubara", d:"日本を代表するセッション・ギタリスト。松原みき「真夜中のドア」のソロが世界的シティポップ・リバイバルで再注目された。生涯10,000曲以上のレコーディングに参加、今剛とのPARACHUTEでも活躍。2016年逝去するも、その歌うギターは今も愛される。"},
+  {r:369, n:"佐橋佳幸", b:"solo / UGUISS / 山弦", t:"Coltrane's Blue World (w/ P.Gallway)", w:"Yoshiyuki Sahashi", d:"日本トップクラスのセッション・ギタリスト、プロデューサー。松たか子、福山雅治、桑田佳祐、松任谷由実など数多のアーティストのレコーディング/ツアーに参加。タイトかつ歌心あふれるプレイと豊富な音楽的知識で業界内外から絶大な信頼を得ている。"},
+  {r:370, n:"西慎嗣", b:"SPECTRUM", t:"F・L・Y", w:"SPECTRUM", d:"1970年代末のフュージョン/ブラスロック・バンドSPECTRUMのギタリスト。「F・L・Y」「In The Space」などで聴ける切れ味鋭いカッティングとメロディアスなソロが持ち味。近年はTikTokで「F・L・Y」が再流行、シティポップ・リバイバルにも貢献。"},
+  {r:371, n:"山岸竜之介", b:"LIFE IS GROOVE / solo", t:"I AM GUITAR HERO", w:"Ryunosuke Yamagishi", d:"幼少期『さんまのスーパーからくりTV』でCharとセッションし注目を浴びた天才少年ギタリスト。KenKen、ムッシュかまやつとLIFE IS GROOVEを結成、YOASOBIやEXILE THE SECONDのサポートも務める。Fenderアーティストとしても活動する若手実力派。"},
+  {r:372, n:"西川進", b:"SCOOP / solo", t:"幸福論 (椎名林檎)", w:"Sheena Ringo", d:"「感情直結型ギタリスト」を名乗る日本屈指のスタジオ・ミュージシャン。椎名林檎1stアルバムや「God knows...」のギター、いきものがかりのプロデュースなどで知られる。思いきりネックを立てた独特のフォームと、強烈なピッキングが生む熱いトーンが特徴。"},
+  {r:373, n:"小倉博和", b:"山弦 / 福山雅治バンド", t:"Sakurazaka 2024 (福山雅治)", w:"Masaharu Fukuyama", d:"佐橋佳幸との「山弦」でも知られる日本トップクラスのセッション・ギタリスト。福山雅治のバンドマスター/音楽監督として長年支え、「桜坂」等の名演を残した。アコースティック/エレクトリック双方で歌心を前面に出す繊細かつ的確なプレイが身上。"},
+  {r:374, n:"田中義人", b:"solo / Mondo Grosso", t:"Smells", w:"Yoshito Tanaka", d:"Mondo Grossoへの参加をきっかけに、スガシカオ、ケツメイシ、森山直太朗など多くのアーティストのレコーディング/ライブで活躍するギタリスト/プロデューサー。ヒップホップ色の強いビートセンスと温かいトーンを両立させるネオソウル系の職人。"},
+  {r:375, n:"鳥山雄司", b:"solo / 森山良子バンド", t:"STRANGER IN THE MIRROR", w:"Yuji Toriyama", d:"TV番組「世界遺産」テーマ曲「The Song of Life」の作曲者として広く知られる日本フュージョン・シーンの重鎮ギタリスト。1983年のセカンド・ソロから海外でも再注目され、作曲家・アレンジャー・プロデューサーとしても一流の仕事を残す。"},
+  {r:376, n:"是方博邦", b:"Korekata Band / Cube-Ray", t:"Korekata (Full Album)", w:"Hirokuni Korekata", d:"1975年上京後、高中正義グループや松岡直也グループで活躍した日本フュージョン/ブルース界の重鎮。Steve Porcaro、Russell Ferrante等海外トップ・ミュージシャンとも共演、ブルースを基盤にした歌うトーンと確かな技術で後進の手本となる存在。"},
+  {r:377, n:"向井秀徳", b:"NUMBER GIRL / ZAZEN BOYS", t:"HIMITSU GIRL'S TOP SECRET", w:"ZAZEN BOYS", d:"NUMBER GIRL、ZAZEN BOYSを率いる日本オルタナティヴ・ロックのカリスマ。シェルピンクのJaguarを用いた切れ味鋭いリフ、変拍子と特殊チューニングを駆使したマスロック的アプローチ、独特の日本語詞で圧倒的な存在感を放ち続ける唯一無二の音楽家。"},
+  {r:378, n:"長岡亮介", b:"ペトロールズ / 東京事変", t:"雨 (ペトロールズ)", w:"Petrolz", d:"ペトロールズのギタリスト/ヴォーカリスト、東京事変二代目ギタリスト(浮雲名義)としても活動。星野源、平井堅、松たか子など多くのアーティストのレコーディング/ライヴに参加。独特のカントリー/ソウル的フレージングで知られる現代日本トップ・セッション。"},
+  {r:379, n:"常田大希", b:"King Gnu / millennium parade", t:"白日", w:"King Gnu", d:"King Gnuのリーダー/ギタリスト/チェリスト/作曲家。「白日」「一途」など大ヒット曲を生み、millennium paradeでも前衛的な音楽性を展開。クラシックからヒップホップまで吸収した幅広い音楽性と独創的なアレンジセンスで日本の音楽シーンを刷新し続ける。"},
+  {r:380, n:"小林祐介", b:"THE NOVEMBERS", t:"Rhapsody in beauty", w:"THE NOVEMBERS", d:"シューゲイザー/オルタナティヴ・ロック・バンドTHE NOVEMBERSのフロントマン/ヴォーカル/ギター/ソングライター。轟音ギターと繊細なメロディを両立させる独自の美意識で、日本のオルタナ・シーンにおける重要なアーティストとして評価を確立。"},
+  {r:381, n:"山中さわお", b:"the pillows", t:"Funny Bunny", w:"the pillows", d:"the pillowsのフロントマン/ギタリスト/ソングライター。アニメ『FLCL』のサウンドトラックで世界的に知られ、メロディアスなオルタナティヴ・ロックを35年以上展開した。2025年の解散まで一貫して独自のポップセンスを貫き、海外ファンも多数獲得した。"},
+  {r:382, n:"真鍋吉明", b:"the pillows", t:"RIDE ON SHOOTING STAR", w:"the pillows", d:"the pillowsのリード・ギタリスト。ジャンプ感のあるパワーコードからジャジーな和声まで幅広くこなし、「RIDE ON SHOOTING STAR」「Funny Bunny」等のアニメ『FLCL』関連曲で海外にもファンを獲得。山中さわおとの絶妙なツインギターで長年バンドを支えた。"},
+  {r:383, n:"Rei", b:"Rei / solo", t:"Lonely Dance Club", w:"Rei", d:"幼少期をNYで過ごし4歳でクラシック・ギターを開始、5歳でブルーズと出会った卓越したシンガーソングライター/ギタリスト。ジョニー・ウィンター影響のスライドと強烈なカッティングを駆使、TED NYC出演、Fenderアーティスト契約など国内外で活躍中。"},
+  {r:384, n:"弓木英梨乃", b:"KIRINJI / solo", t:"Killer Tune Kills Me (KIRINJI feat. YonYon)", w:"KIRINJI", d:"KIRINJI正式メンバーとして活躍したギタリスト/シンガーソングライター。緻密なカッティングと歌心あるフレーズ、バイオリンもこなす多才さで知られる。秦基博や土岐麻子のサポートも務め、YouTubeでの演奏動画でも人気を博すFenderアーティスト。"},
+  {r:385, n:"アベフトシ", b:"THEE MICHELLE GUN ELEPHANT", t:"世界の終わり", w:"THEE MICHELLE GUN ELEPHANT", d:"THEE MICHELLE GUN ELEPHANTのギタリスト。高速カッティングを多用した独特なプレイで日本ロック界に強い影響を残した。松下工房seenブランドのテレキャスターカスタムを愛用。2009年42歳で早逝したが、その唯一無二のプレイは今なお多くのロックギタリストに影響を与え続けている。"},
+  {r:386, n:"野村義男", b:"THE GOOD-BYE / RIDER CHIPS", t:"気まぐれONE WAY BOY", w:"THE GOOD-BYE", d:"たのきんトリオでアイドルデビュー、ギタリストに転身した異色のキャリアを持つ日本人ギタリスト。THE GOOD-BYEでバンド活動する傍ら、仮面ライダー関連ソングを手掛けるRIDER CHIPSやソロ活動を展開。卓越したギターテクニックと膨大なギターコレクションでも知られるベテラン。"},
+  {r:387, n:"真島昌利", b:"THE BLUE HEARTS / ザ・クロマニヨンズ", t:"TRAIN-TRAIN", w:"THE BLUE HEARTS", d:"THE BLUE HEARTS、THE HIGH-LOWS、ザ・クロマニヨンズを甲本ヒロトと共に率いた日本パンク界の重鎮。Gibson Les Paul Juniorを武器に剥き出しのパンク・プレイを展開、「TRAIN-TRAIN」「夢」などの作詞作曲も担当、日本ロック史に残る名曲を多数生み出した伝説的ギタリスト。"},
+  {r:388, n:"横山健", b:"Hi-STANDARD / Ken Yokoyama", t:"Stay Gold", w:"Hi-STANDARD", d:"日本のメロコアブームを牽引したHi-STANDARDのギタリスト。スピーディかつラウドなパンク・プレイで絶大な支持を集め、2004年からはKen Yokoyama名義でもソロ活動を展開。PIZZA OF DEATH RECORDSの代表として日本インディーズシーンの発展にも大きく貢献する人物。"},
+  {r:389, n:"高見沢俊彦", b:"THE ALFEE", t:"星空のディスタンス", w:"THE ALFEE", d:"THE ALFEEのリードギター兼ボーカル。変則的なリズムを取り入れた速弾きとハードなアーミングが持ち味で、伸びやかなハイトーンボイスも魅力。ヴィンテージギターから派手な変形ギターまで多数所持するギターコレクターとしても有名で、数多のシグネチャーモデルも存在する日本を代表するロッカー。"},
+  {r:390, n:"小沼ようすけ", b:"Yosuke Onuma / Jam Ka", t:"Jam Ka Deux (Live at Blue Note Tokyo)", w:"Yosuke Onuma", d:"ジャズにワールドミュージック、ファンク、R&Bを融合した独自の音楽性を持つ日本のジャズ/フュージョン・ギタリスト。フィンガーピッキングによるマイルドで表情豊かなサウンドが特徴。カリブ海の音楽を軸に据えた「Jam Ka」プロジェクトでフランスなど海外でも高い評価を獲得している実力派。"},
+  {r:391, n:"菰口雄矢", b:"Yuya Komoguchi / solo", t:"Tears In The Universe", w:"Yuya Komoguchi", d:"卓越した演奏テクニックと優れた音楽センスを兼ね備えた日本のフュージョン・ギタリスト。坂東慧や櫻井哲夫、川口千里バンド、ソロプロジェクトで活躍する傍ら、ずっと真夜中でいいのに。、西川貴教、河村隆一のサポートも務める。インスト好きから邦ロック好きまで幅広く支持される若手実力派。"},
+  {r:392, n:"押尾コータロー", b:"Kotaro Oshio / solo", t:"Twilight (黄昏)", w:"Kotaro Oshio", d:"アコースティックギターを用いた表情豊かなソロギターで人気を博す日本フィンガースタイル・ギターの第一人者。オープンチューニング、タッピング、スラップを駆使した独創的なサウンドを展開、スイスのモントルージャズフェス出演などアジアを中心に海外でも活躍。代表曲「黄昏」は世界的に知られる名曲。"},
+  {r:393, n:"福田進一", b:"Shin-Ichi Fukuda / solo", t:"Asturias (Albéniz)", w:"Shin-Ichi Fukuda", d:"パリ国際ギターコンクールでグランプリ優勝した日本を代表する大御所クラシック・ギタリスト。60枚以上のアルバムを発表し、武満徹作品の解釈でも高い評価を得ている。クラシックの独奏やオーケストラ共演だけでなく他ジャンルにも積極的に取り組み、村治佳織など多くの名ギタリストを育てた教育者。"},
+  {r:394, n:"村治佳織", b:"Kaori Muraji / solo", t:"Recuerdos de la Alhambra", w:"Kaori Muraji", d:"日本を代表するクラシック・ギタリスト。3歳で父よりギターを始め、10歳から福田進一に師事。デッカ・レコードと日本人初の独占契約を締結した国際派として知られる。クラシックのみならず現代音楽、映画音楽、ポップス、ロック、ジャズまで幅広く演奏、クラシックギター知名度向上に大きく貢献。"},
+  {r:395, n:"沖仁", b:"Jin Oki / solo", t:"La Lluvia Limpia El Aire (Guajiras)", w:"Jin Oki", d:"スペイン本場で修行を積んだ日本を代表するフラメンコ・ギタリスト。ムルシア国際フラメンコギターコンクール国際部門で日本人初の優勝を果たす。情熱的かつ本格的なフラメンコ演奏と、葉加瀬太郎や渡辺香津美など他ジャンルとのコラボにも積極的に取り組む柔軟なスタイルが魅力の実力派ミュージシャン。"},
+  {r:396, n:"森大翔", b:"solo / singer-songwriter", t:"日日 (Yamato Mori)", w:"Yamato Mori", d:"北海道・知床羅臼町出身のシンガーソングライター/ギタリスト。16歳で英国の16歳以下エレキギター世界大会「Young Guitarist of the Year 2019」で優勝し世界一を獲得。Dream Theater、Polyphia、Chon等から影響を受けた速弾きと、繊細な歌心を両立させた新世代の才能。"},
+  {r:397, n:"崎山蒼志", b:"solo / singer-songwriter", t:"燈 Akari (呪術廻戦ED)", w:"Soushi Sakiyama", d:"静岡県出身のシンガーソングライター。独自のオープンチューニングとパーカッシブな奏法を駆使し、アコギの概念を押し広げた異才。TVアニメ「呪術廻戦」第2期EDテーマ「燈」などで存在感を示し、繊細な歌声と圧倒的なギタープレイで10代から音楽シーンを震撼させ続けている。"},
+  {r:398, n:"若井滉斗", b:"Mrs. GREEN APPLE", t:"ケセラセラ (Mrs. GREEN APPLE)", w:"Mrs. GREEN APPLE", d:"Mrs. GREEN APPLEのギタリスト。テクニカルかつメロディアスなプレイで現代J-POPシーンを牽引する。「ケセラセラ」でレコード大賞を受賞するなどバンドの黄金期を支え、複雑で緻密なギターフレーズを茶の間まで届けた功労者。若手ギタリスト憧れの存在。"},
+  {r:399, n:"田渕ひさ子", b:"NUMBER GIRL / bloodthirsty butchers / toddle", t:"透明少女 (NUMBER GIRL)", w:"NUMBER GIRL", d:"NUMBER GIRL、bloodthirsty butchers、toddleで活躍する日本を代表する女性ギタリスト。唯一無二の歪みサウンドと感情を爆発させるような激烈なプレイで、日本のオルタナティヴ/インディーロックシーンの象徴となった。再結成NUMBER GIRLでも熱い演奏を披露し続けている。"},
+  {r:400, n:"PABLO", b:"Pay money To my Pain", t:"This life (Pay money To my Pain)", w:"Pay money To my Pain", d:"日本のラウドロックバンド・Pay money To my PainのギタリストでありVoのKと共にバンドを牽引した中心人物。オルタナとメタルを融合した硬質で重厚なリフ、緻密な音作りで日本ラウドロック界の音像を塗り替えた。2012年にKの急逝後もPTPの遺産を守り続けている。"},
+  {r:401, n:"柳下\"DAYO\"武史", b:"SPECIAL OTHERS", t:"AIMS (SPECIAL OTHERS)", w:"SPECIAL OTHERS", d:"日本のジャム/インストバンド、SPECIAL OTHERSのギタリスト。ジャズやポストロックを融合した即興性の高い音楽性の中、メロディアスで心地よいカッティングを聴かせる名手。日本のインスト/ジャムバンドシーンの可能性を大きく広げた功労者として高く評価される。"},
+  {r:402, n:"Yvette Young", b:"Covet / solo", t:"shibuya (Covet feat. San Holo)", w:"Covet", d:"カリフォルニア州サンノゼ出身、マスロックバンドCovetのフロントウーマン兼ギタリスト。両手タッピングを多用した美しく複雑な楽曲で世界的な支持を獲得。Rolling Stone誌の「史上最も偉大なギタリスト250人」にも選出され、現代マスロックの第一人者として君臨する。"},
+  {r:403, n:"Marcin Patrzalek", b:"solo", t:"Moonlight Sonata", w:"Marcin", d:"ポーランド出身のパーカッシブ・フィンガースタイル・ギタリスト。クラシックとフラメンコを基礎に打楽器的奏法を融合させた超絶技巧アコギで世界を驚かせた異才。America's Got Talentでブレイクし、Sony Masterworksと契約。Ichika Nitoとの共演でも話題を呼んだ。"},
+  {r:404, n:"Madison Cunningham", b:"solo / singer-songwriter", t:"All I've Ever Known", w:"Madison Cunningham", d:"カリフォルニア出身のシンガーソングライター/ギタリスト。独自のオープンチューニングとリリカルなプレイで現代SSWの枠を超えた高い評価を獲得。2023年にアルバム『Revealer』でグラミー賞最優秀フォーク・アルバム賞を受賞。ギターと歌を高次元で結び付ける稀有な才能。"},
+  {r:405, n:"H.E.R.", b:"solo / R&B", t:"Focus", w:"H.E.R.", d:"本名Gabriella Wilson、カリフォルニア出身のR&Bシンガー/ギタリスト。グラミー賞で年間最優秀楽曲賞、アカデミー賞で最優秀オリジナル歌曲賞を受賞した世界的歌姫でありながら、ストラトキャスターの名手として音楽シーンの最前線で卓越したギターを披露し続けている。"},
+  {r:406, n:"Jacob Collier", b:"solo / multi-instrumentalist", t:"Little Blue (feat. Brandi Carlile)", w:"Jacob Collier", d:"ロンドン出身のマルチ・インストゥルメンタリスト/作編曲家。Djesseシリーズで7度のグラミー賞を獲得した鬼才で、ギターのみならず全楽器をこなす。独創的なハーモニー理論はギター界にも大きな影響を与え、ポップスから現代ジャズまでジャンルを超越する存在。"},
+  {r:407, n:"Frank Gambale", b:"Chick Corea Elektric Band", t:"Lunar Rotation", w:"solo (Frank Gambale)", d:"オーストラリア出身のジャズ・フュージョン・ギタリスト。スウィープ・ピッキングとエコノミー・ピッキング技法の先駆者として知られ、超絶テクニックを体系化した第一人者。Chick Corea Elektric Bandでの活躍で世界的評価を確立し、現代ギター教育に絶大な影響を与えた名匠。"},
+  {r:408, n:"Jerry Reed", b:"solo (Jerry Reed)", t:"East Bound and Down", w:"solo (Jerry Reed)", d:"アメリカのカントリー歌手兼ギタリスト。驚異的なフィンガーピッキング技術で知られ、映画「Smokey and the Bandit」主題歌として名高い代表曲を残す。Country Music Hall of Fame入りも果たし、Chet Atkinsと並ぶカントリー・ギターの巨匠として讃えられる。"},
+  {r:409, n:"Brent Mason", b:"solo (Brent Mason)", t:"Hot Wired", w:"solo (Brent Mason)", d:"ナッシュビルを代表するセッション・ギタリスト。Chet Atkinsに見出されて頭角を現し、Guitar World誌「Top Ten Session Guitarists of All Time」に選出。ACMギタリスト・オブ・ザ・イヤーを12回受賞するなど、現代カントリー・サウンドを形作った達人。"},
+  {r:410, n:"Kenny Wayne Shepherd", b:"Kenny Wayne Shepherd Band", t:"Blue on Black", w:"Kenny Wayne Shepherd Band", d:"ルイジアナ州シュリーブポート出身のブルース・ロック・ギタリスト。90年代に10代でデビューし、代表曲は1998年全米メインストリーム・ロックで6週1位を獲得。Stevie Ray Vaughan直系のトーンと熱量で、現代ブルース・ロックの旗手として君臨する。"},
+  {r:411, n:"Tuck Andress", b:"Tuck & Patti", t:"Over The Rainbow / If I Only Had A Brain", w:"Tuck & Patti", d:"妻のヴォーカリストPattiとデュオ「Tuck & Patti」を組むフィンガースタイルの巨匠。指弾きのみでベース、コード、メロディを同時に奏でる独自技法で、ソロ・ギターの可能性を極限まで追求。卓越したアレンジ力で世界中の愛好家を魅了する。"},
+  {r:412, n:"Ariel Posen", b:"solo (Ariel Posen) / The Bros. Landreth", t:"Things That I've Said", w:"solo (Ariel Posen)", d:"カナダ・ウィニペグ出身のシンガー・ソングライター/ギタリスト。The Bros. Landrethのサイドマンを経てソロ活動。スライド・ギターの繊細なタッチと極上のトーンで玄人を唸らせ、現代ブティック・ギター・シーンにおいてトーン・マスターとして名高い。"},
+  {r:413, n:"Joey Landreth", b:"The Bros. Landreth", t:"Whiskey", w:"The Bros. Landreth", d:"カナダのブルース/アメリカーナ・バンドThe Bros. Landrethのギタリスト兼シンガー。オープンCチューニングを用いたスライド奏法と、溶けるように美しいトーンで「現代のトーン・マスター」と評される。その音色は多くのギタリストの憧れの的となっている。"},
+  {r:414, n:"Matt Bellamy", b:"Muse", t:"Plug in Baby (Muse)", w:"Muse", d:"イギリスのロック・バンドMuseのフロントマン兼ギタリスト。クラシックとプログレッシヴ・ロックを融合した構築美、KAOSS PADや自作エフェクター内蔵ギターを駆使したテクノロジーとの融合で知られる。スタジアム級のスケールとヴィルトゥオーソ的技巧を両立する稀有な存在。"},
+  {r:415, n:"Mick Mars", b:"Mötley Crüe", t:"Kickstart My Heart (Mötley Crüe)", w:"Mötley Crüe", d:"LAメタルの代名詞Mötley Crüeのリード・ギタリスト。ブルースをルーツに持つダーティで重厚なトーンと、キャッチーなリフメイキングでバンドの屋台骨を支えた。80年代ハードロック黄金期を築き上げ、Dr. Feelgoodなど数々のアンセムを生み出した立役者。"},
+  {r:416, n:"Bernard Butler", b:"Suede", t:"Animal Nitrate (Suede)", w:"Suede / solo", d:"ブリットポップの旗手Suedeの初代ギタリスト。華麗で官能的なリードプレイとクラシック・ロックへの深い造詣で、90年代UKシーンに強烈な衝撃を与えた。脱退後はプロデューサー、ソロ・アーティストとしても活動。繊細な感性と攻撃性を併せ持つ名手として評価が高い。"},
+  {r:417, n:"Sophie Lloyd", b:"solo (Sophie Lloyd) / Machine Gun Kelly", t:"Imposter Syndrome (feat. Lzzy Hale)", w:"solo (Sophie Lloyd)", d:"イギリス出身の女性シュレッド・ギタリスト。YouTubeのシュレッド・カバーで100万人超の登録者を獲得し、Machine Gun Kellyツアーバンドにも参加。2023年のソロ・アルバム『Imposter Syndrome』でLzzy Haleら豪華ゲストを迎え、ネット時代のギター・ヒーローの代表格となった。"},,
+  {r:418, n:"Roy Clark", b:"solo / Hee Haw", t:"カントリー / バラエティ", w:"https://www.youtube.com/watch?v=Cb0NHSMGRLE", d:"テレビ番組『Hee Haw』の名物司会者として親しまれたカントリー・マルチ奏者。超高速なフィンガー・ピッキングと朗らかな人柄で米国の一般家庭にギターの神業を浸透させ、オクラホマ・ミュージック・ホール・オブ・フェイム入り。"},
+  {r:419, n:"Nancy Wilson", b:"Heart", t:"ハードロック / フォーク", w:"https://www.youtube.com/watch?v=SuiDF5EX4bQ", d:"姉アンと共に女性主導のハードロック像を切り拓いたHeartのギタリスト。オープンチューニングとハイブリッド・ピッキングを駆使した「Crazy on You」冒頭のアコースティック・ソロは70年代ロックを代表する名演として語り継がれる。"},
+  {r:420, n:"Don Felder", b:"Eagles", t:"ウェストコースト・ロック", w:"https://www.youtube.com/watch?v=JLcL4MkpJQ4", d:"Eaglesに参加して「Hotel California」のあの12弦ハーモナイズド・アルペジオとツイン・リードを書き上げた職人肌のギタリスト。スライド技法にも長け、バンドの音像をカントリー・ロックからギター主体のサウンドへ押し上げた立役者。"},
+  {r:421, n:"George Thorogood", b:"The Destroyers", t:"ブルース・ロック", w:"https://www.youtube.com/watch?v=IyhJ69mD7xI", d:"デラウェア出身のブルース・ロック職人。マディ・ウォーターズやチャック・ベリーに深く傾倒し、「Bad to the Bone」のオープンGスライド・リフで80年代FM全米を席巻。ガッツィーなボトルネック奏法と飾らない佇まいが魅力。"},
+  {r:422, n:"Tom Scholz", b:"Boston", t:"アリーナ・ロック", w:"https://www.youtube.com/watch?v=t4QK8RxCAwo", d:"MIT工学卒の技術者兼ギタリストで、Bostonのほぼ全ての楽器と機材を一人で作り込んだ異端児。「More Than a Feeling」の分厚い多重ハーモニー・ギターはRockman等の自作機材と共に80年代ロック・サウンドのひな形を築いた。"},
+  {r:423, n:"J.J. Cale", b:"solo", t:"Tulsa Sound / ブルース", w:"https://www.youtube.com/watch?v=TlppIdtLw5A", d:"タルサ・サウンドの始祖と呼ばれるオクラホマ出身の渋いギタリスト。スポットライトを避けつつも「After Midnight」「Cocaine」「Call Me the Breeze」をクラプトンやスキナードに提供し、マーク・ノップラーやニール・ヤングにも多大な影響を与えた。"},
+  {r:424, n:"Allen Collins", b:"Lynyrd Skynyrd", t:"サザン・ロック", w:"https://www.youtube.com/watch?v=QxIWDmmqZzY", d:"Lynyrd Skynyrdの創設メンバーで、「Free Bird」終盤の長大なアウトロ・ソロを一人で弾き切ったことで知られるサザン・ロックの象徴的存在。Gibson ExplorerやFirebirdを駆使し、南部ロックのツイン・リード美学を確立した。"}
 ];
 
 /* =====================================================================
@@ -893,7 +1365,74 @@ function paintPhoto(photoBox, g){
 // after "youtu.be/", and add an entry here (or use the "動画IDを追加" UI
 // on each card at runtime to store a personal override in localStorage).
 const CURATED_VIDEO_IDS = {
-  // --- 検証済み（web_searchで公式Topic / 公式チャンネル動画を確認） ---
+  // --- Additional entries from Guitar World 2023 pool (r:101+) ---
+  // Verified one-by-one via web_search (official Topic / official channel).
+  "Steve Lukather":          "SGtVZgCYVgk", // Rosanna - Toto (Topic, Columbia, 1982)
+  "Brian Setzer":            "Cyg4JtTrqUc", // Rock This Town - Stray Cats (Topic, Arista, 1981)
+  "Dave Mustaine":           "LOXrjUuXEn0", // Holy Wars... The Punishment Due - Megadeth (Topic, Capitol, Rust In Peace 1990)
+  "Marty Friedman":          "L8HhOMNrulE", // Tornado Of Souls - Megadeth (Topic, Capitol, Rust In Peace 1990)
+  "Zakk Wylde":              "5foQanhdArA", // No More Tears - Ozzy Osbourne (Topic, Epic/Sony, 1991)
+  "Kerry King":              "hFjoOOPU6Xo", // Raining Blood - Slayer (Topic, American Recordings, Reign In Blood 1986)
+  "Jeff Hanneman":           "TnRZhLRv6eM", // Angel Of Death - Slayer (Topic, American Recordings, Reign In Blood 1986)
+  "K.K. Downing":            "4s1gBIVOTtk", // Painkiller - Judas Priest (Topic, Sony Columbia, Painkiller 1990)
+  "Glenn Tipton":            "3dbRdzATXBE", // Electric Eye - Judas Priest (Topic, Sony Columbia, Screaming For Vengeance 1982)
+  "Dave Murray":             "W4DfbinBgL4", // The Trooper - Iron Maiden (Topic, Parlophone UK, Piece of Mind 2015 Remaster)
+  "Adrian Smith":            "ULsr-fFVjVs", // Wasted Years - Iron Maiden (Topic, Parlophone UK, Somewhere in Time 2015 Remaster)
+  "Adam Jones":              "tuw1ziytBDk", // Schism - Tool (Topic, Sony, Lateralus 2001)
+  "Chuck Schuldiner":        "8F4tT_JNl40", // Crystal Mountain - Death (Topic, Roadrunner, Symbolic 1995)
+  "Michael Schenker":        "aC5806zO_p8", // Rock Bottom - UFO (Topic, Reservoir Media/Chrysalis, Phenomenon 2019 Remaster, orig 1974)
+  "Nuno Bettencourt":        "8Dsz4TpIRvI", // Get The Funk Out - Extreme (Topic, UMG/A&M, Pornograffitti 1990)
+  "Jerry Cantrell":          "H1i5HaQV9ck", // Man in the Box - Alice In Chains (Topic, Sony Columbia, Facelift 1990)
+  "Mark Tremonti":           "ISBIht69fkE", // Blackbird - Alter Bridge (Topic, UMG/Universal Republic, 2007)
+  // John 5 - "Villisca": Topic version not located; falls back to yt-missing UI
+  "Yngwie Malmsteen":        "LBjq5OAfwR8", // Black Star - Yngwie Malmsteen (Topic, UMG, 1984 Rising Force original)
+  "Steve Vai":               "XvHgs4mBz9w", // For the Love of God - Steve Vai (Topic, Sony Epic, Passion And Warfare 1990)
+  "Joe Satriani":            "U5t2kDqvoYY", // Surfing with the Alien - Joe Satriani (Topic, Sony Epic, 1987)
+  "Eric Johnson":            "wpAC1vr_pcg", // Cliffs Of Dover (Instrumental) - Eric Johnson (Topic, UMG/Capitol, Ah Via Musicom 1990)
+  "John Petrucci":           "WqSXhynkz7g", // Under a Glass Moon - Dream Theater (Topic, Atlantic, Images and Words 1992)
+  "Paul Gilbert":            "fZu37HvAciw", // Scarified - Racer X (Topic, Orchard/Shrapnel, Second Heat 1987)
+  "Guthrie Govan":           "fSbUGufOt8o", // Waves - Guthrie Govan (Topic, DistroKid/JTC Guitar, Erotic Cakes 2012 re-release)
+  // Buckethead - "Jordan": Topic version not located; falls back to yt-missing UI
+  "Jason Becker":            "demdlhrZBtA", // Altitudes - Jason Becker (Topic, Orchard/Shrapnel, Perpetual Burn 1988)
+  "Allan Holdsworth":        "knaQa2-gyg8", // Devil Take the Hindmost (Remastered) - Allan Holdsworth (Topic, Orchard, Metal Fatigue 1985 original)
+  "Joe Bonamassa":           "goVPIX23e4I", // Sloe Gin - Joe Bonamassa (Topic, Virgin Music/J&R Adventures, 2007)
+  "John Mayer":              "_iGOWk-r614", // Gravity - John Mayer (Topic, Sony/Aware Records, Continuum 2006)
+  "Gary Clark Jr.":          "2tiXbJF_Cco", // Bright Lights - Gary Clark Jr. (Topic, Warner, Blak and Blu 2011)
+  "Jeff Healey":             "-guUHBkYh3s", // Angel Eyes - The Jeff Healey Band (Topic, Arista/Legacy/Sony, See the Light 1988)
+  "Sister Rosetta Tharpe":   "x9RU4y7GPxQ", // Strange Things Happening Every Day (Topic, UMG, Gospel Train, 1945 original)
+  "Samantha Fish":           "5rbPZSM8R-o", // Bulletproof - Samantha Fish (Official Video, Kill or Be Kind 2019) — Topic not located
+  "Robert Cray":             "UXjMN_yMhk8", // Smoking Gun - Robert Cray (Topic, UMG/Island Def Jam, Strong Persuader 1986)
+  "Warren Haynes":           "CecdQehjJUg", // Soulshine - The Allman Brothers Band (Topic, Epic/Sony, Where It All Begins 1994)
+  "Graham Coxon":            "SQrKCytWbj8", // Song 2 (2012 Remaster) - Blur (Topic, Parlophone UK, 1997 original)
+  "Kevin Shields":           "4nzZeUUiG2c", // Only Shallow - My Bloody Valentine (Topic, Domino, Loveless 1991 original)
+  "Josh Homme":              "z_59a_hnYdU", // No One Knows - Queens Of The Stone Age (Topic, UMG, Songs For The Deaf 2002)
+  "Billie Joe Armstrong":    "gS86jipcKzw", // Basket Case - Green Day (Topic, Reprise, Dookie 1994)
+  "Robert Smith":            "Xmf5ct3rOSc", // Just Like Heaven - The Cure (Topic, Rhino/Elektra, Kiss Me Kiss Me Kiss Me 1987)
+  "Billy Corgan":            "6ywIjjj3YuA", // Cherub Rock (2011 Remaster) - Smashing Pumpkins (Topic, UMG/Virgin, Siamese Dream 1993 original)
+  "Kim Thayil":              "-1ofDUXvnGo", // Black Hole Sun - Soundgarden (Topic, UMG, Superunknown 1994)
+  "Mike McCready":           "3MutXUvS37k", // Alive - Pearl Jam (Topic, Epic/Legacy/Sony, Ten 1991 original)
+  "Tosin Abasi":             "K-FrlY1EG_I", // Cafo - Animals As Leaders (Topic, Orchard/Prosthetic, 2009)
+  "Tim Henson":              "Do7Ubnhb-fU", // Playing God - Polyphia (Topic, Rise Records, Remember That You Will Die 2022)
+  "Plini":                   "yLDqQEqM1ZQ", // Handmade Cities - Plini (Topic, Plini, Handmade Cities 2016)
+  "Nita Strauss":            "z6Xh5yb8PWY", // Our Most Desperate Hour - Nita Strauss (Topic, UMG/Sumerian, Controlled Chaos 2018)
+  "Christone Ingram":        "OckrismbEL0", // Fresh Out - Christone "Kingfish" Ingram (Topic, Exceleration Music/Alligator, Kingfish 2019)
+  "Django Reinhardt":        "kt6ULcZxwRo", // Minor Swing - Django Reinhardt (Topic, Parlophone France, 1937 original)
+  "Wes Montgomery":          "9PD2Q7TXmvU", // Four On Six - Wes Montgomery (Topic, UMG/Riverside, The Incredible Jazz Guitar 1960)
+  "Charlie Christian":       "EXY8dNALtIA", // Solo Flight (78rpm Version) - Benny Goodman & Charlie Christian (Topic, Columbia/Legacy, 1941 original)
+  "Pat Metheny":             "_4GyNmXHpIc", // Are You Going With Me? - Pat Metheny Group (Topic, UMG/ECM, Offramp 1982)
+  "Al Di Meola":             "A3m_SQFd3xg", // Mediterranean Sundance - Al Di Meola (Topic, Sony Columbia, Elegant Gypsy 1977)
+  "Tommy Emmanuel":          "MnH5dsCysV8", // Classical Gas (Live) - Tommy Emmanuel (Topic, Sony Columbia AU, Classical Gas 1995/96)
+  "Michael Hedges":          "v6pbzD4sRos", // Aerial Boundaries - Michael Hedges (Topic, Windham Hill Records, 1984)
+  "Leo Kottke":              "-VugyHZ40AU", // Vaseline Machine Gun - Leo Kottke (Topic, UMG/Takoma, 6-and 12-String Guitar 1969)
+  "Bert Jansch":             "wUesD920uEw", // Angie - Bert Jansch (Topic, Transatlantic/Sanctuary/BMG, Pentangling 1965 original)
+  "Joe Strummer":            "LC2WpBcdM_A", // London Calling - The Clash (Topic, Epic/Sony UK, London Calling 1979 original)
+  "Mick Jones":              "zqZSONJYNGI", // Train in Vain (Stand by Me) - The Clash (Topic, Epic/Sony UK, London Calling 1979 original)
+  "Hank Marvin":             "-ss22jmrs_E", // Apache - The Shadows (Topic, Parlophone UK, 20 Golden Greats 1960 original)
+  "Peter Frampton":          "hUioud7Qtsw", // Do You Feel Like We Do - Peter Frampton (Topic, UMG, Frampton Comes Alive! 1976)
+  "Steve Howe":              "cPCLFtxpadE", // Roundabout (2008 Remaster) - Yes (Topic, Rhino/Elektra, Fragile 1972 original)
+  "Malcolm Young":           "UCskpE9KGQU", // Highway to Hell - AC/DC (Topic, Sony Columbia, Iron Man 2 soundtrack, 1979 original)
+  // --- Rolling Stone 2011 (original 100) ---
+  // 検証済み（web_searchで公式Topic / 公式チャンネル動画を確認） ---
   "Jimi Hendrix":       "WGoDaYjdfSg", // Purple Haze (Official Audio)
   "Eric Clapton":       "TngViNw2pOo", // Layla - Derek & The Dominos (Topic)
   "Jimmy Page":         "QkF3oxziUI4", // Stairway to Heaven (Official Audio)
@@ -994,6 +1533,272 @@ const CURATED_VIDEO_IDS = {
   "Alex Lifeson":       "QJ4-9tAf9UQ", // Tom Sawyer - Rush (Topic, Moving Pictures)
   "Thurston Moore":     "x9r0renJWuY", // Teen Age Riot - Sonic Youth (Topic, Daydream Nation)
   "Lindsey Buckingham": "MTIkFwMuiTw", // Go Your Own Way - Fleetwood Mac (Topic, Rumours)
+  // --- DDD Top 100 Rock Guitarists additions (r:165-199) ---
+  "Steve Morse": "yYsSjP28xhw", // Take It Off the Top - Dixie Dregs (Topic)
+  "Danny Gatton": "-ibOErExfKQ", // Funky Mama - solo (Topic)
+  "Roy Buchanan": "0dr0DwQJiAc", // The Messiah Will Come Again - solo (Topic)
+  "Steve Hackett": "1h0YHbCgP0o", // Firth of Fifth - Genesis (Topic)
+  "Phil Keaggy": "VZlJ7Pr3dnI", // Salvation Army Band - Glass Harp (Topic)
+  "Jan Akkerman": "Obdv1jghXAE", // Hocus Pocus - Focus (Topic)
+  "Uli Jon Roth": "HKgFcjASpys", // The Sails of Charon - Scorpions (Topic)
+  "Gary Moore": "JmsUkutNnI0", // Still Got the Blues - Thin Lizzy (Topic)
+  "Joe Messina": "zlCT2VZf7ag", // My Girl - The Funk Brothers (Topic)
+  "Robert White": "0Zp4NbXE0_o", // I Heard It Through the Grapevine - The Funk Brothers (Topic)
+  "Eddie Willis": "_ObVQPBD0Uw", // Ain't Too Proud to Beg - The Funk Brothers (Topic)
+  "Jimmy Nolen": "M7DNkovC2Tk", // Papa's Got a Brand New Bag - James Brown band (Topic)
+  "Lonnie Mack": "qfFrBQFnB_o", // Memphis - solo (Topic)
+  "Cliff Gallup": "KDCSG97anKU", // Be-Bop-A-Lula - Gene Vincent & His Blue Caps (Topic)
+  "Shawn Lane": "rxO3tM0B7Qc", // Not Again - Black Oak Arkansas (Topic)
+  "Lee Ranaldo": "KnwwrbscciU", // Mote - Sonic Youth (Topic)
+  "Terry Kath": "iPYH4s7_e34", // 25 or 6 to 4 - Chicago (Topic)
+  "Tommy Bolin": "ZbJZgbjW-xg", // Teaser - Deep Purple (Topic)
+  "Neal Schon": "mM3Vmn4pdog", // Don't Stop Believin' - Santana (Topic)
+  "Kirk Hammett": "apK2jCrfnsk", // One - Metallica (Topic)
+  "Alvin Lee": "3_p_CoubEYI", // I'm Going Home - Ten Years After (Topic)
+  "Vinnie Moore": "zbxEjYI2y4M", // In Control - UFO (Topic)
+  "Tony MacAlpine": "z6KU_9YPif0", // The Raven - M.A.R.S. (Topic)
+  // "Ray Gomez" - no Topic version available
+  "Michael Landau": "YuhiitQWkk0", // I'm Buzzed - session (Topic)
+  "Carl Verheyen": "67e01a9c4lM", // Opening Above - Supertramp (Topic)
+  "Adrian Belew": "AXi2_D65FvU", // Thela Hun Ginjeet - King Crimson (Topic)
+  "Martin Barre": "6fEB6v5SsLI", // Aqualung - Jethro Tull (Topic)
+  "Ray Davies": "vTHv20WpE2s", // Waterloo Sunset - The Kinks (Topic)
+  "Scott Gorham": "nN120kCiVyQ", // The Boys Are Back in Town - Thin Lizzy (Topic)
+  "Brian Robertson": "JOIAEz4sonk", // Still in Love with You - Thin Lizzy (Topic)
+  "Big Jim Sullivan": "Cpcye9GhCRc", // Hurdy Gurdy Man - session work (Topic)
+  "Mickey Baker": "ZS_0ER1TAkY", // Love Is Strange - Mickey & Sylvia (Topic)
+  "Robin Trower": "1e_xK35C1Yg", // Bridge of Sighs - Procol Harum (Topic)
+  "Jorma Kaukonen": "VPaTOBwx1Pc", // Embryonic Journey - Jefferson Airplane (Topic)
+  // --- InstruFEST 2025 additions (r:200-205) ---
+  "Misha Mansoor": "VizjMEe0agI", // Marigold - Periphery (Topic)
+  "Matteo Mancuso": "UvBrPb6VuVo", // Silkroad - solo (Topic)
+  "Jared James Nichols": "gVeJV888pik", // Easy Come, Easy Go - solo (Topic)
+  "Scott LePage": "D2scfkvGlKw", // G.O.A.T. - Polyphia (Topic)
+  "Mateus Asato": "mTfBW5jpZBg", // The Breakup Song - solo (Topic)
+  "Ichika Nito": "YaZIxOGOPnc", // flowers - solo (Topic)
+  "Jason Richardson": "GSV5e4WvGN8", // Tendinitis - All That Remains / solo (Topic)
+  "St. Vincent": "iYDRg40UVko", // Los Ageless - solo (Annie Clark) (Topic)
+  "Synyster Gates": "Evp3dgfbPGo", // Afterlife - Avenged Sevenfold (Topic)
+  "Kiko Loureiro": "8AK0HzYopNg", // Escaping - Angra / Megadeth (Topic)
+  "Trey Anastasio": "CsvlZacyByQ", // You Enjoy Myself - Phish (Topic)
+  "Eric Gales": "FQpDNQBS24A", // I Want My Crown - solo (Topic)
+  "John Pizzarelli": "U7Am-l3QVwY", // I Like Jersey Best - solo (Topic)
+  "Norman Brown": "U1_EDIewFco", // After The Storm - solo (Topic)
+  "Mary Osborne": "MRAlSo6BHtU", // Mary's Goodbye Blues - solo (Topic)
+  "Russell Malone": "k7iHo-WUvbI", // Sweet Georgia Peach - solo / session (Topic)
+  "Emily Remler": "2NG_wZFBM24", // Softly, As In A Morning Sunrise - solo (Topic)
+  "Charlie Hunter": "9abDigfSlCE", // Bing, Bing, Bing, Bing - solo (Topic)
+  "Kurt Rosenwinkel": "UUqvzkhTRNw", // Zhivago - solo (Topic)
+  "Julian Lage": "NWCkC7TRd1k", // Boo's Blues - solo (Topic)
+  "Earl Klugh": "jXek7Y5ARZk", // Living Inside Your Love - solo (Topic)
+  "James \"Blood\" Ulmer": "VaxdzhhuLik", // Jazz Is The Teacher, Funk Is The Preacher - solo (Topic)
+  "Eric Gale": "CvaFlygnuYg", // Ginseng Woman - solo / session (Topic)
+  "Eddie Lang": "U9ouoZnongI", // Stringing the Blues - solo / Paul Whiteman (Topic)
+  "Larry Carlton": "PeXIWyhB4F8", // Room 335 (Long Version) - solo / session (Topic)
+  "Laurindo Almeida": "LYidtmUIJbI", // Naked City Theme - solo / Stan Kenton (Topic)
+  "George Van Eps": "NgIbgmAV2EU", // Stompin' At The Savoy - solo (Topic)
+  "Sonny Sharrock": "r-HFL-225h0", // Promises Kept - solo (Topic)
+  "Howard Roberts": "TbmA9bdkDwY", // Smolderin' - solo / Wrecking Crew (Topic)
+  "Kevin Eubanks": "hRqHOCke2lc", // Turning Point (Part I) - solo (Topic)
+  "Bill Connors": "wglbzrGcn_E", // Theme To The Gaurdian - Return To Forever / solo (Topic)
+  "Steve Khan": "YQC5LLfi74A", // Dr. Slump - solo / session (Topic)
+  "Lee Ritenour": "xHzCaSGLSkc", // Captain Fingers - solo / Fourplay (Topic)
+  "Pat Martino": "9rfTrS1hEFI", // Sunny - solo (Topic)
+  "Ralph Towner": "Msn2k6hEzjA", // Icarus - Oregon / solo (Topic)
+  "John Abercrombie": "9khSUIMjBuk", // Timeless - solo / ECM (Topic)
+  "Bill Frisell": "hNJX8okuncA", // Have a Little Faith in Me - solo (Topic)
+  "Freddie Green": "bTcmPGdDecw", // Corner Pocket - Count Basie Orchestra (Topic)
+  "Herb Ellis": "3XbMRJNoowI", // Pap's Blues - Oscar Peterson Trio (Topic)
+  "Lenny Breau": "47MXig8tcs8", // Five O'clock Bells - solo (Topic)
+  "Mike Stern": "-yO5hSSaxvY", // Upside Downside - Miles Davis / solo (Topic)
+  "John Scofield": "szE5MItNnUU", // Chank - Miles Davis / solo (Topic)
+  "Charlie Byrd": "bp2QFbOtkSM", // Desafinado - solo / Stan Getz (Topic)
+  "Larry Coryell": "eoP2abSKMMY", // Spaces (Infinite) - Eleventh House / solo (Topic)
+  "Jimmy Raney": "uzZ1wQXub20", // Stella By Starlight - solo (Topic)
+  "Gabor Szabo": "FddCMjygA4s", // Gypsy Queen - solo / Chico Hamilton (Topic)
+  "Johnny Smith": "6mjIa32k6rw", // Moonlight In Vermont - solo (Topic)
+  "Stanley Jordan": "QLCjVvjXo0Y", // Eleanor Rigby - solo (Topic)
+  "Tal Farlow": "7rSigHhdAHo", // Meteor - solo / Red Norvo Trio (Topic)
+  "Joe Pass": "E5_EQdTZbSs", // Night And Day - solo (Topic)
+  "Kenny Burrell": "ylGjvwXV3HA", // Chitlins Con Carne - solo (Topic)
+  "Barney Kessel": "EytLEdTE8Y8", // Jordu - solo / Wrecking Crew (Topic)
+  "Grant Green": "aq0m0hbCjFQ", // Idle Moments - solo / Blue Note (Topic)
+  "George Benson": "G1QjyskJ9jw", // Breezin' - solo (Topic)
+  "Jim Hall": "nvMq86JX1GU", // Concierto De Aranjuez - solo (Topic)
+  "Doc Watson": "mESHtplQK9M", // Black Mountain Rag - solo (Topic)
+  "Sabicas": "Hs5L0YS1AE0", // Bulerias - solo (Topic)
+  "João Gilberto": "oVNFowzF65U", // Chega de Saudade - solo (Topic)
+  "Derek Bailey": "lKqvYWO48iw", // Third Stream Boogaloo - solo / Music Improvisation Company (Topic)
+  "Robben Ford": "9kM8OzoEybI", // Revelation - solo (Topic)
+  "Nokie Edwards": "EEoN64xoihM", // Pipeline - The Ventures (Topic)
+  "John Williams": "wen_dkUQIjI", // Cavatina (Theme from The Deer Hunter) - solo (Topic)
+  "Jake E. Lee": "F89-MOy7Xfg", // Bark at the Moon - Ozzy Osbourne / Badlands (Topic)
+  "Francisco Tárrega": "cPW8g5axlq8", // Tárrega: Capricho árabe - solo (composer) (Topic)
+  "Cornell Dupree": "2XeOKKY2mg8", // Teasin' - solo / Stuff (Topic)
+  "Baden Powell": "jKGg5GDqaZw", // Valsa De Eurídice - solo (Topic)
+  "Julian Bream": "aYJDFfB4rhM", // Suite española, Op. 47: Leyenda (Asturias) - solo (Topic)
+  "Narciso Yepes": "kkmCQY-Yrxw", // Yepes: Jeux interdits (Romance) - solo (Topic)
+  "John Sykes": "cUVU6XzxV0I", // Still of the Night - Whitesnake / Blue Murder (Topic)
+  "David T. Walker": "ZjILkiHt0HE", // What's Goin' On - solo / session (Topic)
+  "Paco de Lucía": "sQFEG84gOqo", // Entre Dos Aguas - solo (Topic)
+  "Andrés Segovia": "IDJiKL6sHAY", // J.S. Bach: Violin Partita No. 2 in D Minor, BWV 10... - solo (Topic)
+  "Ronnie Earl": "_aNncvoK6t0", // Blues For The West Side - solo / Roomful of Blues (Topic)
+  "Earl Hooker": "SapKLxH4UjU", // Earl Hooker Blues - solo (Topic)
+  "Son House": "bsgFo2irGjo", // Death Letter Blues - solo (Topic)
+  "Jimmie Vaughan": "36J1MUShWBQ", // Six Strings Down - The Fabulous Thunderbirds / solo (Topic)
+  "Lonnie Johnson": "gKW84I7VlBQ", // Tomorrow Night - solo (Topic)
+  "Duke Robillard": "NxQHQXXVpSE", // Stomp The Blues Tonight - Roomful of Blues / solo (Topic)
+  "Clarence \"Gatemouth\" Brown": "39qVQGpH5rE", // Okie Dokie Stomp - solo (Topic)
+  "Blind Lemon Jefferson": "dnuGh7I-nXE", // See That My Grave Is Kept Clean - solo (Topic)
+  "Charley Patton": "TrvGufxoUG4", // Pony Blues - solo (Topic)
+  "Mississippi John Hurt": "JmQ_-hI8L6k", // Candy Man - solo (Topic)
+  "Son Seals": "0yVVuJsDWd8", // Hot Sauce (Live) - solo (Topic)
+  "Robert Nighthawk": "U1M4a91xHic", // Black Angel Blues - solo (Topic)
+  "Magic Sam": "M621vGYs_qI", // All Your Love - solo (Topic)
+  "Luther Allison": "wM7YYP6Gk70", // Cherry Red Wine - solo (Topic)
+  "Mississippi Fred McDowell": "7FiX8VBEt2k", // Shake 'Em on Down - solo (Topic)
+  "Jimmy Thackery": "H3nyb1xo_Ts", // Drive to Survive - solo / The Nighthawks (Topic)
+  "Lonnie Brooks": "VXyxd9wcQzg", // Voodoo Daddy - solo (Topic)
+  "Lightnin' Hopkins": "s9NGj_LHI_M", // Mojo Hand - solo (Topic)
+  "Earl King": "W0LK5OHlV2M", // Trick Bag - solo (Topic)
+  "Blind Willie Johnson": "YdnyRlb0qIk", // John the Revelator - solo (Topic)
+  "Johnny Copeland": "lk1YV5niZXw", // Copeland Special - solo (Topic)
+  "Big Bill Broonzy": "QDJSAKIE478", // Key to the Highway - solo (Topic)
+  "Kim Simmonds": "4OnvRuDHWUs", // Tell Mama - Savoy Brown (Topic)
+  "Elvin Bishop": "k33x_Efa5Lk", // Fooled Around And Fell In Love - solo / Paul Butterfield Blues Band (Topic)
+  "Walter Trout": "J-6xjQa18eY", // Say Goodbye To The Blues - solo / Canned Heat / Bluesbreakers (Topic)
+  "Roy Rogers": "kkEIWIv7Dos", // Walkin' Blues - solo / The Delta Rhythm Kings (Topic)
+  "Guitar Slim": "TIX35Gzjii0", // The Things That I Used To Do - solo (Topic)
+  "Sonny Landreth": "YEhGBb2gvGI", // Congo Square - solo (Topic)
+  "Robert Jr. Lockwood": "K-E4bP7aGMA", // Steady Rollin' Man - solo (Topic)
+  "Isaiah Sharkey": "UfCHLzUnOwA", // It's A Shame - Isaiah Sharkey (Topic)
+  "Spanky Alford": "6QPQtguRdDs", // Untitled - D'Angelo (Topic, Spanky Alford gtr)
+  "Jairus Mozee": "FlHL1Pvszq8", // Daydreaming - NxWorries (Topic)
+  "Tom Misch": "aJwkmg3_6Lo", // It Runs Through Me - Tom Misch (Topic)
+  "Melanie Faye": "o-Okse80pHI", // It's A Moot Point - Melanie Faye (Topic)
+  "Kerry \"2 Smooth\" Marshall": "vs8a88EOrj4", // R&B Guitar Playing - Kerry Marshall (official)
+  "Erick Walls": "-pjhiBexEIY", // All Blues Solo (NAMM 2018) - Erick Walls
+  "Cory Wong": "eM5rs6jZKPE", // Meditation - Cory Wong & Jon Batiste (Topic)
+  "Jubu Smith": "UviG2rGwi9A", // Anniversary - Tony! Toni! Toné! (Topic, Jubu Smith gtr)
+  "Todd Pritchard": "hw5H0wNiDXs", // Silent Night (Neosoul Guitar) - Todd Pritchard (official)
+  "Mansur Brown": "Lzzdr-XmvNw", // God Willing - Mansur Brown (Official Audio)
+  "Kazuki Isogai": "EqTgfO9_sn4", // Worldwide - edbl & Kazuki Isogai (Topic)
+  "Beau Diakowicz": "04RLX8A2ZqU", // Walking on My Toes - Beau Diako (Topic)
+  "Ruben Wan": "r7d3OiS82PU", // Rose - Ruben Wan (official)
+  "Mark Lettieri": "fcYMeD5jl0w", // Naptime - Mark Lettieri (Topic)
+  "Justus West": "nofyR_Z4lu4", // Best Practice Guitar - Justus West (official)
+  "Nii Quaye": "yQNfDEgOJx0", // Remember Me - NiiQuaye (official)
+  "Nile Rodgers": "Q5C9oeKxJzo", // Good Times - Chic (Topic)
+  "Leo Nocentelli": "Nd3yDoOyvbY", // Cissy Strut - The Meters (Topic)
+  "Freddie Stone": "09bSoxFgaRI", // Thank You - Sly & The Family Stone (Topic)
+  "Al McKay": "B2mmDEv0OEk", // September - Earth Wind & Fire (Topic)
+  "Catfish Collins": "9NaPx2vMoO0", // Stretchin' Out - Bootsy Collins (Topic, Catfish gtr)
+  "Gary Shider": "FqiT61e37os", // One Nation Under a Groove - Funkadelic (Topic 2016 Rem)
+  "Michael Hampton": "zg_-872I_Cs", // (Not Just) Knee Deep - Funkadelic (Topic 2015 Rem, Hampton solo)
+  "Blackbyrd McKnight": "C8hi3ZnhFac", // God Make Me Funky - The Headhunters (Topic)
+  "Wah Wah Watson": "d7kRlufrZJo", // Hang Up Your Hang Ups - Herbie Hancock (Topic, Watson gtr)
+  "Ray Parker Jr.": "ckAHnZqbQeg", // A Woman Needs Love - Ray Parker Jr. & Raydio (Topic)
+  "Paul Jackson Jr.": "4D7u5KF7SP8", // Get Lucky - Daft Punk (Topic, Paul Jackson Jr. gtr)
+  "Ernie Isley": "xTYZ69gzrIg", // That Lady, Pts. 1 & 2 - The Isley Brothers (Topic)
+  "Johnny \"Guitar\" Watson": "u8MviTtXkF0", // A Real Mother For Ya - Johnny Guitar Watson (Topic)
+  "Tony Maiden": "vuDCi5neNMM", // Tell Me Something Good - Rufus & Chaka Khan (Topic, Maiden gtr)
+  "Charles \"Skip\" Pitts": "fTU_9T5ufzY", // Theme From Shaft - Isaac Hayes (Topic, Skip Pitts wah)
+  "Bruce Conte": "Pfim3SKTNkw", // What Is Hip? - Tower of Power (Topic, Bruce Conte gtr)
+  "George Johnson": "rquygdjf0d8", // Strawberry Letter 23 - The Brothers Johnson (Topic)
+  "Mark Speer": "H_kvg5fV6mw", // Maria También - Khruangbin (Topic)
+  "Eric Krasno": "2XP4foJZbw4", // Turn It Out - Soulive (Topic)
+  "Rob Harris": "GbxbDeMC0BE", // Little L - Jamiroquai (Topic)
+
+  // --- Japanese scene additions (r:338-385) ---
+  "寺内タケシ": "7zrNEoYA3HE", // 羅生門
+  "加山雄三": "XUO-HKOyvkg", // Black Sand Beach
+  "竹田和夫": "N4gnKRUZKMI", // Lonely Heart
+  "成毛滋": "dxuFHE4PyZ8", // Rolling Down The Broadway
+  "高中正義": "E3HBwtJNplQ", // Blue Lagoon
+  "渡辺香津美": "SkVyB6KcZf0", // Lonesome Cat
+  "Char": "p95WPTwRXHc", // 気絶するほど悩ましい
+  "仲井戸麗市": "HEkWqvM6tQ8", // 雨あがりの夜空に
+  "鮎川誠": "627U2tqu9rU", // You May Dream
+  "森園勝敏": "HZAMm96rK68", // 空と雲
+  "松本孝弘": "HwU3_6DWoYs", // ultra soul
+  "布袋寅泰": "RVNMZA6lbT8", // Battle Without Honor Or Humanity
+  "hide": "uHsvT4n5tpM", // Pink Spider
+  "Pata": "Qi492AP_uEg", // Rusty Nail
+  "SUGIZO": "EbprYfjXnRA", // ROSIER
+  "INORAN": "Gjkxiji9gEc", // TONIGHT
+  "DAITA": "RgC8kKv0hqM", // 1/3の純情な感情
+  "Ken": "bzuuxp7dsxQ", // Driver's High
+  "HISASHI": "TsqP9ZbUPWo", // SURVIVAL
+  "浅井健一": "13CDG1xtHtQ", // Bang!
+  "高崎晃": "2vRqcs8In5E", // CRAZY NIGHTS
+  "MIYAVI": "CK1zsbT4adY", // What's My Name?
+  "藤岡幹大": "lmqs-C2LPsc", // HARMONYx
+  "大村孝佳": "FuW6IsR3ybc", // Soldiers Of The Fire
+  "Leda": "m3-pJ_4zQSw", // REVOLVER BLAST
+  "SYU": "K5hVDpq6SFA", // HUNTING FOR YOUR DREAM
+  "AssH": "I9gM59Yabws", // OMG (Live at イケシブ)
+  "Li-sa-X": "2iFfvx8qMyk", // Serendipity
+  "ISAO": "sdoqAN86Alc", // Golf (CUBE-RAY)
+  "今剛": "ZYeVfKtIH4c", // Ruby No Yubiwa (寺尾聰)
+  "松原正樹": "xSoyQdPsMo8", // 流宇夢サンド
+  "佐橋佳幸": "c6jsTLC-isc", // Coltrane's Blue World (w/ P.Gallway)
+  "西慎嗣": "cQjW6OOpo4g", // F・L・Y
+  "山岸竜之介": "hqyGlEtS-Tw", // I AM GUITAR HERO
+  "西川進": "Pi8FwqkM5MM", // 幸福論 (椎名林檎)
+  "小倉博和": "NyRbEj5eILw", // Sakurazaka 2024 (福山雅治)
+  "田中義人": "KwdDjaH5Phc", // Smells
+  "鳥山雄司": "VMgPX21hN2c", // STRANGER IN THE MIRROR
+  "是方博邦": "nPdUh0d3Dgk", // Korekata (Full Album)
+  "向井秀徳": "2AB12Af4_ks", // HIMITSU GIRL'S TOP SECRET
+  "長岡亮介": "L9vluPcPwec", // 雨 (ペトロールズ)
+  "常田大希": "6aozF-6d1AQ", // 白日
+  "小林祐介": "q0uy6C7Y1uY", // Rhapsody in beauty
+  "山中さわお": "TiycWq1YOAA", // Funny Bunny
+  "真鍋吉明": "IKoP237C02M", // RIDE ON SHOOTING STAR
+  "Rei": "O9dZw8cSfAM", // Lonely Dance Club
+  "弓木英梨乃": "Ho6oCpZ1GGE", // Killer Tune Kills Me (KIRINJI feat. YonYon)
+
+  // --- utaten.com list additions (r:385-395) ---
+  "アベフトシ": "PImjio4EPgw", // 世界の終わり
+  "野村義男": "qGyLI8KG_I4", // 気まぐれONE WAY BOY
+  "真島昌利": "BSkLe-EOq5U", // TRAIN-TRAIN
+  "横山健": "Z7m4z8uz5aQ", // Stay Gold
+  "高見沢俊彦": "JWlQzSkV-Lg", // 星空のディスタンス
+  "小沼ようすけ": "4agRMp0hltI", // Jam Ka Deux (Live at Blue Note Tokyo)
+  "菰口雄矢": "eH-ao9o2GkA", // Tears In The Universe
+  "押尾コータロー": "oZhnr6ULHyY", // Twilight (黄昏)
+  "福田進一": "IfeEU1Dvzyk", // Asturias (Albéniz)
+  "村治佳織": "rcRJmK_vagM", // Recuerdos de la Alhambra
+  "沖仁": "KmnGbpX9DHw", // La Lluvia Limpia El Aire (Guajiras)
+  "森大翔": "T-S61PIlDEw",
+  "崎山蒼志": "4jWzGkRsHw8",
+  "若井滉斗": "Jy-QS27q7lA",
+  "田渕ひさ子": "ITt7zLOPr84",
+  "PABLO": "CSmPXfNVO7U",
+  "柳下\"DAYO\"武史": "QqpCll_iqjg",
+  "Yvette Young": "ry7eZJ6qTS4",
+  "Marcin Patrzalek": "pcCgICC7Vfk",
+  "Madison Cunningham": "Hhyss8n4OME",
+  "H.E.R.": "Z5ze4CUAkE8",
+  "Jacob Collier": "hin-1p35xAQ",
+  "Frank Gambale": "1QjQQDLTYbQ",
+  "Jerry Reed": "zai0FlRDXmM",
+  "Brent Mason": "NvuTxevRFnI",
+  "Kenny Wayne Shepherd": "Xy98ObIitLc",
+  "Tuck Andress": "6gVRJcq083g",
+  "Ariel Posen": "xIlWTCdjlIA",
+  "Joey Landreth": "ur-1UcZiKRs",
+  "Matt Bellamy": "wSenWOyC0V4",
+  "Mick Mars": "e17mr5ZtWPI",
+  "Bernard Butler": "WZADFIKIxdE",
+  "Sophie Lloyd": "8tZCc_BcTF4",
+  "Roy Clark": "Cb0NHSMGRLE",
+  "Nancy Wilson": "SuiDF5EX4bQ",
+  "Don Felder": "JLcL4MkpJQ4",
+  "George Thorogood": "IyhJ69mD7xI",
+  "Tom Scholz": "t4QK8RxCAwo",
+  "J.J. Cale": "TlppIdtLw5A",
+  "Allen Collins": "QxIWDmmqZzY",
 };
 
 const YTID_LS_PREFIX = "gyt3:";     // user-added: name -> 11-char id
@@ -1083,27 +1888,20 @@ function expandEmbed(embedEl, g, videoId){
   embedEl.appendChild(open);
 }
 
-// YouTube iframe embeds require a valid HTTP referrer. When this HTML is
-// opened via the file:// protocol (e.g. a developer double-clicking the
-// downloaded file), YouTube returns Error 153 because there's no valid
-// referrer. In that case we transparently fall back to opening the video
-// in a new tab. On http(s) hosting (the production environment) we use
-// the proper iframe embed.
-const IS_LOCAL_FILE = (typeof location !== "undefined") && location.protocol === "file:";
+// YouTube iframe embeds for in-page playback. Requires http(s) hosting
+// (e.g. GitHub Pages) because YouTube's embed endpoint requires a valid
+// HTTP referrer. Opening this file via file:// will result in Error 153
+// — test via `python3 -m http.server` or the deployed site instead.
 
 function showThumb(embedEl, g, videoId){
   embedEl.innerHTML = `
     <div class="yt-thumb" style="background-image:url('${ytThumbUrl(videoId)}')">
       <div class="yt-play"></div>
-      <div class="yt-caption">▶ ${g.t}${IS_LOCAL_FILE ? ' <span class="yt-ext">↗</span>' : ''}</div>
+      <div class="yt-caption">▶ ${g.t}</div>
     </div>`;
   embedEl.onclick = (e)=>{
     e.stopPropagation();
-    if(IS_LOCAL_FILE){
-      window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank", "noopener");
-    }else{
-      expandEmbed(embedEl, g, videoId);
-    }
+    expandEmbed(embedEl, g, videoId);
   };
 }
 
@@ -1163,6 +1961,7 @@ function paintCard(side){
   $("nm-"+suffix).textContent = g.n;
   $("bd-"+suffix).textContent = g.b;
   $("tk-"+suffix).textContent = g.t;
+  $("bio-"+suffix).textContent = g.d || "";
   paintPhoto($("ph-"+suffix).parentElement, g);
 
   // YouTube search URL for the "検索" button
@@ -1301,6 +2100,7 @@ const rangeLabels = {
   20:"20人 / 推定 約 65 回の選択",
   50:"50人 / 推定 約 230 回の選択",
   100:"100人 / 推定 約 550 回の選択",
+  424:"424人 / 推定 約 3700 回の選択",
 };
 document.querySelectorAll("#range-picker button").forEach(b=>{
   b.onclick = ()=>{
@@ -1327,8 +2127,34 @@ $("btn-resume").onclick = ()=>{
 };
 (function(){ if(loadState()) $("btn-resume").style.display = "inline-block"; })();
 
-$("card-a").onclick = (e)=>{ if(!S||!S.pendingA) return; if(e.target.closest("[data-nav]")) return; decide('A'); render(); };
-$("card-b").onclick = (e)=>{ if(!S||!S.pendingB) return; if(e.target.closest("[data-nav]")) return; decide('B'); render(); };
+// Visual selection feedback → then commit the vote.
+// 280ms delay lets the user see which card they chose before the cards change.
+let picking = false;
+function pick(side){
+  if(picking) return;
+  if(!S) return;
+  if(side==='A' && !S.pendingA) return;
+  if(side==='B' && !S.pendingB) return;
+  if(side==='TIE' && !S.pendingA) return;
+  picking = true;
+  const cardA = $("card-a"), cardB = $("card-b");
+  cardA.classList.add("locked");
+  cardB.classList.add("locked");
+  if(side==='A'){ cardA.classList.add("selected"); cardB.classList.add("dimmed"); }
+  else if(side==='B'){ cardB.classList.add("selected"); cardA.classList.add("dimmed"); }
+  else { cardA.classList.add("dimmed"); cardB.classList.add("dimmed"); }
+  setTimeout(()=>{
+    // Clear feedback classes before re-rendering (next pair loads fresh)
+    cardA.classList.remove("selected","dimmed","locked");
+    cardB.classList.remove("selected","dimmed","locked");
+    picking = false;
+    decide(side);
+    render();
+  }, side==='TIE' ? 180 : 280);
+}
+
+$("card-a").onclick = (e)=>{ if(e.target.closest("[data-nav]")) return; pick('A'); };
+$("card-b").onclick = (e)=>{ if(e.target.closest("[data-nav]")) return; pick('B'); };
 
 // Belt-and-suspenders: explicitly stop propagation for every YT link,
 // so a tap on them never triggers the card's selection.
@@ -1336,7 +2162,7 @@ $("card-b").onclick = (e)=>{ if(!S||!S.pendingB) return; if(e.target.closest("[d
   const el = document.getElementById(id);
   if(el) el.addEventListener("click", e => e.stopPropagation());
 });
-$("btn-tie").onclick = (e)=>{ e.stopPropagation(); if(!S||!S.pendingA) return; decide('TIE'); render(); };
+$("btn-tie").onclick = (e)=>{ e.stopPropagation(); pick('TIE'); };
 $("btn-undo").onclick = (e)=>{ e.stopPropagation(); undo(); };
 
 document.addEventListener("keydown", e=>{
@@ -1370,9 +2196,17 @@ $("btn-again").onclick = ()=>{
   advance(); saveState();
   render();
 };
-$("btn-home").onclick = ()=>{
+$("btn-to-home").onclick = ()=>{
   clearState(); S = null;
   $("btn-resume").style.display = "none";
+  showScreen("home");
+};
+$("btn-home").onclick = ()=>{
+  // Header logo: return to top without clearing progress.
+  // If a session is in progress, offer "前回の続きから" on home.
+  if(S && !S.finalOrder){
+    $("btn-resume").style.display = "";
+  }
   showScreen("home");
 };
 
