@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -649,7 +648,6 @@
     z-index:1;
     display:block;
   }
-  .champion .ch-photo img{ width:100%;height:100%;object-fit:cover;position:relative;z-index:1; }
   .tourney-bracket{
     max-width:720px;margin:0 auto 24px;padding:0 14px;
   }
@@ -3025,10 +3023,6 @@ function checkTournamentComplete(){
 async function showTournamentResult(){
   showScreen("tournament-result");
   const ch = tState.champion;
-  console.log("[TOURNAMENT] champion:", ch);
-  console.log("[TOURNAMENT] photoMemo before await:", photoMemo.get(ch.n));
-  console.log("[TOURNAMENT] getPhotoSync before await:", getPhotoSync(ch.n));
-
   const chEl = $("champion");
   chEl.innerHTML = `
     <div class="ch-crown">👑</div>
@@ -3040,25 +3034,14 @@ async function showTournamentResult(){
   paintPhoto($("ch-photo"), ch);
   // If the champion's photo hasn't been fetched yet, await it and repaint
   if(getPhotoSync(ch.n) === null){
-    console.log("[TOURNAMENT] fetching photo...");
     try{
       await ensurePhotos([ch]);
-    }catch(e){ console.warn("[TOURNAMENT] ensurePhotos failed:", e); }
-    console.log("[TOURNAMENT] photoMemo after await:", photoMemo.get(ch.n));
+    }catch(e){ /* ignore */ }
     if($("screen-tournament-result").classList.contains("active")){
       const el = $("ch-photo");
       if(el) paintPhoto(el, ch);
     }
   }
-  // Final sanity log
-  setTimeout(()=>{
-    const el = $("ch-photo");
-    const img = el ? el.querySelector("img") : null;
-    console.log("[TOURNAMENT] final ch-photo img:", img ? img.src : "(no img element)");
-    if(img){
-      console.log("[TOURNAMENT] img complete:", img.complete, "naturalWidth:", img.naturalWidth);
-    }
-  }, 500);
 
   // bracket history
   const br = $("tourney-bracket");
