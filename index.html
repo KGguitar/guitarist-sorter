@@ -573,6 +573,141 @@
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/></svg>");
     mix-blend-mode:overlay;
   }
+
+  /* ===== Mode tabs ===== */
+  .mode-tabs{
+    display:flex;flex-direction:column;gap:8px;margin-bottom:16px;
+  }
+  @media(min-width:720px){ .mode-tabs{ flex-direction:row; } }
+  .mode-tab{
+    flex:1;padding:12px 14px;
+    border:1px solid var(--line);border-radius:var(--r-md);
+    background:var(--bg-2);color:var(--paper);
+    text-align:left;cursor:pointer;transition:all .15s ease;
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .mode-tab:hover{border-color:var(--accent-2);}
+  .mode-tab.on{border-color:var(--accent);background:rgba(200,56,28,.08);}
+  .mode-tab .mt-title{
+    font-size:14px;font-weight:600;color:var(--paper);letter-spacing:.02em;
+  }
+  .mode-tab.on .mt-title{color:var(--accent);}
+  .mode-tab .mt-desc{
+    font-size:12px;color:var(--muted);letter-spacing:.02em;
+  }
+  .mode-desc-box{
+    padding:12px 14px;background:var(--bg-2);border-radius:var(--r-sm);
+    border-left:2px solid var(--accent-2);margin-bottom:12px;
+    font-size:14px;line-height:1.6;color:var(--paper);
+  }
+
+  /* ===== Random stage ===== */
+  .random-stage{
+    max-width:560px;margin:0 auto;padding:12px;
+  }
+  .rnd-card{ max-width:100%; }
+
+  /* ===== Tournament champion ===== */
+  .champion{
+    max-width:480px;margin:18px auto 24px;padding:20px;
+    background:linear-gradient(180deg,rgba(200,56,28,.12),rgba(217,164,65,.08));
+    border:1px solid var(--accent);border-radius:var(--r-lg);
+    text-align:center;
+  }
+  .champion .ch-crown{
+    font-size:38px;margin-bottom:6px;
+  }
+  .champion .ch-name{
+    font-size:28px;font-weight:700;color:var(--accent);
+    letter-spacing:.02em;line-height:1.2;
+    font-family:"Bodoni 72","Bodoni Moda","Didot","Noto Serif JP",serif;
+    margin-bottom:4px;
+  }
+  .champion .ch-band{
+    font-size:14px;color:var(--muted);margin-bottom:12px;
+  }
+  .champion .ch-photo{
+    width:180px;height:180px;border-radius:50%;overflow:hidden;
+    margin:0 auto 16px;border:3px solid var(--accent);
+    display:grid;place-items:center;background:linear-gradient(135deg,#2a2622,#161412);
+    color:var(--accent);
+    font-family:"Bodoni 72","Didot",serif;
+    position:relative;
+    box-shadow:0 0 40px rgba(200,56,28,.35), 0 0 80px rgba(217,164,65,.18);
+  }
+  .champion .ch-photo .ph-fallback{
+    font-size:96px;color:var(--accent);
+    text-shadow:0 2px 12px rgba(0,0,0,.5);
+  }
+  .champion .ch-photo img{ width:100%;height:100%;object-fit:cover;position:relative;z-index:1; }
+  .tourney-bracket{
+    max-width:720px;margin:0 auto 24px;padding:0 14px;
+  }
+  .tourney-round{
+    margin-bottom:20px;
+  }
+  .tourney-round h4{
+    font-size:13px;color:var(--muted);margin-bottom:8px;
+    letter-spacing:.1em;text-transform:uppercase;
+  }
+  .tourney-match{
+    display:grid;grid-template-columns:1fr auto 1fr;gap:10px;
+    padding:8px 12px;border-bottom:1px solid var(--line);
+    align-items:center;font-size:14px;
+  }
+  .tourney-match .tm-w{ color:var(--accent);font-weight:600; }
+  .tourney-match .tm-l{ color:var(--muted);text-decoration:line-through; }
+  .tourney-match .tm-vs{ color:var(--muted);font-size:11px;letter-spacing:.1em; }
+
+  /* ===== Tournament round announce overlay ===== */
+  .round-announce{
+    position:fixed;inset:0;z-index:80;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at center, rgba(14,13,11,.92) 0%, rgba(14,13,11,.98) 70%);
+    backdrop-filter:blur(6px);
+    pointer-events:none;opacity:0;
+    transition:opacity .22s ease;
+  }
+  .round-announce.show{ opacity:1; pointer-events:auto; }
+  .round-announce .ra-inner{
+    text-align:center;
+    transform:scale(.72);
+    opacity:0;
+    transition:transform .5s cubic-bezier(.2,1.3,.4,1), opacity .35s ease;
+  }
+  .round-announce.show .ra-inner{
+    transform:scale(1);
+    opacity:1;
+  }
+  .ra-kicker{
+    font-size:12px;letter-spacing:.4em;color:var(--accent-2);
+    margin-bottom:14px;font-weight:600;
+  }
+  .ra-title{
+    font-family:"Bodoni 72","Bodoni Moda","Didot","Noto Serif JP",serif;
+    font-size:clamp(52px,14vw,120px);
+    font-weight:700;letter-spacing:-.02em;line-height:1;
+    color:var(--accent);
+    text-shadow:0 4px 40px rgba(200,56,28,.4);
+    margin-bottom:14px;
+  }
+  .ra-title.champion-coming{
+    color:var(--accent-2);
+    text-shadow:0 4px 40px rgba(217,164,65,.5);
+    animation:ra-pulse 1.2s ease-in-out infinite alternate;
+  }
+  .ra-sub{
+    font-size:15px;color:var(--paper);letter-spacing:.15em;
+    opacity:.85;
+  }
+  @keyframes ra-pulse{
+    from{ transform:scale(1); }
+    to{ transform:scale(1.04); }
+  }
+  @media(min-width:720px){
+    .ra-kicker{ font-size:14px; }
+    .ra-sub{ font-size:17px; }
+  }
 </style>
 </head>
 <body class="grain">
@@ -594,13 +729,30 @@
 <main>
   <section class="screen active" id="screen-home">
     <div class="hero">
-      <h2 class="display">二者択一で、<br>あなたの<em>最高のギタリスト</em>を。</h2>
+      <h2 class="display">あなたの<em>最高のギタリスト</em>を<br>見つけよう。</h2>
       <div class="hero-body">
         <div class="hero-text">
-          <p>2人ずつ表示されるギタリストのうち、好きな方を選び続けるだけ。<br>マージソートで順位が自動的に組み上がり、あなただけのランキングが完成します。</p>
+          <div class="mode-tabs" id="mode-tabs">
+            <button class="mode-tab on" data-mode="ranking">
+              <span class="mt-title">ランキング作成</span>
+              <span class="mt-desc">2択のマージソートで順位を確定</span>
+            </button>
+            <button class="mode-tab" data-mode="random">
+              <span class="mt-title">ランダム表示</span>
+              <span class="mt-desc">1人ずつランダムに眺めて発見</span>
+            </button>
+            <button class="mode-tab" data-mode="tournament">
+              <span class="mt-title">トーナメント</span>
+              <span class="mt-desc">勝ち抜き戦で優勝者を決定</span>
+            </button>
+          </div>
+
+          <p id="mode-description" class="mode-desc-box">
+            2人ずつ表示されるギタリストのうち、好きな方を選び続けるだけ。<br>マージソートで順位が自動的に組み上がり、あなただけのランキングが完成します。
+          </p>
 
           <div class="cta-row">
-            <button class="btn primary" id="btn-start">バトル開始</button>
+            <button class="btn primary" id="btn-start">ランキング作成を始める</button>
             <button class="btn ghost" id="btn-resume" style="display:none;">前回の続きから</button>
           </div>
         </div>
@@ -623,9 +775,49 @@
     </div>
   </section>
 
-  <section class="screen" id="screen-vote">
+  <section class="screen" id="screen-random">
     <div class="vote-top">
-      <span class="l">進捗 バトル <span id="p-cur">0</span> / <span id="p-est">0</span></span>
+      <span class="l">ランダム表示 <span id="rnd-cur">0</span> / <span id="rnd-total">0</span></span>
+      <span class="r display"><span id="rnd-pct">0</span>%</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" id="rnd-fill" style="width:0%;"></div></div>
+
+    <div class="random-stage">
+      <div class="card rnd-card" id="card-r" tabindex="0">
+        <span class="rank-badge" id="rb-r">—</span>
+        <div class="photo"><div class="ph-fallback" id="ph-r">?</div></div>
+        <h3 id="nm-r">—</h3>
+        <div class="band" id="bd-r">—</div>
+        <div class="bio" id="bio-r"></div>
+        <div class="track"><span class="lbl">Key Track</span><span id="tk-r">—</span></div>
+        <div class="yt-embed" id="yte-r" data-nav>
+          <div class="yt-thumb" id="ytet-r">
+            <div class="yt-placeholder">Loading…</div>
+          </div>
+        </div>
+        <div class="yt-row" id="yt-r">
+          <a class="yt-btn yt-search" id="ytr-search" target="_blank" rel="noopener" data-nav><span class="yt-ic">🔍</span><span>YouTubeで検索</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="vote-controls">
+      <button id="btn-rnd-prev">← 戻る</button>
+      <button class="btn primary" id="btn-rnd-next">次のギタリスト →</button>
+      <button id="btn-rnd-end">終了してトップへ</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-vote">
+    <div class="round-announce" id="round-announce">
+      <div class="ra-inner">
+        <div class="ra-kicker" id="ra-kicker">TOURNAMENT</div>
+        <div class="ra-title" id="ra-title">第1回戦</div>
+        <div class="ra-sub" id="ra-sub">—</div>
+      </div>
+    </div>
+    <div class="vote-top">
+      <span class="l"><span id="p-mode-label">進捗 バトル</span> <span id="p-cur">0</span> / <span id="p-est">0</span></span>
       <span class="r display"><span id="p-pct">0</span>%</span>
     </div>
     <div class="bar-track"><div class="bar-fill" id="p-fill" style="width:0%;"></div></div>
@@ -667,8 +859,9 @@
     </div>
 
     <div class="vote-controls">
+      <button id="btn-undo">← 戻る</button>
       <button id="btn-tie">引き分け</button>
-      <button id="btn-undo">戻る</button>
+      <button id="btn-vote-end">終了してトップへ</button>
     </div>
   </section>
 
@@ -685,6 +878,21 @@
       <button class="btn primary" id="btn-save">この結果を保存</button>
       <button class="btn" id="btn-again">もう一度やる</button>
       <button class="btn ghost" id="btn-to-home">トップへ</button>
+    </div>
+  </section>
+
+  <section class="screen" id="screen-tournament-result">
+    <div class="result-head">
+      <div class="kicker">TOURNAMENT CHAMPION</div>
+      <h2 class="display">あなたの<br><em>優勝者</em>はこの人。</h2>
+    </div>
+
+    <div class="champion" id="champion"></div>
+    <div class="tourney-bracket" id="tourney-bracket"></div>
+
+    <div class="result-actions">
+      <button class="btn primary" id="btn-t-again">もう一度</button>
+      <button class="btn ghost" id="btn-t-home">トップへ</button>
     </div>
   </section>
 </main>
@@ -1130,14 +1338,142 @@ const GUITARISTS = [
   {r:414, n:"Matt Bellamy", b:"Muse", t:"Plug in Baby (Muse)", w:"Muse", d:"イギリスのロック・バンドMuseのフロントマン兼ギタリスト。クラシックとプログレッシヴ・ロックを融合した構築美、KAOSS PADや自作エフェクター内蔵ギターを駆使したテクノロジーとの融合で知られる。スタジアム級のスケールとヴィルトゥオーソ的技巧を両立する稀有な存在。"},
   {r:415, n:"Mick Mars", b:"Mötley Crüe", t:"Kickstart My Heart (Mötley Crüe)", w:"Mötley Crüe", d:"LAメタルの代名詞Mötley Crüeのリード・ギタリスト。ブルースをルーツに持つダーティで重厚なトーンと、キャッチーなリフメイキングでバンドの屋台骨を支えた。80年代ハードロック黄金期を築き上げ、Dr. Feelgoodなど数々のアンセムを生み出した立役者。"},
   {r:416, n:"Bernard Butler", b:"Suede", t:"Animal Nitrate (Suede)", w:"Suede / solo", d:"ブリットポップの旗手Suedeの初代ギタリスト。華麗で官能的なリードプレイとクラシック・ロックへの深い造詣で、90年代UKシーンに強烈な衝撃を与えた。脱退後はプロデューサー、ソロ・アーティストとしても活動。繊細な感性と攻撃性を併せ持つ名手として評価が高い。"},
-  {r:417, n:"Sophie Lloyd", b:"solo (Sophie Lloyd) / Machine Gun Kelly", t:"Imposter Syndrome (feat. Lzzy Hale)", w:"solo (Sophie Lloyd)", d:"イギリス出身の女性シュレッド・ギタリスト。YouTubeのシュレッド・カバーで100万人超の登録者を獲得し、Machine Gun Kellyツアーバンドにも参加。2023年のソロ・アルバム『Imposter Syndrome』でLzzy Haleら豪華ゲストを迎え、ネット時代のギター・ヒーローの代表格となった。"},,
+  {r:417, n:"Sophie Lloyd", b:"solo (Sophie Lloyd) / Machine Gun Kelly", t:"Imposter Syndrome (feat. Lzzy Hale)", w:"solo (Sophie Lloyd)", d:"イギリス出身の女性シュレッド・ギタリスト。YouTubeのシュレッド・カバーで100万人超の登録者を獲得し、Machine Gun Kellyツアーバンドにも参加。2023年のソロ・アルバム『Imposter Syndrome』でLzzy Haleら豪華ゲストを迎え、ネット時代のギター・ヒーローの代表格となった。"},
   {r:418, n:"Roy Clark", b:"solo / Hee Haw", t:"カントリー / バラエティ", w:"https://www.youtube.com/watch?v=Cb0NHSMGRLE", d:"テレビ番組『Hee Haw』の名物司会者として親しまれたカントリー・マルチ奏者。超高速なフィンガー・ピッキングと朗らかな人柄で米国の一般家庭にギターの神業を浸透させ、オクラホマ・ミュージック・ホール・オブ・フェイム入り。"},
   {r:419, n:"Nancy Wilson", b:"Heart", t:"ハードロック / フォーク", w:"https://www.youtube.com/watch?v=SuiDF5EX4bQ", d:"姉アンと共に女性主導のハードロック像を切り拓いたHeartのギタリスト。オープンチューニングとハイブリッド・ピッキングを駆使した「Crazy on You」冒頭のアコースティック・ソロは70年代ロックを代表する名演として語り継がれる。"},
   {r:420, n:"Don Felder", b:"Eagles", t:"ウェストコースト・ロック", w:"https://www.youtube.com/watch?v=JLcL4MkpJQ4", d:"Eaglesに参加して「Hotel California」のあの12弦ハーモナイズド・アルペジオとツイン・リードを書き上げた職人肌のギタリスト。スライド技法にも長け、バンドの音像をカントリー・ロックからギター主体のサウンドへ押し上げた立役者。"},
   {r:421, n:"George Thorogood", b:"The Destroyers", t:"ブルース・ロック", w:"https://www.youtube.com/watch?v=IyhJ69mD7xI", d:"デラウェア出身のブルース・ロック職人。マディ・ウォーターズやチャック・ベリーに深く傾倒し、「Bad to the Bone」のオープンGスライド・リフで80年代FM全米を席巻。ガッツィーなボトルネック奏法と飾らない佇まいが魅力。"},
   {r:422, n:"Tom Scholz", b:"Boston", t:"アリーナ・ロック", w:"https://www.youtube.com/watch?v=t4QK8RxCAwo", d:"MIT工学卒の技術者兼ギタリストで、Bostonのほぼ全ての楽器と機材を一人で作り込んだ異端児。「More Than a Feeling」の分厚い多重ハーモニー・ギターはRockman等の自作機材と共に80年代ロック・サウンドのひな形を築いた。"},
   {r:423, n:"J.J. Cale", b:"solo", t:"Tulsa Sound / ブルース", w:"https://www.youtube.com/watch?v=TlppIdtLw5A", d:"タルサ・サウンドの始祖と呼ばれるオクラホマ出身の渋いギタリスト。スポットライトを避けつつも「After Midnight」「Cocaine」「Call Me the Breeze」をクラプトンやスキナードに提供し、マーク・ノップラーやニール・ヤングにも多大な影響を与えた。"},
-  {r:424, n:"Allen Collins", b:"Lynyrd Skynyrd", t:"サザン・ロック", w:"https://www.youtube.com/watch?v=QxIWDmmqZzY", d:"Lynyrd Skynyrdの創設メンバーで、「Free Bird」終盤の長大なアウトロ・ソロを一人で弾き切ったことで知られるサザン・ロックの象徴的存在。Gibson ExplorerやFirebirdを駆使し、南部ロックのツイン・リード美学を確立した。"}
+  {r:424, n:"Allen Collins", b:"Lynyrd Skynyrd", t:"サザン・ロック", w:"https://www.youtube.com/watch?v=QxIWDmmqZzY", d:"Lynyrd Skynyrdの創設メンバーで、「Free Bird」終盤の長大なアウトロ・ソロを一人で弾き切ったことで知られるサザン・ロックの象徴的存在。Gibson ExplorerやFirebirdを駆使し、南部ロックのツイン・リード美学を確立した。"},
+{r:425,n:"Walter Becker",b:"Steely Dan",t:"ジャズ・ロック / AOR",w:"https://www.youtube.com/watch?v=XeO25dmfyxo",d:"Steely Dan共同創設者にしてドナルド・フェイゲンとの楽曲制作の片割れ。Bad Sneakersのブルージーなソロ、Black Friday、My Old Schoolで自身のギターも披露。コードに色付けする\"Mu\"コードの発明者としても知られ、目立たないが決定的な一音で曲を変える職人肌の名手。"},
+{r:426,n:"Steve Gaines",b:"Lynyrd Skynyrd",t:"サザン・ロック",w:"https://www.youtube.com/watch?v=ccCsSPPHzPQ",d:"1976年にEd Kingの後任としてLynyrd Skynyrdに加入した驚異のブルース／カントリー奏者。自作のI Know A Littleの鋭利なピッキング、Van Zantとの共作You Got That Rightで才能を爆発させたが、1977年飛行機事故で28歳で散った。Van Zantが「いずれ我々は皆こいつの陰に隠れる」と評した逸材。"},
+{r:427,n:"Steve Winwood",b:"Traffic / Blind Faith / Spencer Davis Group",t:"ロック / ブルース",w:"https://www.youtube.com/watch?v=OU6iplEflzs",d:"15歳でSpencer Davis GroupのGimme Some Lovin'を歌い上げた早熟の天才。Blind Faithの自作Can't Find My Way Homeで幻想的なアコースティックを聴かせ、Trafficではオルガン／ピアノ／ギターを自在に操る多楽器奏者として英ロック史に名を刻む。ソウルフルな歌と職人的ギターを両立させる稀有な存在。"},
+{r:428,n:"Rick Nielsen",b:"Cheap Trick",t:"パワーポップ / ハードロック",w:"https://www.youtube.com/watch?v=4gH9-YxLvyk",d:"Cheap Trick創設ギタリストにしてソングライター。Surrender、I Want You to Want Me、Dream Policeなどパワーポップの黄金律を量産。野球帽とボウタイのユーモラスな衣装と5ネックを含む膨大なギター・コレクションでも有名。1978年のLive at Budokanで全米ブレイク、以後50年近く現役を保つ才人。"},
+{r:429,n:"Ronnie Wood",b:"The Rolling Stones / Faces",t:"ロックンロール / ブルースロック",w:"https://www.youtube.com/watch?v=f514cAZucCg",d:"Jeff Beck Group、Facesを経て1975年にRolling Stones加入。キース・リチャーズとの\"ancient art of weaving\"と呼ばれる絡み合うリズムギターで知られる。FacesではStay With Meのスライドで荒々しい魅力を放ち、Stonesでも半世紀にわたりバンドの呼吸を決定づける職人。"},
+{r:430,n:"Tommy Shaw",b:"Styx / Damn Yankees",t:"アリーナロック / ハードロック",w:"https://www.youtube.com/watch?v=E9eLz4DrwF8",d:"1975年Styx加入、Come Sail Away、Renegade、Blue Collar Manなどメガヒットを次々生む。透き通るハイトーンとメロディックなソロを両立、James Youngとの二枚看板でバンドを牽引。1990年代はTed NugentらとDamn Yankees結成、High Enoughで再度成功を収めた作曲能力の広い才人。"},
+{r:431,n:"Todd Rundgren",b:"Nazz / Utopia / solo",t:"ポップロック / プログレ",w:"https://www.youtube.com/watch?v=4gZrWGAXM_I",d:"Hello It's Me、I Saw the Lightなどの完璧なポップ楽曲を全楽器演奏・全工程プロデュースしたスタジオの魔術師。プロデューサーとしてもMeat LoafのBat Out of Hell、XTC、New York Dollsなど名盤を手がける。美しいメロディと実験的アレンジを同居させる独自のギタリスト／作曲家。"},
+{r:432,n:"Vince Gill",b:"solo / Pure Prairie League",t:"カントリー",w:"https://www.youtube.com/watch?v=uwmGWCJOxnw",d:"1989年のWhen I Call Your Nameでブレイクした、カントリー界でも屈指のギタリスト。透明感あるテナーとメロディックなテレキャスター・ソロで知られ、22回のCMA受賞を誇る。2017年からEaglesのツアーにも参加。Dire Straitsからの誘いを断った逸話もある、実直な職人肌の実力派。"},
+{r:433,n:"Buck Dharma",b:"Blue Öyster Cult",t:"ハードロック",w:"https://www.youtube.com/watch?v=FS8p_F0Stog",d:"本名Donald Roeser。1967年のBOC結成以来唯一の不動のメンバー。代表曲(Don't Fear) The Reaperの鈴のような循環リフは心臓疾患への不安から書かれた死生観の歌で、SNLの\"More Cowbell\"コントで世代を超えて再認知された。Godzilla、Burnin' for Youも作曲・歌唱する主役級のギタリスト。"},
+{r:434,n:"Ted Nugent",b:"Amboy Dukes / solo",t:"ハードロック",w:"https://www.youtube.com/watch?v=MRj5KT3742o",d:"\"モーター・シティ・マッドマン\"の異名を持つ、Gibson Byrdlandで唸りを上げる狂気のギタリスト。ソロ1作目のStrangleholdは8分超の長大なギター・ジャムの金字塔。Cat Scratch Fever、Wango Tango、Free-for-Allなど70年代ハードロックの代表作を連発、ライブでは常にフルスロットル。"},
+{r:435,n:"Vivian Campbell",b:"Dio / Def Leppard / Whitesnake",t:"ヘヴィメタル",w:"https://www.youtube.com/watch?v=v9M7g-nKMBU",d:"21歳でRonnie James Dioに見出され、1983年Holy Diverで攻撃的かつ構築的なソロを残した北アイルランド出身の名手。Dio初期3作で音楽的骨格を築きWhitesnakeを経て、1992年Steve Clarkの後任としてDef Leppardに加入。以来30年以上にわたり不動のツイン・リードを務めている。"},
+{r:436,n:"Vernon Reid",b:"Living Colour",t:"ファンクメタル / オルタナ",w:"https://www.youtube.com/watch?v=Y0VNLhyuxg0",d:"Cult of Personalityの凶暴なホールトーン・リフ一発でロック史に名を刻んだ、Living Colourの頭脳。ジャズ、ファンク、ハードコア、ヒップホップを縦横に融合させる実験的スタイル。ブラック・ロック・コアリション共同設立者でもあり、人種とジャンルの固定観念を破壊し続ける知性派。"},
+{r:437,n:"James Taylor",b:"solo",t:"シンガーソングライター / フォーク",w:"https://www.youtube.com/watch?v=N8u8tASPtwg",d:"Fire and Rain、Something in the Way She Moves、Carolina in My Mindなど70年代シンガーソングライター文化を代表する作品群を生んだ、繊細で温かいアコースティックの名手。親指と3本指を組み合わせた独特のフィンガーピッキングは\"James Taylor Tuning\"として多くの追随者を生んだ。"},
+{r:438,n:"Richie Sambora",b:"Bon Jovi",t:"ハードロック / アリーナロック",w:"https://www.youtube.com/watch?v=xNRaDavYo1M",d:"1983年から2013年までBon Joviの屋台骨を支えたリード兼共作者。Livin' on a Prayer、Wanted Dead or Alive、You Give Love a Bad Nameなど80年代アリーナ・ロック最大のヒット群を生み、ダブルネックOvationの力強い指弾きとトーキング・モジュレーターが代名詞。"},
+{r:439,n:"Brian Jones",b:"The Rolling Stones",t:"ロック / サイケデリック",w:"https://www.youtube.com/watch?v=qNCSJ5tHUe0",d:"The Rolling Stones創設者にしてマルチ奏者。シタール（Paint It Black）、マリンバ（Under My Thumb）、ダルシマー、リコーダー等あらゆる楽器でストーンズにエキゾチックな彩りを加えた。ブルースを原点としサイケデリア期のバンドサウンドの実質的設計者。1969年プール事故死、享年27。"},
+{r:440,n:"George Lynch",b:"Dokken / Lynch Mob",t:"ヘヴィメタル",w:"https://www.youtube.com/watch?v=RaAXahz80Pc",d:"Dokkenの1984年Tooth and Nailで\"LAメタル\"の典型的リード像を確立した切れ味鋭いシュレッダー。Don Dokkenとの不仲は伝説で、同じスタジオに居合わせないまま録音を進めた逸話も有名。Into the Fire、Mr. Scaryなどで技巧と攻撃性を両立、以後もLynch Mobら多数のプロジェクトで精力的に活動。"},
+{r:441,n:"Susan Tedeschi",b:"Tedeschi Trucks Band",t:"ブルース / ソウル",w:"https://www.youtube.com/watch?v=QCpP2f8p6gw",d:"ボストン出身ブルース・シンガー／ギタリスト。バークリー音大卒、1998年のJust Won't Burnでグラミー新人賞ノミネート。ジャニス譲りの激情的ヴォーカルとバディ・ガイ系リードを両立。2010年に夫Derek Trucksと結成したTedeschi Trucks Bandで、11人編成のブルースロック最前線を走る。"},
+{r:442,n:"Frank Marino",b:"Mahogany Rush",t:"ハードロック / サイケデリック",w:"https://www.youtube.com/watch?v=OwPKV-lT4uU",d:"カナダ・モントリオール出身。LSDによるバッドトリップ後にジミ・ヘンドリックスの魂が宿ったと噂された、流麗かつサイケデリックな名手。Mahogany Rushを率いWorld Anthem、Dragonfly等でヘンドリックス以降最も劇的なギターを展開。X JapanがBlue BloodでWorld Anthemをカバーしたことでも日本で知名度が高い。"},
+{r:443,n:"Mick Ralphs",b:"Bad Company / Mott the Hoople",t:"ハードロック",w:"https://www.youtube.com/watch?v=bKzKCYyoNWY",d:"Mott the Hoople時代のAll the Way from Memphis、Bad CompanyでのCan't Get Enough、Feel Like Makin' Loveなど70年代ブリティッシュ・ロックの定番を手がけた作曲家兼ギタリスト。\"Keep it simple, let it sing\"を信条とする歌うような泣きのリフの名手。2025年6月逝去、享年81。"},
+{r:444,n:"Steve Marriott",b:"Small Faces / Humble Pie",t:"ロック / ソウル",w:"https://www.youtube.com/watch?v=zLJ8I42r4fc",d:"小柄な体に爆発的なソウル・ヴォーカルとブルージーなギターを凝縮した英ロック最高の才能の一人。Small FacesのItchycoo Park、All or Nothingに続き、Peter Framptonと結成したHumble Pieで30 Days in the Holeの名演を残す。1991年4月、自宅火災で44歳で没。"},
+{r:445,n:"Ace Frehley",b:"KISS",t:"ハードロック",w:"https://www.youtube.com/watch?v=ppG6IUfQUZM",d:"\"Space Ace\"の異名でKISSの象徴となった宇宙メイクのギタリスト。Detroit Rock City、Shock Me、Cold Ginなどの名演で知られ、Les PaulのブルージーかつキャッチーなソロはCheap TrickからGuns N' Rosesまで80年代ロックに絶大な影響を与えた。2025年10月16日74歳で逝去、深い喪失感を残した。"},
+{r:446,n:"Marc Bolan",b:"T. Rex",t:"グラムロック",w:"https://www.youtube.com/watch?v=EzACZW65rpE",d:"1970年代初頭のグラムロック・ムーヴメントの中心人物。Get It On (Bang a Gong)、Ride a White Swan、20th Century Boyなど、Chuck Berry由来のシンプルで艶かしいブギー・リフで英国チャートを席巻。Les PaulとOrangeによる粘るトーンは後のパンク／オルタナ世代に長大な影響を残した。1977年9月交通事故で29歳で夭折。"},
+{r:447,n:"Jonny Lang",b:"solo",t:"ブルース / ブルースロック",w:"https://www.youtube.com/watch?v=3tigVYfHVmQ",d:"ノースダコタ州ファーゴ出身、15歳でメジャーデビュー作Lie to Meをリリースしてゴールドディスクを獲得した早熟の天才。Stevie Ray Vaughan、B.B. King、Buddy Guyに連なる白人ブルース・ギタリスト最年少世代として、Stratocasterからの咆哮と老成したしゃがれ声で一躍スターに。"},
+{r:448,n:"Stanley Clarke",b:"Return to Forever / solo",t:"ジャズフュージョン",w:"https://www.youtube.com/watch?v=dDveBbJkVqo",d:"4度のグラミー受賞を誇るベース界の超巨人。Chick CoreaのReturn to Foreverでジャズ／フュージョンに革命をもたらし、ソロ作School Daysの親指スラップとピッコロベースのリードは以降のベース奏法の地図を塗り替えた。Flea、Marcus Millerら無数の後進を生んだ祖父的存在。"},
+{r:449,n:"Paul Kossoff",b:"Free",t:"ブルースロック",w:"https://www.youtube.com/watch?v=t8Rx_IrA-s8",d:"Eric Claptonに憧れてギターを始めた、イギリス・ブルースロック史上最も泣けるヴィブラートの持ち主。1970年のAll Right Nowのアイコニックな間奏、The Hunter、Fire and Waterなどで、少ない音数で魂を抉るフレージングを完成させた。Les Paul直結Marshallのトーンは永遠の手本。1976年3月25歳で機内死去。"},
+{r:450,n:"Steve Stevens",b:"Billy Idol",t:"ハードロック / ポップロック",w:"https://www.youtube.com/watch?v=seHlHzYpWBU",d:"Billy Idolの音楽的右腕として80年代MTV時代を代表するギター・ヒーロー。Rebel Yellの冒頭リフ、White Wedding、Flesh for Fantasyの象徴的フックはすべて彼の作。Top Gun Anthemで1987年グラミー受賞、フラメンコ、クラシックからハードロックまで縦横に操る。2026年Idolと共にロックの殿堂入りを果たした。"},
+{r:451,n:"Taj Mahal",b:"solo",t:"ブルース / ワールドミュージック",w:"https://www.youtube.com/watch?v=JRxTQ9eaiIk",d:"1942年生まれ、ニューヨーク出身のブルース巨匠。1968年にJesse Ed Davisのスライドで録音したStatesboro Bluesは、後のAllman BrothersのライブFillmore East演奏の原型となった。ギター、バンジョー、ハーモニカ、多数の打楽器を操り、50年以上のキャリアでカリブ、アフリカ、南太平洋の音を取り込みブルースの地平を広げ続けるグラミー受賞者。"},
+{r:452,n:"Lenny Kravitz",b:"solo",t:"ロック / ファンク",w:"https://www.youtube.com/watch?v=BnqUK7XF54k",d:"ジミ・ヘンドリックスを受け継ぐ90年代最大のロック・リバイバリスト。Are You Gonna Go My Way、American Woman、Always on the Runでフェイザー・シフターの効いた擦り切れたストラト・トーンと、ヴィンテージ機材への徹底的なこだわりを見せる。ギター、ベース、ドラムすべてを自身でプレイする完璧主義者で、4度のグラミー連続受賞を含む数々の栄誉を持つ。"},
+{r:453,n:"Adrian Vandenberg",b:"Whitesnake / Vandenberg",t:"ハードロック",w:"https://www.youtube.com/watch?v=V6UFjGv1cic",d:"オランダ出身。自身のバンドVandenbergでBurning Heart、Heading for a Stormをヒットさせた後、1987年にWhitesnake加入。名作Whitesnake (1987)ではHere I Go Againのソロ一曲のみ録音しながら、その完璧なメロディックソロで不朽の名演となった。1984年のDavid Coverdale初誘いを断った逸話でも知られる名手。"},
+{r:454,n:"Bob Dylan",b:"solo",t:"フォーク / ロック",w:"https://www.youtube.com/watch?v=CWfVaqEHl08",d:"2016年ノーベル文学賞受賞、ポピュラー音楽史最大の詩人兼ソングライター。Like a Rolling Stone、Blowin' in the Wind、All Along the Watchtowerで20世紀後半のフォーク／ロックを定義。1965年Newportでの「エレキ化」は音楽史の分岐点、以後60年にわたり独自のリズム・ギターと唯一無二のフレージングで活動を続ける。"},
+{r:455,n:"Orianthi",b:"solo / Michael Jackson",t:"ロック / ブルースロック",w:"https://www.youtube.com/watch?v=mJeOuP9Z3CM",d:"オーストラリア・アデレード出身の女性ギタリスト。マイケル・ジャクソンの「This Is It」公演のリード・ギタリストに抜擢されるも公演前にジャクソンが急逝。2009年のAccording to Youで全米ヒット、Carlos Santanaの「将来のトップ10に必ず入る」という言葉を現実のものにした。Alice Cooperのツアーギタリストも務める現代女性ギタリストの代表格。"},
+{r:456,n:"Dave Grohl",b:"Foo Fighters / Nirvana",t:"グランジ / オルタナ",w:"https://www.youtube.com/watch?v=AxuTd9rwEHQ",d:"NirvanaのドラマーからFoo Fightersのフロントマンへと転身した、90〜2020年代ロック界の象徴的存在。1995年のデビュー作ではギター、ベース、ドラムを全て自身で演奏。Everlong、My Hero、The Pretender、Best of You等の名曲でパワフルなオルタナ・リフとエモーショナルな歌唱を両立させる、現代ロックを代表する全方位型ミュージシャン。"},
+{r:457,n:"Jeff Buckley",b:"solo",t:"シンガーソングライター / オルタナ",w:"https://www.youtube.com/watch?v=MYrXK5ek_PQ",d:"父Tim Buckleyから受け継いだ稀有な歌声と、ジミー・ペイジから絶賛された繊細なギターで、たった1枚の完全スタジオ作Grace (1994) を残し伝説となったニューヨークの才能。Leonard CohenのHallelujahのカバーは米議会図書館National Recording Registry入りの金字塔。1997年メンフィスで30歳で水死、未完の存在として永遠に輝き続ける。"},
+{r:458,n:"Izzy Stradlin",b:"Guns N' Roses",t:"ハードロック",w:"https://www.youtube.com/watch?v=MkoeqtKUUe4",d:"Guns N' Roses黄金期のリズム・ギタリストにして主要コライター。Sweet Child O' Mineのコード進行、Patienceの全曲作、Mr. Brownstoneなどアペタイト／リーズの骨格を築いた影の立役者。キース・リチャーズ直系のロックンロール感覚を持つストラマーで、1991年の脱退後もJu Ju Houndsで味わい深い作品を発表し続けている。"},
+{r:459,n:"Andy McKee",b:"solo",t:"フィンガースタイル",w:"https://www.youtube.com/watch?v=Ddn4MGaS3N4",d:"カンザス州トピカ出身、現代フィンガースタイル・ギターの最重要人物。2006年のDrifting動画がYouTube史上最初期のバイラル・ヒットとなり、変則チューニング、タッピング、パーカッシブ・ヒット、ハープ・ギターを駆使した奏法で世界に衝撃を与えた。Michael Hedgesの後継者として、Prince、Dream Theater、Tommy Emmanuelらとの共演でも知られる。"},
+{r:460,n:"Alexi Laiho",b:"Children of Bodom",t:"メロディックデスメタル / ネオクラシカル",w:"https://www.youtube.com/watch?v=8m47zqfYmQk",d:"フィンランド出身、2000年代メタルシーンで最もカリスマ的存在となったギター・ヴォーカリスト。Yngwie Malmsteen譲りのネオクラシカル・シュレッドと、ジャーマン・メロデスの疾走感、キーボードとのツインリードを融合させた独自のスタイルで若年層を魅了した。Hate Crew Deathroll、Follow the Reaperが代表作。2020年12月、41歳で急逝。"},
+{r:461,n:"Warren DeMartini",b:"Ratt",t:"グラムメタル / LAメタル",w:"https://www.youtube.com/watch?v=zvGaEEt1p4g",d:"19歳でJake E. Leeの後任としてRatt加入。1984年デビュー作Out of the CellarのRound and Roundは全米12位、トリプルプラチナを達成した。Charvelをメイン機とする正確なピッキングと、ジョージ・リンチ直系のフィンガー・ヴィブラート、洗練されたメロディセンスで80年代LAメタル最高のテクニシャンの一人と評価される。"},
+{r:462,n:"Chris Impellitteri",b:"Impellitteri",t:"ネオクラシカル / スピードメタル",w:"https://www.youtube.com/watch?v=Q5uwr9oyGgo",d:"ニューヨーク出身。Yngwie Malmsteenと双璧をなす超高速シュレッドの孤高の追求者。1988年のStand In LineではRainbow/AlcatrazzのGraham Bonnetを迎え、全米ビルボード91位を記録した。日本市場で特に高い人気を持ち、カミソリのようなピッキングとクラシカル・アルペジオを武器に30年以上ハイスピードの極北を走り続けている。"},
+{r:463,n:"Jeff Loomis",b:"Nevermore / Arch Enemy",t:"プログレッシブメタル / メロデス",w:"https://www.youtube.com/watch?v=9RdqVIAaFPU",d:"ウィスコンシン州出身。16歳でMegadethのオーディションを受け、Marty Friedmanを推薦した逸話を持つ。7弦ギターとスウィープ・ピッキングを駆使し、Nevermoreで現代プログレ・メタルの最高峰クラスの技術を披露。This Godless Endeavor収録Bornは名演。2014〜2023年はArch Enemy在籍、現在はNevermore再結成中。"},
+{r:464,n:"Michael Romeo",b:"Symphony X",t:"プログレッシブメタル / ネオクラシカル",w:"https://www.youtube.com/watch?v=Z2XpO8MFCp0",d:"ニュージャージー州出身、Symphony Xの創設者兼メインソングライター。タッピング・アルペジオ、高速オルタネイト、レガートを完璧に操り、Yngwie MalmsteenとDream Theaterを融合させたような作風で知られる。Paradise LostのSet the World on Fireは代表作。自宅スタジオDungeonでオーケストラ・アレンジも手掛ける多才ぶり。"},
+{r:465,n:"Brad Gillis",b:"Night Ranger / Ozzy Osbourne",t:"ハードロック / AOR",w:"https://www.youtube.com/watch?v=jlCL1F8-HtY",d:"1982年のRandy Rhoads急逝後、Ozzy Osbourneのツアーを救いSpeak of the Devilに参加した逸話を持つ。Night RangerのSister Christian、(You Can Still) Rock in AmericaではFloyd Roseのフラッター奏法とサステインをフル活用したサウンド設計で80年代AOR/HRの象徴的ギタリストとなった。"},
+{r:466,n:"Michael Amott",b:"Arch Enemy / Carcass",t:"メロディックデスメタル",w:"https://www.youtube.com/watch?v=O4N-J2GngZo",d:"スウェーデン出身、メロデスの形式を作った最重要人物の一人。Carcass時代の名盤Heartworkで原型を示し、1995年Arch Enemyを結成。Doomsday Machine収録のNemesisは20年間ライブで必ず演奏される代表曲。泣きのツインリードと破壊力あるリフを両立させ、弟Christopherとのハーモニーも特筆される。"},
+{r:467,n:"Fredrik Thordendal",b:"Meshuggah",t:"エクストリームメタル / Djentの源流",w:"https://www.youtube.com/watch?v=GTbYuIKibk4",d:"スウェーデン・ウメオ出身、1987年にMeshuggah結成。ポリリズム・ポリメーター・多弦ギターを駆使し、後のDjentジャンル全体の源流となった革命的存在。obZen収録のBleedは16分音符トリプレット・ベースドラム・リフの金字塔。ジャズ・フュージョン的なレガート・ソロも持ち味で、MishaMansoorらが絶賛する。"},
+{r:468,n:"Wolf Hoffmann",b:"Accept",t:"ヘヴィメタル / スピードメタル",w:"https://www.youtube.com/watch?v=97r0CiCAKXw",d:"1976年、ドイツ・ゾーリンゲンでAcceptを結成。16歳で加入以来ほぼ50年間リードギターを担い、Balls to the Wall (1984)で世界的ブレイク。クラシック音楽への深い造詣からネオクラシカル・ソロ作品も発表する教養派。Judas PriestとScorpionsを繋ぐジャーマンメタルの象徴的サウンドの創造主。"},
+{r:469,n:"John Norum",b:"Europe",t:"ハードロック / 様式美",w:"https://www.youtube.com/watch?v=NNiTxUEnmKI",d:"ノルウェー生まれ、スウェーデン育ち。1986年The Final Countdownでエピック・ソロを15分で録音し、世界25ヶ国1位のメガヒットに貢献した。Ritchie Blackmore直系のテクニックにMichael Schenker譲りのギャロップとYngwie Malmsteenの影響を融合。'86年脱退後、2003年に復帰し現在も第一線で活躍中。"},
+{r:470,n:"Reb Beach",b:"Winger / Whitesnake",t:"グラムメタル / ハードロック",w:"https://www.youtube.com/watch?v=zk2RLGfNVMc",d:"1988年結成Wingerの創設ギタリスト。Seventeenの象徴的リフは15歳で作曲した素材で、Pensa Suhr (後のシグネチャーモデル原型) とタッピングを駆使した超絶テクニックで一躍80年代末のギターヒーローに。Dokken、Alice Cooperを経て2002年からWhitesnakeのメインギタリストを務め、現在も第一線で活躍中のプロフェッショナル。"},
+{r:471,n:"Richie Kotzen",b:"solo / The Winery Dogs / ex-Poison / ex-Mr. Big",t:"ロック / ブルース / フュージョン",w:"https://www.youtube.com/watch?v=4IrurDSAKgY",d:"ペンシルバニア出身、10代でShrapnel Recordsからソロデビュー。1992年Poison加入、後にPaul Gilbertの後任でMr. Big加入 (1999-2002) の大抜擢キャリアを持つ。完全指弾きによる驚異的なレガート・フレージングと、ソウルフルな歌声で、The Winery Dogsのフロントマンとして現在も20枚以上のソロ作を量産する多才なアーティスト。"},
+{r:472,n:"Vito Bratta",b:"White Lion",t:"グラムメタル",w:"https://www.youtube.com/watch?v=OWMDo5eXPo8",d:"スタテンアイランド出身。Eddie Van Halen直系のタッピングをさらにメロディアスに昇華させ、Wait、When the Children Cry等のPride (1988) でダブルプラチナを獲得。Zakk Wyldeが「Wait のソロは史上最高の一つ」と絶賛するセンスを持つ天才。1991年のバンド解散後、1997年の手首の怪我と父親の介護で音楽界から事実上引退した悲劇の才人。"},
+{r:473,n:"Criss Oliva",b:"Savatage",t:"ヘヴィメタル / プログレッシブ",w:"https://www.youtube.com/watch?v=UqTJgAHtg4o",d:"フロリダ州出身、兄Jon OlivaとSavatageを結成。1987年Hall of the Mountain Kingで、グリーグのクラシック曲をメタル化する先駆的表現を開拓。独創的なリフ構築と叙情的ソロで、後のTrans-Siberian Orchestraへと繋がるシンフォニック・メタルの礎を築いた。1993年10月、自動車事故により30歳で急逝したカルト的英雄。"},
+{r:474,n:"Doug Aldrich",b:"Whitesnake / Dio / The Dead Daisies",t:"ハードロック / ヘヴィメタル",w:"https://www.youtube.com/watch?v=12UCCXufGjk",d:"ノースカロライナ出身。2002年Ronnie James Dioに招かれKilling the Dragonに参加、激しいシュレッドで復活させた。2003年Whitesnake加入、David Coverdaleの共作者としてGood to Be Bad、Forevermoreを手掛けた。Gibson Les PaulとMarshallによる現代ハードロック・レスポール・サウンドの決定版。"},
+{r:475,n:"Stephen Carpenter",b:"Deftones",t:"オルタナティブメタル / ニューメタル",w:"https://www.youtube.com/watch?v=PIF4So6xcU8",d:"カリフォルニア州サクラメント出身、1988年Deftones結成。7弦・8弦の多弦ギターを早期に導入し、My Own Summer (Shove It) の象徴的な重低音リフで、ニューメタルの枠を超えるアンビエント寄りヘヴィ・サウンドを創出。テンション構築とダイナミクスの対比を重視する手法で、現代オルタナティブメタルに大きな影響を与えた。"},
+{r:476,n:"Jim Root",b:"Slipknot / Stone Sour",t:"ニューメタル / オルタナティブ",w:"https://www.youtube.com/watch?v=B2lmOei7qfk",d:"Slipknotの#4。Duality、Psychosocial、Before I Forget等の楽曲でバンドの攻撃的リフワークを支える一方、Stone Sourではよりメロディックな側面を見せる。Fender TelecasterとJazzmasterをメインに、重低音チューニング (drop B) での独特の浮遊感ある歪みが特徴で、現代メタル/オルタナ双方で影響力が大きい。"},
+{r:477,n:"Mick Thomson",b:"Slipknot",t:"ニューメタル / エクストリームメタル",w:"https://www.youtube.com/watch?v=-XlW-cyAdiw",d:"Slipknotの#7、Jim Rootと組むツインギターの「凶暴で正確」なテクニカル担当。Psychosocialの冒頭リフに象徴されるマシンガンのようなダウンピッキングと、重低音のグラインディング・リフで、Slipknotのサウンドの重量感を決定づける。Jackson Soloistをメインに、拷問を受けたようなB.C.マスクで知られる寡黙なテクニシャン。"},
+{r:478,n:"Brent Hinds",b:"Mastodon",t:"スラッジメタル / プログレッシブメタル",w:"https://www.youtube.com/watch?v=fnwZca8z9II",d:"アラバマ州出身、2000年Mastodon結成。カントリーやブルース由来のチキン・ピッキングをメタルに持ち込む独特の奏法で、2004年Leviathan収録Blood and Thunderを象徴曲に押し上げた。スライドギター、バンジョー、壮大なコンセプト作品で現代メタルの限界を押し広げ続ける2000年代以降最重要ギタリストの一人。"},
+{r:479,n:"Gus G.",b:"Firewind / Ozzy Osbourne",t:"パワーメタル / ネオクラシカル",w:"https://www.youtube.com/watch?v=1ee9ENBg3KU",d:"ギリシャ・テッサロニキ出身、本名Konstantinos Karamitroudis。2002年Firewindで世界的評価を獲得、2009〜2017年にはZakk Wyldeの後任としてOzzy Osbourneバンドのメインギタリストに抜擢された。Yngwie、Marty、Schenkerの影響を融合させたネオクラシカル・パワーメタルの現代的正統後継者。"},
+{r:480,n:"Alex Skolnick",b:"Testament / Alex Skolnick Trio",t:"スラッシュメタル / ジャズフュージョン",w:"https://www.youtube.com/watch?v=0qLIUnQ8Knk",d:"カリフォルニア・バークレー出身。15歳でTestament前身のLegacyに加入、Bay Areaスラッシュ第二世代の筆頭に。The Legacy、The New Orderで残した流麗なレガートは「最も知的なスラッシュソロ」と称される。1992年脱退後、ジャズ・フュージョンのAlex Skolnick Trio結成、Trans-Siberian Orchestraにも参加する万能ギタリスト。"},
+{r:481,n:"Bill Steer",b:"Carcass / Gentlemans Pistols / ex-Napalm Death",t:"デスメタル / メロデス / ハードロック",w:"https://www.youtube.com/watch?v=xKCg-hY3Zdo",d:"イギリス・ワリントン出身。Napalm DeathとCarcassを掛け持ちするシーンの立役者。Carcassでは1993年Heartworkで、グラインドコアからメロディックデスメタルへの転換を主導し、Michael Amottとのツインリードで後のゴスエンバーグ・サウンドの礎を築いた。近年はGentlemans Pistolsで70sハードロック路線を展開する重要人物。"},
+{r:482,n:"Christopher Amott",b:"Arch Enemy / Armageddon",t:"メロディックデスメタル",w:"https://www.youtube.com/watch?v=wmxU9OQLq-E",d:"スウェーデン・ハルムスタッド出身、Michael Amottの弟。1996年Arch Enemy創設メンバーとして参加、Anthems of Rebellion収録We Will Riseの基本リフを作曲。兄譲りの叙情的フレージングとイングヴェイ直系のネオクラシカル感覚を持ち、兄弟ツインリードの中核を担った。2012年脱退後、ソロ活動とArmageddonで活躍中。"},
+{r:483,n:"Mikael Åkerfeldt",b:"Opeth / ex-Bloodbath",t:"プログレッシブメタル / デスメタル",w:"https://www.youtube.com/watch?v=3NttJB0DfiQ",d:"ストックホルム出身。1990年Opeth加入、以後30年以上バンドの全楽曲の作曲とリード・ヴォーカル/ギターを担う。アコースティックからデスメタル・グロウルまで一曲内で往還する作風と、Ghost of Perdition、Blackwater Park等10分超の大作を書ける構成力で、プログレッシブ・メタルを新たな高みへと導いた。Steven Wilsonとの親交でも知られる才人。"},
+{r:484,n:"Jeff Watson",b:"Night Ranger / Mother's Army",t:"ハードロック / テクニカル",w:"https://www.youtube.com/watch?v=0NrVwGsX16E",d:"カリフォルニア出身。Night RangerでBrad Gillisとのツインリードを構成、Don't Tell Me You Love Meのソロで有名な8本指タッピング (Eight-Finger Tapping) 奏法の考案者。両手全指を使うピアノ的アプローチは80年代当時のシュレッダーにも衝撃を与えた。1989〜90年にはソロ作も発表した。2007年にバンド脱退。"},
+{r:485,n:"Brad Delson",b:"Linkin Park",t:"ニューメタル / オルタナティブメタル",w:"https://www.youtube.com/watch?v=BLZWkjBXfN8",d:"カリフォルニア出身。2000年Hybrid Theory (世界3,200万枚超のデビュー作ダイヤモンド認定) の共同プロデューサー兼リードギタリストとして、In the End、Crawling、Numb等のヒット曲を手掛けた。派手なソロより楽曲全体を支えるPRS SE実践派で、ヒップホップとメタルを融合させたサウンド構築の要だった。"},
+{r:486,n:"Daron Malakian",b:"System of a Down / Scars on Broadway",t:"オルタナティブメタル / プログレッシブ",w:"https://www.youtube.com/watch?v=MlcJQYON2Go",d:"ロサンゼルス出身、アルメニア系。1994年System of a Down結成、以後のバンド全曲のメインソングライター。Chop Suey!、Toxicity、B.Y.O.B.等、アルメニア音階をメタル文法に融合させる独創性で、2001年Toxicityが全米1位を獲得。Ibanez Icemanによる「ゾロゾロ変拍子」リフで知られる作曲家/ギタリスト。"},
+{r:487,n:"Aaron Marshall",b:"Intervals",t:"インスト・プログレッシブメタル / Djent",w:"https://www.youtube.com/watch?v=iP2cnRnYw9Q",d:"カナダ・トロント出身。2011年Intervals始動、The Shape of Colour、The Way Forward、Circadianのソロ・プロジェクト。Plini、Animals as Leadersと並ぶ現代インストゥルメンタル・プログレッシブの旗手で、Steve Vai系リードにDjent風グルーヴとポップ感覚を融合させた「ボーカルのように歌うギター」スタイルが特徴。"},
+{r:488,n:"Angel Vivaldi",b:"solo",t:"インスト・プログレッシブメタル / シュレッド",w:"https://www.youtube.com/watch?v=OTN4Yx3Uja8",d:"ニュージャージー州プリンストン出身のプエルトリコ系アメリカ人。2011年のEP Universal LanguageからA Mercurian Summerがバイラルヒットし、ソーシャルメディア時代のシュレッド・ギター復活の象徴に。Charvel NOVAシグネチャー・モデルを駆使する超絶テクニックと映画的演出で「YouTube時代の最も影響力あるギター・ヒーロー」と評価される。"},
+{r:489,n:"Jesper Strömblad",b:"ex-In Flames / The Halo Effect / ex-Dimension Zero",t:"メロディックデスメタル / ゴテンバーグ・サウンド",w:"https://www.youtube.com/watch?v=q86owGQzaG0",d:"スウェーデン・ヨーテボリ出身。1990年In Flames創設、Björn Gelotteと共に「ゴテンバーグ・サウンド」を定義した立役者。Clayman (2000) 収録Only for the Weakは現代メタル・ツインリードの完成形と称される。アルコール依存症により2010年脱退したが、2019年The Halo Effectで旧メンバーと再結集し、現代メロデス復活の象徴となっている。"},
+{r:490,n:"Björn Gelotte",b:"In Flames",t:"メロディックデスメタル / オルタナティブメタル",w:"https://www.youtube.com/watch?v=3iIQoPWm8ho",d:"スウェーデン・ヨーテボリ出身。1995年にドラマーとしてIn Flames加入後、1998年にギタリストに転向しJesper Strömbladとのツインリードでゴテンバーグ・サウンドを確立。Clayman、Reroute to Remainの名盤を残し、Strömblad脱退後はバンドの主導的立場に。泣きのハーモニー・リードと疾走感あるリフワークが特徴の現代メロデスの象徴。"},
+{r:491,n:"Bill Kelliher",b:"Mastodon",t:"プログレッシブメタル / スラッジメタル",w:"https://www.youtube.com/watch?v=amagrxXDBdk",d:"アメリカ・ニューヨーク州出身。2000年Mastodon結成、Brent Hindsと組むリフマスターとして「現代メタルの最高峰ツインギター」と評される。Crack the Skye (2009) 収録Oblivionはプログレッシブ・メタルの金字塔。First Act、そして現Gibson Explorerを中心に、コンセプト作品と壮大なアレンジを支える精巧なリフ構築で知られる。"},
+{r:492,n:"Mark Morton",b:"Lamb of God",t:"グルーヴメタル / モダン・スラッシュ",w:"https://www.youtube.com/watch?v=7ukEcQ_H774",d:"バージニア州出身。1994年Burn the Priest (後のLamb of God) 結成メンバー。Willie Adlerとのツインギターで、Laid to Rest (2004) 等のキラー・リフを量産し、Pantera以降の「Big 4」に匹敵するモダン・メタル・バンドの地位を確立した。ブルース由来の泣きのベンドとグルーヴ重視のリフ感覚が、スラッシュ後継世代の代表格として知られる。"},
+{r:493,n:"Willie Adler",b:"Lamb of God",t:"グルーヴメタル / モダン・スラッシュ",w:"https://www.youtube.com/watch?v=iP6n1LK0NxA",d:"バージニア州出身、兄Chris Adler (ex-ドラマー) と共にLamb of God加入。Mark Mortonとのツインギターで、Walk with Me in Hell (Sacrament 2006) 等のプログレッシブな構成とダウンチューニングのヘヴィ・リフを築いた。兄弟バンドの屋台骨としてモダン・メタル・シーンを2000年代以降牽引し続ける寡黙なリフマスター。"},
+{r:494,n:"Davey Johnstone",b:"Elton John Band",t:"ロック / ポップ",w:"https://www.youtube.com/watch?v=AhnZEmnuzgM",d:"スコットランド・エディンバラ出身。1971年からElton John Bandのリードギタリストを50年以上務める最長記録保持者。Saturday Night's Alright for Fighting、Bennie and the Jets、Crocodile Rock等、全米No.1ヒット多数で象徴的ソロを残した。マンドリン、シタール等も操りEltonの楽曲の彩りを支えた陰の功労者。"},
+{r:495,n:"Bernie Marsden",b:"ex-Whitesnake / Company of Snakes",t:"ブルースロック / ハードロック",w:"https://www.youtube.com/watch?v=EkTTdsRs9jM",d:"イギリス・バッキンガムシャー出身。1978年Whitesnake結成メンバー、David Coverdaleとの共作でHere I Go Again、Fool for Your Loving等の名曲を生んだ。Micky Moodyとのツインギターで初期Whitesnakeのブルースロック路線を確立。1987年版以降は主役が移ったがソングライターとしての貢献は絶大。2023年逝去。"},
+{r:496,n:"Micky Moody",b:"ex-Whitesnake / Snafu / Company of Snakes",t:"ブルースロック / スライドギター",w:"https://www.youtube.com/watch?v=nqhgRAVHeOE",d:"イギリス・ミドルズブラ出身。1978年Whitesnake創設メンバー。Bernie Marsdenとのツインギターで初期Whitesnakeのブルースロック・サウンドの中核を担った。特にスライドギター奏法の名手で、Ain't No Love in the Heart of the City等の定番曲で際立った。脱退後はCompany of Snakesで旧メンバーと再集結。"},
+{r:497,n:"Satchel",b:"Steel Panther",t:"グラムメタル / コメディメタル",w:"https://www.youtube.com/watch?v=xY90-FgBR2c",d:"本名Russ Parrish、カリフォルニア出身。Van HalenトリビュートAtomic Punksを経て、2000年代にMichael Starrと結成したSteel Panthers。80年代ヘアメタルのパロディという設定ながら、Eddie Van Halen直系のタッピング、ハーモニクスの使い手としてジョージ・リンチ、DeMartiniに匹敵する超絶技巧を誇る。"},
+{r:498,n:"Rick Graham",b:"solo / YouTube",t:"インストゥルメンタル / フュージョン",w:"https://www.youtube.com/watch?v=2hhalUbSw0I",d:"イギリス・ロンドン出身。YouTubeでの緻密な教育コンテンツと、フュージョン、クラシカル、ロックを横断する圧倒的なハイブリッド・ピッキングで25万人超の登録者を獲得。Charvel DK24シグネチャーモデルのオーナー。Saudade等のオリジナル楽曲はJeff Beckを思わせる情感豊かな演奏で知られる、現代の「YouTubeから生まれたギター・ヒーロー」の代表格。"},
+{r:499,n:"Nik Nocturnal",b:"solo / Termina / NIK NXK",t:"Djent / プログレッシブメタル",w:"https://www.youtube.com/watch?v=ohQkl2QAc80",d:"カナダ・トロント出身、本名Nik Popovic。140万登録者超のYouTubeインフルエンサーでありながら、Calamity、Undying Shadow等の真摯なDjent/プログレ・インスト作品を発表する二刀流。Monuments、Periphery等の現代メタル影響下の緻密なリフワークで、SNS時代の「メタル・コンテンツ・クリエイター」の代表格。"},
+{r:500,n:"Pete Lesperance",b:"Harem Scarem",t:"メロディックハードロック / AOR",w:"https://www.youtube.com/watch?v=jgARLGD2-xg",d:"カナダ・スカーボロ出身。1987年Harry HessとHarem Scarem結成、1993年Mood SwingsのNo Justice等でカナダと日本で熱狂的支持を獲得。Eddie Van Halen、Brian May、Nunoを影響源とし、Vito Bratta直系のメロディックな速弾きとブルージーな感覚を融合。グランジ全盛期にハードロックの灯を守り続けた実力派。"},
+{r:501,n:"Bubba Dupree",b:"Void / 3rd Secret",t:"ハードコアパンク / クロスオーバー・スラッシュ",w:"https://www.youtube.com/watch?v=r777Fni3JeY",d:"本名Jon Dupree、メリーランド州出身。1980年代初頭DCハードコア・シーンのVoidの革新的ギタリスト。Flex Your HeadとFaith/Void Splitでパンクとメタルを融合し、White Zombie、Melvinsに影響を与える衝撃的ギターを披露。後年はDave GrohlのProbot、Soundgarden客演、3rd Secret参加等、カルト名手として活動継続。"},
+{r:502,n:"Bobby Womack",b:"solo / The Valentinos",t:"ソウル / R&B",w:"https://www.youtube.com/watch?v=vACdT7rLY2U",d:"オハイオ州クリーブランド出身。左利き独特のピッキングが生む粘り強いグルーヴと、ブルース、ゴスペル、ソウルを融合させた歌心溢れるプレイが特徴。Across 110th Streetで広く知られ、Wilson Picketttへ楽曲提供、Sam Cookeのバックアップ等のセッション・ワークでも名を残した。シンガーとしても一流ながら、ギタリストとしての独特の粘り腰も評価高い。"},
+{r:503,n:"Teenie Hodges",b:"Hi Rhythm Section",t:"メンフィス・ソウル",w:"https://www.youtube.com/watch?v=E1uqsE-jCPQ",d:"本名Mabon Hodges、メンフィス出身。Al Greenバンドのギタリストとして、Willie MitchellプロデュースのHiレコード黄金期を支えた。Take Me to the River、Here I Am、Love and Happiness等の共作者。「溜め」の効いたリズム感とシンプルで深みのあるカッティングで南部ソウルのグルーヴの骨格を構築した名手。2014年逝去。"},
+{r:504,n:"Robert Ward",b:"Ohio Untouchables / Black Top All-Stars",t:"ソウルブルース / ファンク",w:"https://www.youtube.com/watch?v=zf4-mNhuDIE",d:"ジョージア州出身。Magnatoneアンプ独特のステレオ・ビブラートが生む「震える」唯一無二のトーン。1960年代にOhio Untouchables (後のOhio Players) を率い、Falconsのバックも担当。Motownセッション参加後、長い引退を経て1991年「Fear No Evil」で復活。Lonnie Mackも絶賛した揺れる音色は、ソウルブルース隠れた巨匠として再評価。"},
+{r:505,n:"Pops Staples",b:"The Staple Singers",t:"ゴスペル / ソウル",w:"https://www.youtube.com/watch?v=qXvirzznSn4",d:"本名Roebuck Staples、ミシシッピ州出身。家族ゴスペル・グループThe Staple Singersの創始者。トレモロを深く効かせたクリーン・トーンが生む神秘的なサウンドは、I'll Take You There、Respect Yourself等のStax全盛期ヒットで聴ける。デルタ・ブルース出自のフィーリングと精神性を融合させた独自のスタイル。Ry Cooder等にも影響を与えた。"},
+{r:506,n:"David Russell",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=s9W4Xv6r07I",d:"スコットランド・グラスゴー出身。幼少期にメノルカ島で育ち、王立音楽院で学ぶ。Segoviaコンクール、Tárregaコンクール等を総なめにし、2005年には「Aire Latino」でグラミー賞受賞。Telarcレーベルと専属契約し、あらゆる時代・様式を圧倒的な安定感で弾きこなす現代最高峰の奏者。王立音楽院フェロー。"},
+{r:507,n:"Pepe Romero",b:"Los Romeros",t:"クラシック",w:"https://www.youtube.com/watch?v=af3kEBSPA3Q",d:"スペイン・マラガ出身。Celedonio Romeroを父に持つロメロ一家の要として、兄弟カルテットLos Romerosでも活動。情熱的でフラメンコ的な躍動感を持ち味とし、Marriner指揮Academy of St Martin in the FieldsとのRodrigo「Concierto de Aranjuez」は決定盤。スペイン音楽の魂を体現する巨匠。"},
+{r:508,n:"Manuel Barrueco",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=tAEfRd7hNHk",d:"キューバ出身、1967年に政治難民として渡米。Peabody音楽院で学び、現在は同院で教鞭を執る。バッハからPiazzolla、現代音楽まで幅広く、彫刻のような造形美とクリアで知的な解釈が特徴。Albéniz「Suite Española」の全曲編曲も手掛けた。EMIからTonar Musicレーベル移行後も精力的に録音を続ける現代の重鎮。"},
+{r:509,n:"Sharon Isbin",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=g2lcio8DrFw",d:"アメリカ出身。ジュリアード音楽院にギター科を創設 (1989) し初代ディレクターを務める。2001年「Dreams of a World」、2010年「Journey to the New World」、2020年でグラミー賞を3度受賞。現代作品の委嘱にも積極的で、バッハから民俗音楽、クロスオーバーまで幅広いレパートリーを誇る。"},
+{r:510,n:"Ana Vidovic",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=VM-RD-2X6VU",d:"クロアチア・カルロヴァツ出身。11歳で国内最難関コンクール優勝の神童。ザグレブ音楽院後、Manuel Barrueco招聘によりPeabody音楽院で研鑽。YouTubeでのAsturias演奏は3900万再生超え、クラシックギター界のトップスターとして世界的人気を誇る。一切の無駄がない運指とクリスタルのような透明な音色が魅力。"},
+{r:511,n:"Miloš Karadaglić",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=1xTltS95isw",d:"モンテネグロ出身、通称「ミロシュ」。ロンドン王立音楽院卒、Wigmore Hallデビューを経て2011年Deutsche Grammophonデビュー作「Mediterráneo」で一躍スター。「Julian Breamの後継」と評される端正な演奏で、クラシックギターをメジャー領域へ。ロドリーゴ、バッハからビートルズまで幅広く手掛ける。"},
+{r:512,n:"Kazuhito Yamashita",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=jOG7DzqMsbc",d:"長崎出身。1977年にRamírez (スペイン)、Alessandria、Paris Radio Franceの3大国際コンクールで史上最年少優勝。1984年トロントでの「展覧会の絵」編曲・全曲演奏は世界に衝撃を与えた。ストラヴィンスキー「火の鳥」組曲、バッハ無伴奏ヴァイオリン、チェロ組曲等を1本のギターで超絶的に再現。2026年1月24日逝去、享年64。鬼才にして天才。"},
+{r:513,n:"Eliot Fisk",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=WbeAbllBpGo",d:"フィラデルフィア出身。Yale大学でRalph Kirkpatrickに師事、Segoviaの最後の直弟子。1977年Yaleギター科創設、現在Mozarteum Salzburg、New England音楽院教授。パガニーニ24の奇想曲の全曲ギター編曲・録音を初めて成し遂げ「ギターのリスト」と称される爆発的・情熱的プレイ。Berio、Rochberg等からの委嘱作品多数。"},
+{r:514,n:"Marcin Dylla",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=j-n0cvFMcf0",d:"ポーランド・ホジュフ出身。1996-2007年に世界の主要コンクール19回1位受賞の驚異的記録保持者。2007年GFA国際コンクール金メダル獲得。Washington Postが「地球上最も才能あるギタリストの一人」と絶賛。緻密な音楽構成と完璧な技巧で知られ、現在クラクフ及びカトヴィツェ音楽アカデミー教授。"},
+{r:515,n:"Leo Brouwer",b:"solo / composer",t:"クラシック",w:"https://www.youtube.com/watch?v=1TXnGFvXyx4",d:"1939年ハバナ出身のキューバの作曲家・指揮者・ギタリスト。JuilliardでPersichetti師事。「Estudios Sencillos」「El Decamerón Negro」等、現代ギターレパートリーの中核をなす作品を多数作曲。DGで現代音楽の優れた演奏も録音したが、1980年代に腱損傷で演奏活動引退、以降作曲・指揮に専念。ギター史上最重要の生ける巨匠。"},
+{r:516,n:"Oscar Ghiglia",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=s0PvZthlo2Y",d:"1938年イタリア・リヴォルノ出身。Santa Cecilia音楽院卒業後、Segoviaに師事。Aspen Music Festivalギター科創設、Accademia Chigianaでセゴビアの後継者として教鞭を執った。格調高くスタイリッシュな演奏と深い芸術性で、「セゴビアの精神を現代に継ぐ」と評された名手。福田進一、Fisk等多くの名手を育てた名教師でもある。2024年3月逝去、享年85。"},
+{r:517,n:"Kiyoshi Shomura",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=goRTrQT3gzc",d:"本名・荘村清志、岐阜出身。9歳でギターを始め、1963年来日したYepesに認められ翌年スペインへ渡り師事。1969年日本デビュー、1974年NHK「ギターを弾こう」講師で全国的知名度を得る。武満徹に「フォリオス」「エキノクス」を委嘱・初演する等、邦人作曲家への委嘱で日本のギター・レパートリー拡大に大きく貢献。日本クラシック・ギター界のレジェンド。"},
+{r:518,n:"Roland Dyens",b:"solo / composer",t:"クラシック",w:"https://www.youtube.com/watch?v=Am0pGhRyb-4",d:"1955年チュニジア生まれのフランスのギタリスト、作曲家、編曲家。Alberto Ponceに師事し、パリ国立高等音楽院で師の後任教授を務めた。コンサート冒頭を常に即興演奏で開始する独特のスタイルで知られ、「クラシックギターの手とジャズの頭脳」と評された。代表作「Tango en Skaï」「Libra Sonatine」等、現代ギター・レパートリーの定番を多数作曲。2016年逝去、享年61。"},
+{r:519,n:"Xuefei Yang",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=A6vBC3qFT8E",d:"1977年北京生まれ。文化大革命後、西洋楽器の解禁期に中国音楽院で学んだ最初のギタリストで、国際的評価を得た初の中国人ギタリスト。ロイヤル・アカデミー・オブ・ミュージック (ロンドン) をディスティンクションで卒業。EMI、Decca等と契約し世界50ヵ国以上で演奏。Classic FM 100人、BBC Music誌「世紀の名手6人」に選出。中国文化と西洋音楽の橋渡し役。"},
+{r:520,n:"Göran Söllscher",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=m1S5j_eAedY",d:"1955年スウェーデン・ヴェクショー生まれ。コペンハーゲン王立音楽院で学び、1978年パリ国際ギター・コンクール優勝。Deutsche Grammophon専属アーティストとなり19枚以上のアルバムをリリース、累計100万枚以上の売上。11弦アルトギターでのバッハ・ヴァイス等リュート作品の名演で知られる。バッハからビートルズまで広いレパートリーを誇る北欧ギター界の重鎮。ルンド大学教授。"},
+{r:521,n:"Álvaro Pierri",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=2AFvu_OCku4",d:"1953年ウルグアイ・モンテビデオの音楽一家出身。Abel Carlevaro、Guido Santórsolaに師事。11歳から国際コンクールで受賞を重ね、18回パリ国際ギター・コンクールで金メダル獲得。Piazzolla二重協奏曲の初演者でDG音源も有名。Leo Brouwer、Jacques Hétu等多数の委嘱作品を初演。2002年よりウィーン国立音楽大学教授、カナダFÉLIX賞2度受賞。"},
+{r:522,n:"Eduardo Fernández",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=0DP3YK3YB4k",d:"1952年ウルグアイ・モンテビデオ出身。Abel Carlevaro、Santórsolaに師事し1975年アンドレス・セゴビア国際コンクール優勝。1983年ロンドン・デビューの成功でDeccaと専属契約を結び18枚のアルバムを録音。バッハ・リュート組曲全集は名盤の誉れ高い。著書「Technique, Mechanism, Learning」は標準教科書。"},
+{r:523,n:"Kyuhee Park",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=xPX69gEK1zw",d:"本名・朴葵姫、1985年韓国仁川生まれ、韓国と日本で育つ。3歳で横浜でギターを始め、荘村清志、福田進一、Álvaro Pierriに師事。2012年アルハンブラ国際ギター・コンクール優勝＆聴衆賞、2014年ウィーン国立音大首席卒業。日本コロムビアから多数リリース。セルフプロデュース盤「Le Départ」はCDショップ大賞2022クラシック賞受賞の在日韓国人女流。"},
+{r:524,n:"Jason Vieaux",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=17uZsEXqcoY",d:"1973年バッファロー生まれ。Cleveland Institute of Music卒、1992年GFA国際コンクール史上最年少優勝。2015年「Play」でグラミー賞最優秀クラシック器楽独奏部門受賞。NPRに「同世代で最も精緻で魂のこもった奏者」と評される。Curtis Instituteギター科共同創設者。Pat Methenyが「Four Paths of Light」を献呈した名手。"},
+{r:525,n:"Thibaut Garcia",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=TtQ4pF_w9Ko",d:"1994年トゥールーズ生まれのフランコ・スパニッシュ。パリ国立高等音楽院でChassain師事。2015年GFA優勝、BBC New Generation Artist、2019年Victoires de la Musique Classique新人賞受賞。2016年Warner/Erato専属で「Aranjuez」はDiapason d'Orを受賞した旗手。"},
+{r:526,n:"Ami Inoi",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=HMXYqSMmXjA",d:"本名・猪居亜美。4歳でギタリストの父・猪居信之よりギターを始める。大阪音楽大学で藤井敬吾、福田進一に師事。2015年フォンテックから「Black Star」でデビュー、2019年キングレコードより「MEDUSA」でメジャーデビュー。全アルバムがレコード芸術特選盤に選出。2022年GFAで日本人初ファイナリスト。村治佳織、朴葵姫に続く新世代女流で、ロック愛もルーツ。"},
+{r:527,n:"Stephanie Jones",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=9bXAVm7NZs8",d:"オーストラリア・パース出身、現ドイツ拠点。ANUでTim Kainに学び、Weimar Franz Liszt音大でThomas Müller-Pering師事。Hannabach、Uppsala国際ギター・フェスティバル等コンクール優勝。YouTube登録者14万人超えでクラシックギター界最大級。「Sound of Silence」は230万回再生突破、SNS世代の新しい顔。"},
+{r:528,n:"Sean Shibe",b:"solo",t:"クラシック / 現代",w:"https://www.youtube.com/watch?v=0t8UT0jNAaU",d:"1992年エジンバラ生まれ、英国人父・日本人母を持つ。Royal Conservatoire of Scotlandに史上最年少入学、Paolo Pegoraro師事。BBC Radio 3 New Generation Artists史上初のギタリスト、2018年Royal Philharmonic Society Young Artist賞初受賞。クラシックと電気ギター両方を操る革新派。"},
+{r:529,n:"Jorge Caballero",b:"solo",t:"クラシック",w:"https://www.youtube.com/watch?v=wa8Ghy1Pz2k",d:"1977年ペルー・リマ生まれ。Lima National Conservatoryでオスカル・サモラに師事、18歳でManhattan School of Musicへ。1996年19歳でWalter W. Naumburg国際コンクール優勝、史上最年少かつギタリスト唯一の受賞者。山下和仁版ムソルグスキー「展覧会の絵」、ドヴォルザーク「新世界」等、超絶オーケストラ編曲演奏で有名。"},
+{r:530,n:"斎藤宏介",b:"UNISON SQUARE GARDEN",t:"J-ROCK / ポップ",w:"https://www.youtube.com/watch?v=mFNFmnYio90",d:"1985年ニューヨーク生まれ、英国・シンガポール等を経て帰国。早稲田大社会科学部卒。2004年田淵智也・鈴木貴雄とUNISON SQUARE GARDENを結成、ボーカル兼ギター。速いテンポ・多い音数・言葉数の楽曲を、透明感あるハイトーンを保ちつつ弾き語る現代の超人。「オリオンをなぞる」「シュガーソングとビターステップ」「Phantom Joke」等が代表曲。"},
+{r:531,n:"滝善充",b:"9mm Parabellum Bullet",t:"ラウド・ロック",w:"https://www.youtube.com/watch?v=oWGwZCoIcco",d:"1981年神奈川県生まれ。9mm Parabellum Bulletのギタリスト兼コンポーザー、菅原卓郎と共に中心人物。爆発的なステージパフォーマンス、ツイン・リード的な疾走感と和風スケールを織り交ぜた高速フレーズ、長髪を振り乱しながら弾くライブスタイルで2000年代ロックシーンに衝撃を与えた。「Black Market Blues」「新しい光」「ハートに火をつけて」等を作曲。"},
+{r:532,n:"生形真一",b:"ELLEGARDEN / Nothing's Carved In Stone",t:"オルタナ / ロック",w:"https://www.youtube.com/watch?v=DgTg-MRDy34",d:"1975年千葉県生まれ。1998年細美武士らとELLEGARDENを結成、2008年の活動休止まで日本のメロディック・パンクとロックを決定づけた。2009年にNothing's Carved In Stoneを始動。刻みと歌が両立するリフ作り、ジャズ寄りのコード感を織り交ぜた広いハーモニック・センスで、00年代以降のロック・ギタリストに大きな影響を与えた日本ロック界の良心。"},
+{r:533,n:"和嶋慎治",b:"人間椅子",t:"ハード・ロック / 和ロック",w:"https://www.youtube.com/watch?v=b6QQzV_HDfg",d:"1965年青森県弘前市生まれ。1989年鈴木研一と人間椅子を結成、1990年「イカ天」出演を機に徳間ジャパンからデビュー。SG一本で描くおどろおどろしくも美しい和の世界を長年貫き通し、2010年代後半には海外でも発掘され再評価。Black Sabbath直系の重いリフと、江戸川乱歩や日本文学由来の世界観を融合した唯一無二のスタイル。"},
+{r:534,n:"ROLLY",b:"すかんち",t:"グラム・ロック",w:"https://www.youtube.com/watch?v=B9cQ9y-LeDs",d:"本名・小島良喜、1963年京都府生まれ。1982年在学中にすかんちを結成、1990年CBS/SonyよりデビューしB'z松本孝弘らと並ぶ80-90年代の代表的ロック・ギタリストに。Queen、T. Rex、Led Zeppelin等70年代グラムと正統派ロックの教養を持ち、ド派手なビジュアルと確かな腕を両立。ソロ「ROLLY'S ROCK CIRCUS」シリーズで日本ロックの歴史を継ぐ。"},
+{r:535,n:"安藤正容",b:"T-SQUARE",t:"フュージョン",w:"https://www.youtube.com/watch?v=ifmFkKRhc8E",d:"1954年埼玉県生まれ。1976年THE SQUARE (現T-SQUARE) 結成時メンバーで、2021年の勇退まで45年間リーダーを務めた。「OMENS OF LOVE」「宝島」「TRUTH」等、吹奏楽の定番として日本中に浸透したフュージョン名曲の多くで作曲・アレンジを担当。柔らかなクリーントーン、歌うフレーズ、緻密なコード・ワークで日本フュージョンを代表するギタリスト。"},
+{r:536,n:"野呂一生",b:"CASIOPEA",t:"フュージョン",w:"https://www.youtube.com/watch?v=GyHP636Ur4o",d:"1957年東京都生まれ。1976年桜井哲夫とCASIOPEAを結成、1979年アルファ・レコードからデビュー。「ASAYAKE」「HALLE」「LOOKING UP」等、日本のテクニカル・フュージョンの金字塔を生んだリーダー兼作曲家。正確無比なピッキング、浮遊感のあるヴォイシング、独自のギター・シンセ活用で、T-SQUAREと並び日本のフュージョンを世界基準に押し上げた巨人。"},
+{r:537,n:"君島大空",b:"君島大空合奏形態",t:"オルタナ / J-ポップ",w:"https://www.youtube.com/watch?v=FDnJAQZgeM8",d:"1995年埼玉県生まれのシンガーソングライター兼ギタリスト。2019年1st EP「午後の反射光」でデビュー、ジェンダーレスな歌声と多重録音のサウンドデザインで注目を集める。複雑なコード、歪みと空間系、ノイズを織り込んだテクスチャ、驚異的なフレット感覚による代理ストリング的アプローチ。石若駿・新井和輝らと「合奏形態」を組み、現代日本で最も先鋭的なギタリストの一人。"},
+{r:538,n:"名越由貴夫",b:"Co/SS/gZ / セッション",t:"J-ROCK / オルタナ",w:"https://www.youtube.com/watch?v=zv4eMWGxm1Y",d:"1965年岡山県生まれ。90年代にzero、吉村秀樹らと轟音ノイズ・ロックバンドCo/SS/gZで96年メジャーデビュー。以降、椎名林檎、Chara、UA、宮本浩次、Salyu、Superfly、長渕剛、フジファブリック等、数多のライブ/レコーディングを支える日本屈指のファーストコール・ギタリスト。Z.VEX愛用の轟音ファズと幽玄なアンビエントを自在に操る多彩な音作り。"},
+{r:539,n:"Arto Lindsay",b:"DNA / Ambitious Lovers",t:"ノー・ウェイヴ / アヴァンギャルド",w:"https://www.youtube.com/watch?v=6VfOdnff2X4",d:"1953年米国生まれ、ブラジル育ち。70年代末にDNAを結成、Brian Eno編集「No New York」に参加してノー・ウェイヴを決定づけた。チューニングしない独特のギター・スタイルと囁き声のボーカルが特徴。80年代以降Ambitious Loversでサンバ/ファンクと前衛を融合、Caetano Veloso、坂本龍一らのプロデュースも手掛け音楽プロデューサーとしても活躍。"},
+{r:540,n:"Wilko Johnson",b:"Dr. Feelgood",t:"パブ・ロック / R&B",w:"https://www.youtube.com/watch?v=vLw-vy6NGLQ",d:"1947年英国エセックス生まれ、本名John Wilkinson、2022年没。1971年Dr. Feelgoodに参加、ピックを使わない指弾きでリフとリード/カッティングを同時に繰り出すパーカッシヴなスタイルを確立。銃のように構える独特のステージアクションとチョッピー・ギターは、のちの英国パンク・ムーヴメントに決定的な影響を与えた。「ゲーム・オブ・スローンズ」では処刑人役で俳優業も。"},
+{r:541,n:"Johnny Thunders",b:"New York Dolls / Heartbreakers",t:"パンク / プロト・パンク",w:"https://www.youtube.com/watch?v=YgsC5aDDAew",d:"1952年NY生まれ、本名John Genzale、1991年没。1971年New York Dollsのリードギタリストとしてグラム・パンクを生み、のちのパンクとグラム・メタル双方に甚大な影響。1975年Heartbreakersを結成。1978年ソロ作「So Alone」収録「You Can't Put Your Arms Round a Memory」はバラードの名曲として後世に残る。"},
+{r:542,n:"鈴木茂",b:"はっぴいえんど / solo",t:"ニューミュージック / ロック",w:"https://www.youtube.com/watch?v=ZEo8DnV4cL4",d:"1951年東京都生まれ。16歳ではっぴいえんどに加入、細野晴臣・大瀧詠一・松本隆とともに日本語ロックの礎を築く。1975年ソロデビュー作「BAND WAGON」は日本のロック史に残る名盤で、ロサンゼルス録音のタイトで都会的なサウンドは当時衝撃を与えた。松任谷由実、矢沢永吉、荒井由実、吉田美奈子等のアレンジ/セッションでも日本の70-80年代ポップスを支えた巨匠。"},
+{r:543,n:"Noel Gallagher",b:"Oasis / Noel Gallagher's High Flying Birds",t:"ブリットポップ / ロック",w:"https://www.youtube.com/watch?v=aW_8kbyOKeQ",d:"1967年英国マンチェスター生まれ。1991年Oasis加入後、「Wonderwall」「Don't Look Back In Anger」「Champagne Supernova」「Live Forever」等、90年代を象徴するアンセムを連発しブリットポップの中心人物に。Beatles由来のメロディ・センスとシンプルなコード進行で世界を制圧、2024年電撃的にOasis再結成を発表した。"},
+{r:544,n:"Andy Gill",b:"Gang of Four",t:"ポスト・パンク / ファンク・パンク",w:"https://www.youtube.com/watch?v=F_7BVaDIAbA",d:"1956年英国マンチェスター生まれ、2020年没。1976年Leeds大学でJon Kingと共にGang of Fourを結成。「金属が砕けるような」と評されるトレブリーで攻撃的なリズム・ギターは、Red Hot Chili Peppers、Rage Against the Machine、Franz Ferdinand等に多大な影響。プロデューサーとしても多数の名盤を手掛けた革新者。"},
+{r:545,n:"Wes Borland",b:"Limp Bizkit / Black Light Burns",t:"ニューメタル / オルタナ",w:"https://www.youtube.com/watch?v=DWOgWKk9Qis",d:"1975年米国ヴァージニア州リッチモンド生まれ。Limp Bizkitのギタリストとして、ダウンチューニングと4弦メインの変則ベース的アプローチで1999年「Nookie」、2000年「Rollin'」等、ニューメタル全盛期を牽引。全身白塗り等の演劇的な衣装でも知られる。Black Light Burns等の実験的サイドプロジェクトでも活動、ジャンルの枠に収まらない才能。"},
+{r:546,n:"吉村秀樹",b:"bloodthirsty butchers",t:"オルタナ / ノイズ・ロック",w:"https://www.youtube.com/watch?v=SRWifFJRRCQ",d:"1967年北海道札幌生まれ、2013年急性心不全で46歳で没。1986年bloodthirsty butchersを結成、1991年Fugaziの来日公演を機に上京、1994年メジャー・デビュー。轟音ギターと繊細で詩的な歌詞が共存する唯一無二の世界観で、ナンバーガール、スーパーカー、アジカン等後進に絶大な影響。名越由貴夫との盟友関係、田渕ひさ子の加入・結婚など日本オルタナ史に残る存在。"},
+{r:547,n:"坂本慎太郎",b:"ゆらゆら帝国 / solo",t:"サイケデリック / オルタナ",w:"https://www.youtube.com/watch?v=Xdn-MUiJEog",d:"1967年大阪府生まれ、多摩美卒。1989年「日本語のオリジナルロック」をコンセプトにゆらゆら帝国を結成、2010年解散まで通算11枚のアルバムをリリース。サイケデリックから日本語ロック、極限まで音数を削ったミニマルな表現まで自在に操り、2011年ソロ始動以降は海外でも高評価。日本語の音響的魅力を引き出す作詞と、一音一音に意味を持たせる独特のギター・プレイで現代邦楽に影響を残す。"},
+{r:548,n:"Lowell George",b:"Little Feat",t:"サザン・ロック / スライド",w:"https://www.youtube.com/watch?v=yaHEfJApEVM",d:"1945年米国ハリウッド生まれ、1979年没。Frank ZappaのMothers of Invention在籍後、1969年Little Featを結成。コンプレッサー・マウントを指にはめてのボトルネック奏法と、ニューオリンズR&B・ファンクを融合したスタイルで「Dixie Chicken」「Willin'」等の名曲を生む。美しく音楽的なスライド・ソロは最も愛され研究される一人。"},
+{r:549,n:"高柳昌行",b:"New Direction",t:"フリー・ジャズ / 前衛",w:"https://www.youtube.com/watch?v=hb-gl6qb3CU",d:"1932年東京都生まれ、1991年没。19歳でプロ活動開始、50年代末から銀座「銀巴里」で新世紀音楽研究所を主宰。50年代はクールジャズの俊英として、60年代末からNew Directionでフリー・ジャズを展開、晩年はアクション・ダイレクトでノイズ・ミュージック領域まで到達。渡辺香津美、安藤正容、山本恭司、大友良英らを輩出したギター塾でも知られる、日本フリー・ジャズの開拓者。"},
+{r:550,n:"Al Anderson",b:"NRBQ / The Wildweeds",t:"ルーツ・ロック / カントリー",w:"https://www.youtube.com/watch?v=OKHjFA8KZUY",d:"1947年米国コネチカット州生まれ。1971年NRBQに加入、1993年までの22年間「世界一のバー・バンド」の看板ギタリストを務める。「Ridin' in My Car」等自作曲を多数残す。1993年ナッシュヴィル移住後はカントリー作曲家に転身、Tim McGraw「The Cowboy in Me」等のヒット曲を量産、第二のキャリアを築いた名手。"},
+{r:551,n:"Amos Garrett",b:"solo / session",t:"ブルース / ルーツ",w:"https://www.youtube.com/watch?v=3gKnnb24Eso",d:"1941年米国生まれ、カナダ育ちのシンガー・ギタリスト。Maria Muldaur「Midnight at the Oasis」(1974) のストリングベンディングを駆使した官能的なソロは、Jimmy Pageが1975年Rolling Stone誌で「好きな米ギタリストの一人」と称するなど、史上最も有名なギター・ソロの一つ。Emmylou Harris等150人超と共演した名手。"},
+{r:552,n:"Blind Blake",b:"solo",t:"戦前ブルース / ラグタイム",w:"https://www.youtube.com/watch?v=vNgJ_Idfm2w",d:"1896年頃米国生まれ、1934年没、本名Arthur Blake。1926年から1932年までParamount Recordsに約80曲を録音、「Piedmont blues」のキング、東海岸フィンガーピッキング・ブルースの創始者。ラグタイム・ピアノを彷彿とさせる複雑なスタイルと親指ベースのシンコペーションは、Ry Cooder、Rev. Gary Davis等に絶大な影響を与えた。"}
 ];
 
 /* =====================================================================
@@ -1244,6 +1580,11 @@ async function ensurePhotos(guitarists){
    Merge-sort interactive sorter
    ===================================================================== */
 const STORAGE_KEY = "guitarist-sorter:state";
+const STORAGE_KEYS = {
+  ranking:    "guitarist-sorter:state",           // 互換維持 (元からこのキー)
+  random:     "guitarist-sorter:state:random",
+  tournament: "guitarist-sorter:state:tournament",
+};
 const HISTORY_KEY = "guitarist-sorter:history";
 let S = null;
 
@@ -1275,6 +1616,44 @@ function loadState(){
   }catch(e){} return null;
 }
 function clearState(){ try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+
+// Per-mode state persistence (random / tournament)
+function saveRandomState(){
+  if(rndState) try{ localStorage.setItem(STORAGE_KEYS.random, JSON.stringify(rndState)); }catch(e){}
+}
+function loadRandomState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEYS.random);
+    if(!raw) return null;
+    const s = JSON.parse(raw);
+    if(s && s.pool && typeof s.idx === "number") return s;
+  }catch(e){} return null;
+}
+function clearRandomState(){ try{ localStorage.removeItem(STORAGE_KEYS.random); }catch(e){} }
+
+function saveTournamentState(){
+  if(tState && !tState.champion) try{ localStorage.setItem(STORAGE_KEYS.tournament, JSON.stringify(tState)); }catch(e){}
+}
+function loadTournamentState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEYS.tournament);
+    if(!raw) return null;
+    const s = JSON.parse(raw);
+    if(s && s.rounds && s.roster) return s;
+  }catch(e){} return null;
+}
+function clearTournamentState(){ try{ localStorage.removeItem(STORAGE_KEYS.tournament); }catch(e){} }
+
+// Helper: does any mode have resumable state?
+function hasAnyResumable(){
+  return !!(loadState() || loadRandomState() || loadTournamentState());
+}
+function loadStateForMode(mode){
+  if(mode === "ranking")    return loadState();
+  if(mode === "random")     return loadRandomState();
+  if(mode === "tournament") return loadTournamentState();
+  return null;
+}
 function snapshot(){
   return JSON.stringify({
     runs:S.runs, merging:S.merging,
@@ -1312,7 +1691,28 @@ function decide(side){
   return done;
 }
 function undo(){
-  if(!S.history.length) return;
+  // Random mode: step back
+  if(rndState){
+    if(rndState.idx > 0){
+      rndState.idx--;
+      saveRandomState();
+      renderRandom();
+    }
+    return;
+  }
+  // Tournament mode: pop history
+  if(tState && !tState.champion){
+    if(!tState.history || !tState.history.length) return;
+    const snap = JSON.parse(tState.history.pop());
+    tState.rounds = snap.rounds;
+    tState.currentRoundIdx = snap.currentRoundIdx;
+    tState.currentMatchIdx = snap.currentMatchIdx;
+    saveTournamentState();
+    renderTournamentMatch();
+    return;
+  }
+  // Ranking mode (original)
+  if(!S || !S.history || !S.history.length) return;
   restoreSnapshot(S.history.pop());
   S.finalOrder = null;
   saveState();
@@ -1324,7 +1724,7 @@ function undo(){
    ===================================================================== */
 const $ = id => document.getElementById(id);
 function showScreen(name){
-  for(const id of ["home","vote","result"]) $(`screen-${id}`).classList.toggle("active", id===name);
+  for(const id of ["home","vote","result","random","tournament-result"]) $(`screen-${id}`).classList.toggle("active", id===name);
   window.scrollTo({top:0,behavior:"instant"});
 }
 function byId(id){ return GUITARISTS.find(g=>g.r===id); }
@@ -1799,6 +2199,134 @@ const CURATED_VIDEO_IDS = {
   "Tom Scholz": "t4QK8RxCAwo",
   "J.J. Cale": "TlppIdtLw5A",
   "Allen Collins": "QxIWDmmqZzY",
+  "Walter Becker": "XeO25dmfyxo",
+  "Steve Gaines": "ccCsSPPHzPQ",
+  "Steve Winwood": "OU6iplEflzs",
+  "Rick Nielsen": "4gH9-YxLvyk",
+  "Ronnie Wood": "f514cAZucCg",
+  "Tommy Shaw": "E9eLz4DrwF8",
+  "Todd Rundgren": "4gZrWGAXM_I",
+  "Vince Gill": "uwmGWCJOxnw",
+  "Buck Dharma": "FS8p_F0Stog",
+  "Ted Nugent": "MRj5KT3742o",
+  "Vivian Campbell": "v9M7g-nKMBU",
+  "Vernon Reid": "Y0VNLhyuxg0",
+  "James Taylor": "N8u8tASPtwg",
+  "Richie Sambora": "xNRaDavYo1M",
+  "Brian Jones": "qNCSJ5tHUe0",
+  "George Lynch": "RaAXahz80Pc",
+  "Susan Tedeschi": "QCpP2f8p6gw",
+  "Frank Marino": "OwPKV-lT4uU",
+  "Mick Ralphs": "bKzKCYyoNWY",
+  "Steve Marriott": "zLJ8I42r4fc",
+  "Ace Frehley": "ppG6IUfQUZM",
+  "Marc Bolan": "EzACZW65rpE",
+  "Jonny Lang": "3tigVYfHVmQ",
+  "Stanley Clarke": "dDveBbJkVqo",
+  "Paul Kossoff": "t8Rx_IrA-s8",
+  "Steve Stevens": "seHlHzYpWBU",
+  "Taj Mahal": "JRxTQ9eaiIk",
+  "Lenny Kravitz": "BnqUK7XF54k",
+  "Adrian Vandenberg": "V6UFjGv1cic",
+  "Bob Dylan": "CWfVaqEHl08",
+  "Orianthi": "mJeOuP9Z3CM",
+  "Dave Grohl": "AxuTd9rwEHQ",
+  "Jeff Buckley": "MYrXK5ek_PQ",
+  "Izzy Stradlin": "MkoeqtKUUe4",
+  "Andy McKee": "Ddn4MGaS3N4",
+  "Alexi Laiho": "8m47zqfYmQk",
+  "Warren DeMartini": "zvGaEEt1p4g",
+  "Chris Impellitteri": "Q5uwr9oyGgo",
+  "Jeff Loomis": "9RdqVIAaFPU",
+  "Michael Romeo": "Z2XpO8MFCp0",
+  "Brad Gillis": "jlCL1F8-HtY",
+  "Michael Amott": "O4N-J2GngZo",
+  "Fredrik Thordendal": "GTbYuIKibk4",
+  "Wolf Hoffmann": "97r0CiCAKXw",
+  "John Norum": "NNiTxUEnmKI",
+  "Reb Beach": "zk2RLGfNVMc",
+  "Richie Kotzen": "4IrurDSAKgY",
+  "Vito Bratta": "OWMDo5eXPo8",
+  "Criss Oliva": "UqTJgAHtg4o",
+  "Doug Aldrich": "12UCCXufGjk",
+  "Stephen Carpenter": "PIF4So6xcU8",
+  "Jim Root": "B2lmOei7qfk",
+  "Mick Thomson": "-XlW-cyAdiw",
+  "Brent Hinds": "fnwZca8z9II",
+  "Gus G.": "1ee9ENBg3KU",
+  "Alex Skolnick": "0qLIUnQ8Knk",
+  "Bill Steer": "xKCg-hY3Zdo",
+  "Christopher Amott": "wmxU9OQLq-E",
+  "Mikael Åkerfeldt": "3NttJB0DfiQ",
+  "Jeff Watson": "0NrVwGsX16E",
+  "Brad Delson": "BLZWkjBXfN8",
+  "Daron Malakian": "MlcJQYON2Go",
+  "Aaron Marshall": "iP2cnRnYw9Q",
+  "Angel Vivaldi": "OTN4Yx3Uja8",
+  "Jesper Strömblad": "q86owGQzaG0",
+  "Björn Gelotte": "3iIQoPWm8ho",
+  "Bill Kelliher": "amagrxXDBdk",
+  "Mark Morton": "7ukEcQ_H774",
+  "Willie Adler": "iP6n1LK0NxA",
+  "Davey Johnstone": "AhnZEmnuzgM",
+  "Bernie Marsden": "EkTTdsRs9jM",
+  "Micky Moody": "nqhgRAVHeOE",
+  "Satchel": "xY90-FgBR2c",
+  "Rick Graham": "2hhalUbSw0I",
+  "Nik Nocturnal": "ohQkl2QAc80",
+  "Pete Lesperance": "jgARLGD2-xg",
+  "Bubba Dupree": "r777Fni3JeY",
+  "Bobby Womack": "vACdT7rLY2U",
+  "Teenie Hodges": "E1uqsE-jCPQ",
+  "Robert Ward": "zf4-mNhuDIE",
+  "Pops Staples": "qXvirzznSn4",
+  "David Russell": "s9W4Xv6r07I",
+  "Pepe Romero": "af3kEBSPA3Q",
+  "Manuel Barrueco": "tAEfRd7hNHk",
+  "Sharon Isbin": "g2lcio8DrFw",
+  "Ana Vidovic": "VM-RD-2X6VU",
+  "Miloš Karadaglić": "1xTltS95isw",
+  "Kazuhito Yamashita": "jOG7DzqMsbc",
+  "Eliot Fisk": "WbeAbllBpGo",
+  "Marcin Dylla": "j-n0cvFMcf0",
+  "Leo Brouwer": "1TXnGFvXyx4",
+  "Oscar Ghiglia": "s0PvZthlo2Y",
+  "Kiyoshi Shomura": "goRTrQT3gzc",
+  "Roland Dyens": "Am0pGhRyb-4",
+  "Xuefei Yang": "A6vBC3qFT8E",
+  "Göran Söllscher": "m1S5j_eAedY",
+  "Álvaro Pierri": "2AFvu_OCku4",
+  "Eduardo Fernández": "0DP3YK3YB4k",
+  "Kyuhee Park": "xPX69gEK1zw",
+  "Jason Vieaux": "17uZsEXqcoY",
+  "Thibaut Garcia": "TtQ4pF_w9Ko",
+  "Ami Inoi": "HMXYqSMmXjA",
+  "Stephanie Jones": "9bXAVm7NZs8",
+  "Sean Shibe": "0t8UT0jNAaU",
+  "Jorge Caballero": "wa8Ghy1Pz2k",
+  "斎藤宏介": "mFNFmnYio90",
+  "滝善充": "oWGwZCoIcco",
+  "生形真一": "DgTg-MRDy34",
+  "和嶋慎治": "b6QQzV_HDfg",
+  "ROLLY": "B9cQ9y-LeDs",
+  "安藤正容": "ifmFkKRhc8E",
+  "野呂一生": "GyHP636Ur4o",
+  "君島大空": "FDnJAQZgeM8",
+  "名越由貴夫": "zv4eMWGxm1Y",
+  "Arto Lindsay": "6VfOdnff2X4",
+  "Wilko Johnson": "vLw-vy6NGLQ",
+  "Johnny Thunders": "YgsC5aDDAew",
+  "鈴木茂": "ZEo8DnV4cL4",
+  "Noel Gallagher": "aW_8kbyOKeQ",
+  "Andy Gill": "F_7BVaDIAbA",
+  "Wes Borland": "DWOgWKk9Qis",
+  "吉村秀樹": "SRWifFJRRCQ",
+  "坂本慎太郎": "Xdn-MUiJEog",
+  "Lowell George": "yaHEfJApEVM",
+  "高柳昌行": "hb-gl6qb3CU",
+  "Al Anderson": "OKHjFA8KZUY",
+  "Amos Garrett": "3gKnnb24Eso",
+  "Blind Blake": "vNgJ_Idfm2w",
 };
 
 const YTID_LS_PREFIX = "gyt3:";     // user-added: name -> 11-char id
@@ -1888,20 +2416,27 @@ function expandEmbed(embedEl, g, videoId){
   embedEl.appendChild(open);
 }
 
-// YouTube iframe embeds for in-page playback. Requires http(s) hosting
-// (e.g. GitHub Pages) because YouTube's embed endpoint requires a valid
-// HTTP referrer. Opening this file via file:// will result in Error 153
-// — test via `python3 -m http.server` or the deployed site instead.
+// YouTube iframe embeds require a valid HTTP referrer. When this HTML is
+// opened via the file:// protocol (e.g. a developer double-clicking the
+// downloaded file), YouTube returns Error 153 because there's no valid
+// referrer. In that case we transparently fall back to opening the video
+// in a new tab. On http(s) hosting (the production environment) we use
+// the proper iframe embed.
+const IS_LOCAL_FILE = (typeof location !== "undefined") && location.protocol === "file:";
 
 function showThumb(embedEl, g, videoId){
   embedEl.innerHTML = `
     <div class="yt-thumb" style="background-image:url('${ytThumbUrl(videoId)}')">
       <div class="yt-play"></div>
-      <div class="yt-caption">▶ ${g.t}</div>
+      <div class="yt-caption">▶ ${g.t}${IS_LOCAL_FILE ? ' <span class="yt-ext">↗</span>' : ''}</div>
     </div>`;
   embedEl.onclick = (e)=>{
     e.stopPropagation();
-    expandEmbed(embedEl, g, videoId);
+    if(IS_LOCAL_FILE){
+      window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank", "noopener");
+    }else{
+      expandEmbed(embedEl, g, videoId);
+    }
   };
 }
 
@@ -2004,6 +2539,11 @@ function render(){
     if(S.finalOrder){ renderResult(); showScreen("result"); return; }
   }
   showScreen("vote");
+  // Restore ranking-mode UI (may have been hidden by tournament)
+  $("btn-tie").style.display = "";
+  $("btn-undo").style.display = "";
+  $("btn-undo").disabled = !(S.history && S.history.length);
+  $("p-mode-label").textContent = "進捗 バトル";
   renderProgress();
   paintCard('A');
   paintCard('B');
@@ -2111,27 +2651,464 @@ document.querySelectorAll("#range-picker button").forEach(b=>{
   };
 });
 
+/* ===== Mode selection ===== */
+let chosenMode = "ranking";
+const MODE_CONFIG = {
+  ranking:    { title:"ランキング作成", btn:"ランキング作成を始める", desc:"2人ずつ表示されるギタリストのうち、好きな方を選び続けるだけ。<br>マージソートで順位が自動的に組み上がり、あなただけのランキングが完成します。" },
+  random:     { title:"ランダム表示",   btn:"ランダム表示を始める",   desc:"対象範囲の中から1人ずつランダムに表示されます。<br>知らなかったギタリストとの出会いや、新たな発見を楽しむためのモード。評価は不要、気軽に眺めてください。" },
+  tournament: { title:"トーナメント",   btn:"トーナメントを始める",   desc:"勝ち抜き戦形式で優勝者を決めるモード。<br>対象範囲の人数がそのまま参加者となり、不戦勝 (Bye) で調整されます。全ラウンドが2択で進行します。" },
+};
+document.querySelectorAll("#mode-tabs .mode-tab").forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll("#mode-tabs .mode-tab").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    chosenMode = b.dataset.mode;
+    const cfg = MODE_CONFIG[chosenMode];
+    $("mode-description").innerHTML = cfg.desc;
+    $("btn-start").textContent = cfg.btn;
+    updateResumeButton();
+  };
+});
+
+function updateResumeButton(){
+  const s = loadStateForMode(chosenMode);
+  $("btn-resume").style.display = s ? "inline-block" : "none";
+}
+
+/* ===== Random mode state ===== */
+let rndState = null; // { pool:[g...], idx:0, seen:[g...] }
+
+/* ===== Tournament mode state ===== */
+let tState = null; // { rounds:[[match,...],...], currentRoundIdx, currentMatchIdx, roster:[g...] }
+
 $("btn-start").onclick = ()=>{
-  S = newSession(chosenRange);
-  advance(); saveState();
-  ensurePhotos(GUITARISTS.slice(0, chosenRange));
-  render();
+  if(chosenMode === "ranking"){
+    S = newSession(chosenRange);
+    advance(); saveState();
+    ensurePhotos(GUITARISTS.slice(0, chosenRange));
+    render();
+  } else if(chosenMode === "random"){
+    startRandom(chosenRange);
+  } else if(chosenMode === "tournament"){
+    startTournament(chosenRange);
+  }
 };
 $("btn-resume").onclick = ()=>{
-  S = loadState();
-  if(!S){ alert("続きがありません。"); return; }
-  if(!S.estBattles) S.estBattles = Math.ceil(S.rangeN * Math.log2(Math.max(2,S.rangeN)));
-  S.history = S.history || [];
-  ensurePhotos(GUITARISTS.slice(0, S.rangeN));
-  render();
+  if(chosenMode === "ranking"){
+    S = loadState();
+    if(!S){ alert("ランキング作成の続きがありません。"); return; }
+    if(!S.estBattles) S.estBattles = Math.ceil(S.rangeN * Math.log2(Math.max(2,S.rangeN)));
+    S.history = S.history || [];
+    ensurePhotos(GUITARISTS.slice(0, S.rangeN));
+    render();
+  } else if(chosenMode === "random"){
+    const rs = loadRandomState();
+    if(!rs){ alert("ランダム表示の続きがありません。"); return; }
+    rndState = rs;
+    // pool contains guitarist objects (with r, n, etc.) — re-hydrate from GUITARISTS for latest data
+    rndState.pool = rndState.pool.map(p => GUITARISTS.find(g=>g.r===p.r) || p);
+    ensurePhotos(rndState.pool);
+    showScreen("random");
+    renderRandom();
+  } else if(chosenMode === "tournament"){
+    const ts = loadTournamentState();
+    if(!ts){ alert("トーナメントの続きがありません。"); return; }
+    tState = ts;
+    // Re-hydrate references from GUITARISTS
+    tState.roster = tState.roster.map(p => GUITARISTS.find(g=>g.r===p.r) || p);
+    tState.rounds = tState.rounds.map(round => round.map(m => ({
+      a: m.a ? (GUITARISTS.find(g=>g.r===m.a.r) || m.a) : null,
+      b: m.b ? (GUITARISTS.find(g=>g.r===m.b.r) || m.b) : null,
+      winner: m.winner ? (GUITARISTS.find(g=>g.r===m.winner.r) || m.winner) : null,
+    })));
+    tState.history = tState.history || [];
+    ensurePhotos(tState.roster);
+    showScreen("vote");
+    // Welcome-back round announce (only if at the start of a round)
+    if(tState.currentMatchIdx === 0){
+      const activeMatches = tState.rounds[tState.currentRoundIdx].filter(m => m.b !== null).length;
+      const totalRounds = Math.ceil(Math.log2(tState.roster.length));
+      showRoundAnnounce(tState.currentRoundIdx, totalRounds, activeMatches, ()=>{
+        renderTournamentMatch();
+      });
+    } else {
+      renderTournamentMatch();
+    }
+  }
 };
-(function(){ if(loadState()) $("btn-resume").style.display = "inline-block"; })();
+
+/* ============================================================
+   RANDOM MODE
+   ============================================================ */
+function startRandom(rangeN){
+  const pool = shuffleArray(GUITARISTS.slice(0, rangeN));
+  rndState = { pool, idx:0 };
+  ensurePhotos(pool);
+  showScreen("random");
+  renderRandom();
+}
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function renderRandom(){
+  if(!rndState) return;
+  if(rndState.idx >= rndState.pool.length){
+    // finished — return to home
+    clearRandomState();
+    alert("全員を一巡しました！トップに戻ります。");
+    rndState = null;
+    showScreen("home");
+    return;
+  }
+  saveRandomState();
+  const g = rndState.pool[rndState.idx];
+  $("rnd-cur").textContent = rndState.idx + 1;
+  $("rnd-total").textContent = rndState.pool.length;
+  const pct = Math.round(((rndState.idx + 1) / rndState.pool.length) * 100);
+  $("rnd-pct").textContent = pct;
+  $("rnd-fill").style.width = pct + "%";
+  $("btn-rnd-prev").disabled = (rndState.idx === 0);
+
+  $("rb-r").textContent = `#${g.r}`;
+  $("nm-r").textContent = g.n;
+  $("bd-r").textContent = g.b;
+  $("tk-r").textContent = g.t;
+  $("bio-r").textContent = g.d || "";
+  paintPhoto($("ph-r").parentElement, g);
+
+  // YouTube
+  const embedEl = $("yte-r");
+  embedEl.dataset.rank = g.r;
+  const vid = getVideoIdFor(g);
+  if(vid && isValidYouTubeId(vid)){
+    showThumb(embedEl, g, vid);
+  }else{
+    showAddIdSlot(embedEl, g);
+  }
+  const artistQ = encodeURIComponent(`${g.n} guitar`);
+  $("ytr-search").href  = `https://www.youtube.com/results?search_query=${artistQ}`;
+  $("ytr-search").title = `${g.n} を YouTube で検索`;
+}
+$("btn-rnd-next").onclick = ()=>{
+  if(!rndState) return;
+  rndState.idx++;
+  renderRandom();
+};
+$("btn-rnd-prev").onclick = ()=>{
+  if(!rndState) return;
+  if(rndState.idx > 0){
+    rndState.idx--;
+    renderRandom();
+  }
+};
+$("btn-rnd-end").onclick = ()=>{
+  if(!confirm("ランダム表示を中断してトップに戻りますか？\n「前回の続きから」で再開できます。")) return;
+  saveRandomState();
+  rndState = null;
+  updateResumeButton();
+  showScreen("home");
+};
+
+/* ============================================================
+   TOURNAMENT MODE
+   ============================================================ */
+function startTournament(rangeN){
+  // Pick N guitarists randomly from the ENTIRE pool (so each run has a different roster)
+  const roster = shuffleArray(GUITARISTS).slice(0, rangeN);
+  ensurePhotos(roster);
+  // Build initial round matches (Bye handling: if odd count, give first seed a bye)
+  const rounds = [];
+  const initial = buildRound(roster);
+  rounds.push(initial);
+  tState = {
+    roster,
+    rounds,
+    currentRoundIdx: 0,
+    currentMatchIdx: 0,
+    champion: null,
+    history: [],
+  };
+  // Advance past any initial Bye matches (auto-win)
+  autoAdvanceByes();
+  if(checkTournamentComplete()) return;
+  showScreen("vote");
+  $("p-mode-label").textContent = "トーナメント";
+  // Count active (non-Bye) matches for announce sub text
+  const activeMatches = tState.rounds[0].filter(m => m.b !== null).length;
+  const totalRounds = Math.ceil(Math.log2(tState.roster.length));
+  showRoundAnnounce(0, totalRounds, activeMatches, ()=>{
+    renderTournamentMatch();
+  });
+}
+function buildRound(players){
+  // Pair up players for this round; if odd, last player gets a Bye
+  const matches = [];
+  for(let i=0; i<players.length; i+=2){
+    const a = players[i];
+    const b = players[i+1] || null; // null = Bye
+    matches.push({ a, b, winner: b===null ? a : null });
+  }
+  return matches;
+}
+function autoAdvanceByes(){
+  // When a round starts, advance currentMatchIdx past auto-won (Bye) matches
+  if(!tState) return;
+  const round = tState.rounds[tState.currentRoundIdx];
+  while(tState.currentMatchIdx < round.length && round[tState.currentMatchIdx].winner){
+    tState.currentMatchIdx++;
+  }
+}
+function currentMatch(){
+  if(!tState) return null;
+  const round = tState.rounds[tState.currentRoundIdx];
+  if(tState.currentMatchIdx >= round.length) return null;
+  return round[tState.currentMatchIdx];
+}
+function renderTournamentMatch(){
+  const match = currentMatch();
+  if(!match){
+    checkTournamentComplete();
+    return;
+  }
+  // Hide tie button (not applicable in tournament). Keep undo visible as "戻る" — disabled when no history.
+  $("btn-tie").style.display = "none";
+  $("btn-undo").style.display = "";
+  $("btn-undo").disabled = !(tState.history && tState.history.length);
+  saveTournamentState();
+  // Reuse screen-vote cards: fill them with match.a / match.b
+  const roundNum = tState.currentRoundIdx + 1;
+  const totalRounds = Math.ceil(Math.log2(tState.roster.length));
+  const roundName = roundLabel(tState.currentRoundIdx, totalRounds);
+  $("p-mode-label").textContent = roundName;
+  $("p-cur").textContent = tState.currentMatchIdx + 1;
+  $("p-est").textContent = tState.rounds[tState.currentRoundIdx].length;
+  const pct = Math.round(((tState.currentMatchIdx) / tState.rounds[tState.currentRoundIdx].length) * 100);
+  $("p-pct").textContent = pct;
+  $("p-fill").style.width = pct + "%";
+
+  // Paint cards (reuse paintCard style, but directly using match.a / match.b)
+  paintTournamentCard("A", match.a);
+  paintTournamentCard("B", match.b);
+}
+function roundLabel(roundIdx, totalRounds){
+  const remaining = totalRounds - roundIdx;
+  if(remaining === 1) return "決勝";
+  if(remaining === 2) return "準決勝";
+  if(remaining === 3) return "準々決勝";
+  return `${roundIdx+1}回戦`;
+}
+
+function showRoundAnnounce(roundIdx, totalRounds, matchCount, onDone){
+  const remaining = totalRounds - roundIdx;
+  const title = roundLabel(roundIdx, totalRounds);
+  let sub, kicker;
+  if(remaining === 1){
+    kicker = "THE FINAL";
+    sub = "勝者が、すべてを手にする";
+  } else if(remaining === 2){
+    kicker = "SEMI FINAL";
+    sub = `あと ${matchCount*2} 人 / 優勝まであと2戦`;
+  } else if(remaining === 3){
+    kicker = "QUARTER FINAL";
+    sub = `あと ${matchCount*2} 人 / 優勝まであと3戦`;
+  } else {
+    kicker = "TOURNAMENT";
+    sub = `${matchCount*2} 人が対決 / 全 ${matchCount} 試合`;
+  }
+  const el = $("round-announce");
+  $("ra-kicker").textContent = kicker;
+  $("ra-title").textContent = title;
+  $("ra-title").classList.toggle("champion-coming", remaining === 1);
+  $("ra-sub").textContent = sub;
+  el.classList.add("show");
+  // Auto-dismiss after ~1.6s, or tap to skip
+  let dismissed = false;
+  const dismiss = ()=>{
+    if(dismissed) return;
+    dismissed = true;
+    el.classList.remove("show");
+    el.removeEventListener("click", dismiss);
+    setTimeout(()=>{ if(onDone) onDone(); }, 220);
+  };
+  el.addEventListener("click", dismiss);
+  setTimeout(dismiss, remaining === 1 ? 2000 : 1500);
+}
+function paintTournamentCard(side, g){
+  const suffix = side==='A' ? 'a' : 'b';
+  $("rb-"+suffix).textContent = `#${g.r}`;
+  $("nm-"+suffix).textContent = g.n;
+  $("bd-"+suffix).textContent = g.b;
+  $("tk-"+suffix).textContent = g.t;
+  $("bio-"+suffix).textContent = g.d || "";
+  paintPhoto($("ph-"+suffix).parentElement, g);
+  const artistQ = encodeURIComponent(`${g.n} guitar`);
+  const prefix = side==='A' ? 'yta' : 'ytb';
+  $(prefix+"-search").href  = `https://www.youtube.com/results?search_query=${artistQ}`;
+  $(prefix+"-search").title = `${g.n} を YouTube で検索`;
+  const embedEl = document.getElementById("yte-" + suffix);
+  embedEl.dataset.rank = g.r;
+  const vid = getVideoIdFor(g);
+  if(vid && isValidYouTubeId(vid)){
+    showThumb(embedEl, g, vid);
+  }else{
+    showAddIdSlot(embedEl, g);
+  }
+}
+function pickTournament(side){
+  const match = currentMatch();
+  if(!match) return;
+  // Save undo snapshot
+  tState.history = tState.history || [];
+  tState.history.push(JSON.stringify({
+    rounds: tState.rounds,
+    currentRoundIdx: tState.currentRoundIdx,
+    currentMatchIdx: tState.currentMatchIdx,
+  }));
+  if(tState.history.length > 200) tState.history.shift();
+
+  match.winner = side === 'A' ? match.a : match.b;
+  tState.currentMatchIdx++;
+  autoAdvanceByes();
+  // End of round?
+  const round = tState.rounds[tState.currentRoundIdx];
+  if(tState.currentMatchIdx >= round.length){
+    const winners = round.map(m => m.winner);
+    if(winners.length === 1){
+      // Champion!
+      tState.champion = winners[0];
+      clearTournamentState();
+      showTournamentResult();
+      return;
+    }
+    // Build next round
+    tState.rounds.push(buildRound(winners));
+    tState.currentRoundIdx++;
+    tState.currentMatchIdx = 0;
+    autoAdvanceByes();
+    saveTournamentState();
+    // Announce new round with a little drama
+    const activeMatches = tState.rounds[tState.currentRoundIdx].filter(m => m.b !== null).length;
+    const totalRounds = Math.ceil(Math.log2(tState.roster.length));
+    showRoundAnnounce(tState.currentRoundIdx, totalRounds, activeMatches, ()=>{
+      renderTournamentMatch();
+    });
+    return;
+  }
+  saveTournamentState();
+  renderTournamentMatch();
+}
+function checkTournamentComplete(){
+  if(!tState) return false;
+  const round = tState.rounds[tState.currentRoundIdx];
+  if(round.length === 1 && round[0].winner){
+    tState.champion = round[0].winner;
+    showTournamentResult();
+    return true;
+  }
+  return false;
+}
+async function showTournamentResult(){
+  showScreen("tournament-result");
+  const ch = tState.champion;
+  const chEl = $("champion");
+  chEl.innerHTML = `
+    <div class="ch-crown">👑</div>
+    <div class="ch-photo" id="ch-photo"><div class="ph-fallback">${escapeHtml(ch.n.charAt(0))}</div></div>
+    <div class="ch-name">${escapeHtml(ch.n)}</div>
+    <div class="ch-band">${escapeHtml(ch.b||"")}</div>
+  `;
+  // Paint whatever we have synchronously (cached image or fallback letter)
+  paintPhoto($("ch-photo"), ch);
+  // If the champion's photo hasn't been fetched yet, await it and repaint
+  if(getPhotoSync(ch.n) === null){
+    try{
+      await ensurePhotos([ch]);
+    }catch(e){ /* ignore */ }
+    // Repaint only if the result screen is still visible and element exists
+    if($("screen-tournament-result").classList.contains("active")){
+      const el = $("ch-photo");
+      if(el) paintPhoto(el, ch);
+    }
+  }
+
+  // bracket history
+  const br = $("tourney-bracket");
+  br.innerHTML = "";
+  tState.rounds.forEach((round, idx)=>{
+    const totalRounds = tState.rounds.length;
+    const rDiv = document.createElement("div");
+    rDiv.className = "tourney-round";
+    const h = document.createElement("h4");
+    h.textContent = roundLabel(idx, totalRounds);
+    rDiv.appendChild(h);
+    round.forEach(match=>{
+      const mDiv = document.createElement("div");
+      mDiv.className = "tourney-match";
+      if(match.b === null){
+        mDiv.innerHTML = `
+          <span class="tm-w">${escapeHtml(match.a.n)}</span>
+          <span class="tm-vs">BYE</span>
+          <span class="tm-l">—</span>
+        `;
+      } else {
+        const aWin = match.winner === match.a;
+        mDiv.innerHTML = `
+          <span class="${aWin?'tm-w':'tm-l'}">${escapeHtml(match.a.n)}</span>
+          <span class="tm-vs">vs</span>
+          <span class="${aWin?'tm-l':'tm-w'}">${escapeHtml(match.b.n)}</span>
+        `;
+      }
+      rDiv.appendChild(mDiv);
+    });
+    br.appendChild(rDiv);
+  });
+}
+$("btn-t-again").onclick = ()=>{
+  clearTournamentState();
+  tState=null;
+  updateResumeButton();
+  showScreen("home");
+};
+$("btn-t-home").onclick = ()=>{
+  clearTournamentState();
+  tState=null;
+  updateResumeButton();
+  showScreen("home");
+};
+(function(){ updateResumeButton(); })();
 
 // Visual selection feedback → then commit the vote.
 // 280ms delay lets the user see which card they chose before the cards change.
 let picking = false;
 function pick(side){
   if(picking) return;
+  // Tournament mode branch
+  if(tState && !tState.champion){
+    const match = currentMatch();
+    if(!match) return;
+    if(side==='A' && !match.a) return;
+    if(side==='B' && !match.b) return;
+    if(side==='TIE') return; // no ties in tournament
+    picking = true;
+    const cardA = $("card-a"), cardB = $("card-b");
+    cardA.classList.add("locked");
+    cardB.classList.add("locked");
+    if(side==='A'){ cardA.classList.add("selected"); cardB.classList.add("dimmed"); }
+    else { cardB.classList.add("selected"); cardA.classList.add("dimmed"); }
+    setTimeout(()=>{
+      cardA.classList.remove("selected","dimmed","locked");
+      cardB.classList.remove("selected","dimmed","locked");
+      picking = false;
+      pickTournament(side);
+    }, 280);
+    return;
+  }
+  // Ranking (original) mode
   if(!S) return;
   if(side==='A' && !S.pendingA) return;
   if(side==='B' && !S.pendingB) return;
@@ -2164,6 +3141,29 @@ $("card-b").onclick = (e)=>{ if(e.target.closest("[data-nav]")) return; pick('B'
 });
 $("btn-tie").onclick = (e)=>{ e.stopPropagation(); pick('TIE'); };
 $("btn-undo").onclick = (e)=>{ e.stopPropagation(); undo(); };
+$("btn-vote-end").onclick = (e)=>{
+  e.stopPropagation();
+  if(tState){
+    if(!confirm("トーナメントを中断してトップに戻りますか？\n「前回の続きから」で再開できます。")) return;
+    saveTournamentState();
+    tState = null;
+    // Restore ranking UI for next time
+    $("btn-tie").style.display = "";
+    $("btn-undo").style.display = "";
+    $("p-mode-label").textContent = "進捗 バトル";
+    updateResumeButton();
+    showScreen("home");
+    return;
+  }
+  if(S && !S.finalOrder){
+    if(!confirm("ランキング作成を中断してトップに戻りますか？\n「前回の続きから」で再開できます。")) return;
+    // Keep S in localStorage so the user can resume via btn-resume
+    updateResumeButton();
+    showScreen("home");
+    return;
+  }
+  showScreen("home");
+};
 
 document.addEventListener("keydown", e=>{
   if(!$("screen-vote").classList.contains("active")) return;
@@ -2175,8 +3175,13 @@ document.addEventListener("keydown", e=>{
 
 $("btn-reset").onclick = ()=>{
   if(!confirm("現在の進行状況を消去して、トップに戻りますか？")) return;
-  clearState(); S = null;
-  $("btn-resume").style.display = "none";
+  clearState();
+  clearRandomState();
+  clearTournamentState();
+  S = null;
+  rndState = null;
+  tState = null;
+  updateResumeButton();
   showScreen("home");
 };
 
@@ -2198,15 +3203,16 @@ $("btn-again").onclick = ()=>{
 };
 $("btn-to-home").onclick = ()=>{
   clearState(); S = null;
-  $("btn-resume").style.display = "none";
+  updateResumeButton();
   showScreen("home");
 };
 $("btn-home").onclick = ()=>{
   // Header logo: return to top without clearing progress.
-  // If a session is in progress, offer "前回の続きから" on home.
-  if(S && !S.finalOrder){
-    $("btn-resume").style.display = "";
-  }
+  // Save any in-progress mode state so user can resume from home.
+  if(S && !S.finalOrder) saveState();
+  if(rndState) saveRandomState();
+  if(tState && !tState.champion) saveTournamentState();
+  updateResumeButton();
   showScreen("home");
 };
 
